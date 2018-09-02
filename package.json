@@ -1,0 +1,24 @@
+{
+  "name": "amigobot-js",
+  "version": "0.1.0",
+  "description": "A multifunctional JavaScript bot.",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "discord.js": "^11.4.2",
+    "enmap": "^2.6.3",
+    "enmap-level": "^2.1.0",
+    "figlet": "^1.2.0",
+    "moment": "^2.22.2",
+    "moment-duration-format": "^2.2.2",
+    "ms": "^2.1.1",
+    "superagent": "^3.8.3",
+    "urban-dictionary": "^2.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Benjamin#0002",
+  "license": "ISC"
+}
