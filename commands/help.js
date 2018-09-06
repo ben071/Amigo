@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 
 exports.run = (client, message, args, level) => {
   if (!args[0]) {
@@ -8,7 +8,7 @@ exports.run = (client, message, args, level) => {
     const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
 
     let currentCategory = "";
-    let output = ``;
+    let output = "";
     const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
     sorted.forEach( c => {
       const cat = c.help.category.toProperCase();
@@ -19,13 +19,13 @@ exports.run = (client, message, args, level) => {
       output += `${message.settings.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)}\n`;
     });
 
-    let embed = new Discord.RichEmbed()
-    .setAuthor("Command Help")
-    .setColor("#23819C")
-    .setDescription(`Use ${message.settings.prefix}help [command] for more information on each command`)
-    .addField("** **", output);
+    const embed = new Discord.RichEmbed()
+      .setAuthor("Command Help")
+      .setColor("#23819C")
+      .setDescription(`Use ${message.settings.prefix}help [command] for more information on each command`)
+      .addField("** **", output);
 
-    message.channel.send(embed)
+    message.channel.send(embed);
 
   } else {
 
@@ -37,13 +37,13 @@ exports.run = (client, message, args, level) => {
       //  title: `${message.settings.prefix}${command.help.name}`,
       //  description: `Description: **${command.help.description}**\nUsage: **${command.help.usage}**`,
 
-      let embed = new Discord.RichEmbed()
-      .setAuthor("Command Help")
-      .setColor("#23819C")
-      .addField("Description:", `${command.help.description}`)
-      .addField("Usage:", `${command.help.usage}`)
+      const embed = new Discord.RichEmbed()
+        .setAuthor("Command Help")
+        .setColor("#23819C")
+        .addField("Description:", `${command.help.description}`)
+        .addField("Usage:", `${command.help.usage}`);
 
-      message.channel.send(embed)
+      message.channel.send(embed);
 
     } else {
       return;

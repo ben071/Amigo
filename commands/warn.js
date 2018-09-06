@@ -7,16 +7,16 @@ exports.run = async (client, message, args) => {
   const user = message.mentions.users.first(); // User = first user mentioned
   const settings = message.settings; // Finds settings.
   inspect((settings), {code: "json"});
-  const modlog = client.channels.find("name", settings.modLogChannel); // Finds mod log channel.
-  if (!modlog) return message.reply("I cannot find a mod-log channel"); // If there is no mod log channel, the punishment isn't logged.
-  const caseNum = await caseNumber(client, modlog);
+  const modLog = message.guild.channels.find(c => c.name === settings.modLogChannel); // Finds mod log channel.
+  if (!modLog) return message.reply("I cannot find a mod-log channel"); // If there is no mod log channel, the punishment isn't logged.
+  const caseNum = await caseNumber(client, modLog);
   const reason = args.splice(1, args.length).join(" ") || `Awaiting moderator's input. Use ${settings.prefix}reason ${caseNum} <reason>.`;
   const embed = new RichEmbed()
     .setColor("#FF4848")
     .setTimestamp()
     .setDescription(`**Action:** Warning\n**Target:** ${user.tag}\n**Moderator:** ${message.author.tag}\n**Reason:** ${reason}`)
     .setFooter(`Case ${caseNum}`);
-  return client.channels.get(modlog.id).send({embed});
+  return client.channels.get(modLog.id).send({embed});
 };
 
 exports.conf = {

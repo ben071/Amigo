@@ -1,6 +1,6 @@
 const { inspect } = require("util");
-const {RichEmbed} = require('discord.js');
-exports.run = async (client, message, [action, key, ...value], level) => {
+const {RichEmbed} = require("discord.js");
+exports.run = async (client, message, [action, key, ...value]) => {
   const settings = message.settings;
   const overrides = client.settings.get(message.guild.id);
 
@@ -44,19 +44,15 @@ exports.run = async (client, message, [action, key, ...value], level) => {
     inspect((settings), {code: "json"});
 
     const embed = new RichEmbed()
-    .setAuthor("Guild Settings")
-    .setColor("#92FEF9")
-    .addField("Prefix:", `${settings.prefix}`, true)
-    .addField("Mod Logs:", `${settings.modLogChannel}`, true)
-    .addField("Mod Role:", `${settings.modRole}`, true)
-    .addField("Admin Role:", `${settings.adminRole}`, true)
-    .addField("Welcome Enabled:", `${settings.welcomeEnabled}`, true)
-    .addField("Welcome Message:", `${settings.welcomeMessage}`, true)
-    .addField("Welcome Channel:", `${settings.welcomeChannel}`, true)
-    .addField("AutoRole Enabled:",`${settings.autoRoleEnabled}`,true)
-    .addField("AutoRole(s)",`${settings.rolesToAdd}`,true)
-
-    message.channel.send(embed)
+      .setAuthor("Guild Settings")
+      .setColor("#92FEF9")
+      .addField("Prefix (Prefix)", `${settings.prefix}`)
+      .addField("Mod Role (modRole)", `${settings.modRole}`)
+      .addField("Admin Role (adminRole)", `${settings.adminRole}`)
+      .addField("Partner Manager Role (pmRole)", `${settings.pmRole}`)
+      .addField("Mod Logs (modLogChannel)", `${settings.modLogChannel}`)
+      .addField("Partner Logs (partnerLogChannel)", `${settings.partnerLogChannel}`);
+    message.channel.send(embed);
   }
 };
 

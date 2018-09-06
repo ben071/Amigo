@@ -12,11 +12,11 @@ async function embedSan(embed) {
 }
 
 exports.run = async (client, message, args) => {
-  const modlog = client.channels.find("name", "mod-log");
+  const modLog = client.channels.find("name", "mod-log");
   const caseNumber = args.shift();
   const newReason = args.join(" ");
 
-  await modlog.fetchMessages({limit:100}).then((messages) => {
+  await modLog.fetchMessages({limit:100}).then((messages) => {
     const caseLog = messages.filter(m => m.author.id === client.user.id &&
       m.embeds[0] &&
       m.embeds[0].type === "rich" &&
@@ -24,7 +24,7 @@ exports.run = async (client, message, args) => {
       m.embeds[0].footer.text.startsWith("Case") &&
       m.embeds[0].footer.text === `Case ${caseNumber}`
     ).first();
-    modlog.fetchMessage(caseLog.id).then(logMsg => {
+    modLog.fetchMessage(caseLog.id).then(logMsg => {
       const embed = logMsg.embeds[0];
       embedSan(embed);
       embed.description = embed.description.replace(`Awaiting moderator's input. Use ${settings.prefix}reason ${caseNumber} <reason>.`, newReason);

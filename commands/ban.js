@@ -6,8 +6,8 @@ exports.run = (client, message, args) => {
   const reason = args.slice(1).join(" ");
   const user = message.mentions.users.first(); // User = first user mentioned
   inspect((settings), {code: "json"});
-  const modlog = client.channels.find("name", settings.modLogChannel);
-  if (!modlog) return message.reply("I cannot find a mod-log channel");
+  const modLog = message.guild.channels.find(c => c.name === settings.modLogChannel);
+  if (!modLog) return message.reply("I cannot find a mod-log channel");
   if (reason.length < 1) return message.reply("You must supply a reason for the ban.");
   if (message.mentions.users.size < 1) return message.reply("You must mention someone to ban them.").catch(console.error);
 
@@ -18,7 +18,7 @@ exports.run = (client, message, args) => {
     .setColor("#FF4848")
     .setTimestamp()
     .setDescription(`**Action:** Ban\n**Target:** ${user.tag}\n**Moderator:** ${message.author.tag}\n**Reason:** ${reason}`);
-  return client.channels.get(modlog.id).send({embed});
+  return client.channels.get(modLog.id).send({embed});
 };
 
 exports.conf = {
