@@ -12,8 +12,10 @@ const config = {
   "defaultSettings" : {
     "prefix": "-",
     "modLogChannel": "mod-log",
+    "partnerLogChannel": "partner-log",
     "modRole": "Moderator",
     "adminRole": "Administrator",
+    "pmRole": "Partner Manager",
     "systemNotice": "true",
     "welcomeChannel": "welcome",
     "welcomeMessage": "Say hello to {{user}}, everyone! We all need a warm welcome sometimes :D",
@@ -26,6 +28,18 @@ const config = {
     { level: 0,
       name: "User",
       check: () => true
+    },
+
+    { level: 1,
+      name: "Partner Manager",
+      check: (message) => {
+        try {
+          const pmRole = message.guild.roles.find(r => r.name.toLowerCase() === message.settings.pmRole.toLowerCase());
+          if (pmRole && message.member.roles.has(pmRole.id)) return true;
+        } catch (e) {
+          return false;
+        }
+      }
     },
 
     { level: 2,
