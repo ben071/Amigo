@@ -1,16 +1,16 @@
 const Discord = require("discord.js");
 
 exports.run = (client, message) => {
-  let user = message.mentions.users.first();
+  const user = message.mentions.users.first();
   if (!user) return message.reply("You must supply a user to slap.").catch(console.error);
 
-  let slaps = [
-    'https://i.giphy.com/media/3XlEk2RxPS1m8/giphy.gif',
-    'https://i.giphy.com/media/mEtSQlxqBtWWA/giphy.gif',
-    'https://i.giphy.com/media/j3iGKfXRKlLqw/giphy.gif',
-    'https://i.giphy.com/media/2M2RtPm8T2kOQ/giphy.gif',
-    'https://i.giphy.com/media/l3YSimA8CV1k41b1u/giphy.gif',
-    'https://i.giphy.com/media/WLXO8OZmq0JK8/giphy.gif'
+  const slaps = [
+    "https://i.giphy.com/media/3XlEk2RxPS1m8/giphy.gif",
+    "https://i.giphy.com/media/mEtSQlxqBtWWA/giphy.gif",
+    "https://i.giphy.com/media/j3iGKfXRKlLqw/giphy.gif",
+    "https://i.giphy.com/media/2M2RtPm8T2kOQ/giphy.gif",
+    "https://i.giphy.com/media/l3YSimA8CV1k41b1u/giphy.gif",
+    "https://i.giphy.com/media/WLXO8OZmq0JK8/giphy.gif"
   ];
 
   const embed = new Discord.RichEmbed()
