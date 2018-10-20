@@ -33,11 +33,9 @@ module.exports.run = async (client, message, args) => {
   ];
 
   const JokeNumber=Math.floor((Math.random() * (JokeList.length)));
-  const sicon = message.guild.iconURL;
   const jokeEmbed = new Discord.RichEmbed()
     .setTitle(JokeList[JokeNumber])
     .setColor("#f4a742")
-    .setThumbnail(sicon);
   message.channel.send(jokeEmbed);
 };
 
