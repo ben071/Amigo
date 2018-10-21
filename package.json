@@ -1,30 +1,36 @@
 {
-  "name": "amigobot-js",
+  "name": "amigo",
   "version": "0.1.0",
-  "description": "A multifunctional JavaScript bot.",
+  "description": "A Discord.js bot!",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmigoDevTeam/Amigo.git"
+  },
+  "author": "Benjamin#0001",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AmigoDevTeam/Amigo/issues"
+  },
+  "homepage": "https://github.com/AmigoDevTeam/Amigo#readme",
   "dependencies": {
     "bufferutil": "^4.0.0",
     "chalk": "^2.4.1",
     "discord.js": "^11.4.2",
-    "enmap": "^2.7.2",
+    "enmap": "^3.1.4",
     "enmap-level": "^2.1.0",
-    "erlpack": "github:discordapp/erlpack",
-    "figlet": "^1.2.0",
+    "figlet": "^1.2.1",
     "libsodium-wrappers": "^0.7.3",
     "moment": "^2.22.2",
     "moment-duration-format": "^2.2.2",
     "ms": "^2.1.1",
-    "node-opus": "^0.3.0",
     "opusscript": "0.0.6",
-    "superagent": "^3.8.3",
+    "superagent": "^4.0.0-beta.5",
+    "util": "^0.11.0",
     "uws": "^99.0.0",
     "weather-js": "^2.0.0"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Benjamin#0002",
-  "license": "ISC"
+  }
 }
