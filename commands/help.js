@@ -134,7 +134,6 @@ exports.run = (client, message, args, level) => {
         time: 180000
       }); // 180000 = 3 mins
       collector.on("collect", (reaction) => {
-        return if (reaction.user != message.user);
         handleReaction(reaction);
       });
       collector.on('end', () => msg.delete(500));
