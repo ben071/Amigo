@@ -130,11 +130,17 @@ exports.run = (client, message, args, level) => {
       reactArrows(0)
       let collector = msg.createReactionCollector((reaction, user) => {
         return user.id !== msg.client.user.id && pageEmojis.includes(reaction.emoji.name);
+
       }, {
         time: 180000
       }); // 180000 = 3 mins
       collector.on("collect", (reaction) => {
-        handleReaction(reaction);
+        if(reaction.users.last().id === message.author.id) {
+          handleReaction(reaction);
+        } else {
+          reaction.remove(reaction.users.last())
+          console.log("Invalid Reaction.")
+        }
       });
       collector.on('end', () => msg.delete(500));
     });
