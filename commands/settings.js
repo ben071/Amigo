@@ -49,9 +49,7 @@ exports.run = async (client, message, [action, key, ...value]) => {
       .addField("Prefix (Prefix)", `${settings.prefix}`)
       .addField("Mod Role (modRole)", `${settings.modRole}`)
       .addField("Admin Role (adminRole)", `${settings.adminRole}`)
-      .addField("Partner Manager Role (pmRole)", `${settings.pmRole}`)
       .addField("Mod Logs (modLogChannel)", `${settings.modLogChannel}`)
-      .addField("Partner Logs (partnerLogChannel)", `${settings.partnerLogChannel}`);
     message.channel.send(embed);
   }
 };
