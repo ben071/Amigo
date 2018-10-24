@@ -83,7 +83,7 @@ exports.run = (client, message, args, level) => {
 
       {
         title: "Credits",
-        description: "<@265569046425108481> - **Bot Owner**\n<@291607550825332736> - **Bot Owner**\n<@209395113485402123> - **Bot Developer**",
+        description: "<@265569046425108481> - **Bot Owner**\n<@291607550825332736> - **Bot Owner**\n<@503105733701926922> - **Bot Developer**",
       },
     ]
 
