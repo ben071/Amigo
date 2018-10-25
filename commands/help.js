@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-pageEmojis = ["🏠", "🛠", "🎉", "❔", "🔡", "🔧", "🏅", "👌"];
+let pageEmojis = ["🏠", "🛠", "🎉", "❔","💰", "🔡", "🔧", "🏅", "👌"];
 exports.run = (client, message, args, level) => {
   const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true);
   const commandNames = myCommands.keyArray();
@@ -10,6 +10,7 @@ exports.run = (client, message, args, level) => {
   let MiscellaneousCommands = "";
   let AdministrationCommands = "";
   let SystemCommands = "";
+  let CurrencyCommands="";
   if (!args[0]) {
     sorted.forEach(c => {
       const cat = c.help.category.toProperCase();
@@ -23,6 +24,8 @@ exports.run = (client, message, args, level) => {
         AdministrationCommands += `${message.settings.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)}\n`;
       } else if (cat === "System") {
         SystemCommands += `${message.settings.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)}\n`;
+      } else if (cat === "Currency") {
+        CurrencyCommands += `${message.settings.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)}\n`;
       }
     });
 
@@ -41,6 +44,9 @@ exports.run = (client, message, args, level) => {
     if (SystemCommands =="") {
       SystemCommands="No system commands available for your permission level.";
     };
+    if (CurrencyCommands =="") {
+      CurrencyCommands="No currency commands available for your permission level.";
+    };
 
     const pages = [{
         title: "Help Menu",
@@ -49,10 +55,11 @@ exports.run = (client, message, args, level) => {
       ${pageEmojis[1]} for **Moderation Commands**.
       ${pageEmojis[2]} for **Fun Commands**.
       ${pageEmojis[3]} for **Miscellaneous Commands**.
-      ${pageEmojis[4]} for **Administration Commands**.
-      ${pageEmojis[5]} for **System Commands**.
-      ${pageEmojis[6]} for **Credits**.
-      ${pageEmojis[7]} to **exit** the menu.`
+      ${pageEmojis[4]} for **Currency Commands**.
+      ${pageEmojis[5]} for **Administration Commands**.
+      ${pageEmojis[6]} for **System Commands**.
+      ${pageEmojis[7]} for **Credits**.
+      ${pageEmojis[8]} to **exit** the menu.`
       },
 
       {
@@ -69,6 +76,11 @@ exports.run = (client, message, args, level) => {
       {
         title: "Miscellaneous Commands",
         description: MiscellaneousCommands,
+      },
+      
+      {
+        title: "Currency Commands",
+        description:CurrencyCommands
       },
 
       {
@@ -97,7 +109,7 @@ exports.run = (client, message, args, level) => {
 
     message.channel.send(embed).then(msg => {
       function reactArrows(arrow) {
-        if (arrow === 8) {
+        if (arrow === 9) {
           embed.setColor("#23819C");
           embed.setTitle(pages[0].title);
           embed.setDescription(pages[0].description);
@@ -115,7 +127,7 @@ exports.run = (client, message, args, level) => {
           if (e.code === 50013) reaction.message.channel.send("I need the 'Manage Messages' permission in order to work properly!");
         });
         const rid = pageEmojis.indexOf(reaction.emoji.name);
-        if (rid !== 7) {
+        if (rid !== 8) {
           let embed2 = new Discord.RichEmbed()
             .setColor("#23819C")
             .setTitle(pages[rid].title)
