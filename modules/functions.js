@@ -26,6 +26,13 @@ module.exports = (client) => {
     return returns;
   };
 
+  client.findLogs = (message) => {
+    inspect((settings), {code: "json"});
+    const modLog = message.guild.channels.find(c => c.name === settings.modLogChannel);
+    if (!modLog) return message.reply("I cannot find a mod-log channel");
+    return findLogs;
+  };
+
   client.awaitReply = async (msg, question, limit = 60000) => {
     const filter = m => m.author.id === msg.author.id;
     await msg.channel.send(question);

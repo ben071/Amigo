@@ -4,10 +4,8 @@ const { inspect } = require("util");
 exports.run = (client, message, args) => {
   const settings = message.settings;
   const reason = args.slice(1).join(" ");
-  const user = message.mentions.users.first(); // User = first user mentioned
-  inspect((settings), {code: "json"});
-  const modLog = message.guild.channels.find(c => c.name === settings.modLogChannel);
-  if (!modLog) return message.reply("I cannot find a mod-log channel");
+  const user = message.mentions.users.first();
+  client.findLogs;
   if (reason.length < 1) return message.reply("You must supply a reason for the kick.");
   if (message.mentions.users.size < 1) return message.reply("You must mention someone to kick them.").catch(console.error);
 
