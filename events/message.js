@@ -1,8 +1,8 @@
 module.exports = (client, message) => {
   if (message.author.bot) return;
   const settings = message.settings = client.getGuildSettings(message.guild);
-
   if (message.content.indexOf(settings.prefix) !== 0) return;
+  if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
 
   const args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
