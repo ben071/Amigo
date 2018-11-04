@@ -101,7 +101,6 @@ exports.run = (client, message, args, level) => {
 
     let page = 1;
 
-    message.delete(500).catch();
     let embed = new Discord.RichEmbed()
       .setColor("#23819C")
       .setTitle("Loading Help...")
@@ -124,7 +123,7 @@ exports.run = (client, message, args, level) => {
 
       function handleReaction(reaction) {
         reaction.remove(reaction.users.last()).catch(e => {
-          if (e.code === 50013) reaction.message.channel.send("I need the 'Manage Messages' permission in order to work properly!");
+          if (e.code === 50013) return;
         });
         const rid = pageEmojis.indexOf(reaction.emoji.name);
         if (rid !== 8) {
