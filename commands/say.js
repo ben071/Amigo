@@ -2,7 +2,6 @@ exports.run = async (client, message, args) => {
   if (!args[0]) return message.reply("There was nothing to say");
   const text = args.join(" ");
   message.channel.send(text);
-  message.delete();
 };
 exports.conf = {
   enabled: true,
