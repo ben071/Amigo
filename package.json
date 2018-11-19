@@ -38,3 +38,6 @@
     "weather-js": "^2.0.0"
   }
 }
+"scripts":{
+  "start": "node index.js"
+}
