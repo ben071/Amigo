@@ -16,11 +16,15 @@ exports.run = (client, message) => {
     .addField("Users:", `${client.users.size.toLocaleString()}`)
     .addField("Servers:", `${client.guilds.size.toLocaleString()}`)
     .addField("Channels:", `${client.channels.size.toLocaleString()}`)
-    .addField("Total commands ran today in this server: ", messageData[message.guild.id].commandsRan)
-    .addField("Total commands ran today: ", messageData["totalMessages"].commandsRan)
-    .addField("Total messages read today in this server ", messageData[message.guild.id].messages)
-    .addField("Total messages read today: ", messageData["totalMessages"].messages)
-    .addField("Discord.js:", `v${version}`);
+    if (message.guild) {
+    embed.addField("Total commands ran today in this server: ", messageData[message.guild.id].commandsRan)
+  }
+    embed.addField("Total commands ran today: ", messageData["totalMessages"].commandsRan)
+    if (message.guild) {
+    embed.addField("Total messages read today in this server ", messageData[message.guild.id].messages)
+  }
+    embed.addField("Total messages read today: ", messageData["totalMessages"].messages)
+    embed.addField("Discord.js:", `v${version}`);
 
   message.channel.send(embed);
 };
