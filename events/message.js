@@ -3,18 +3,13 @@ const fs = require("fs");
 const moment = require("moment");
 require("moment-duration-format");
 module.exports = (client, message) => {
+  if (message.guild) {
 
-  if (!messageData[message.guild.id]) {
-      messageData[message.guild.id] = {
-          messages: 0,
-          commandsRan: 0
-      }
-  };
-  if (!messageData["totalMessages"]) {
-      messageData["totalMessages"] = {
-          messages: 0,
-          commandsRan: 0
-      }
+    if (!messageData[message.guild.id]) {
+        messageData[message.guild.id] = {
+            messages: 0,
+            commandsRan: 0
+        }
   }
   if (!messageData[message.guild.id].lastUpdate) {
       messageData[message.guild.id] = {
@@ -34,8 +29,21 @@ module.exports = (client, message) => {
           messages: 0,
           commandsRan: 0
       }
-  }
+    }
   messageData[message.guild.id].messages++
+
+};
+  if (!messageData["totalMessages"]) {
+      messageData["totalMessages"] = {
+          messages: 0,
+          commandsRan: 0
+      }
+
+      messageData["totalMessages"] = {
+          messages: 0,
+          commandsRan: 0
+      }
+  }
   messageData["totalMessages"].messages++
   fs.writeFile("./messageData.json", JSON.stringify(messageData), (err) => { //Save data file
     if (err) console.log(err);
@@ -43,8 +51,9 @@ module.exports = (client, message) => {
   if (message.author.bot) return;
   const settings = message.settings = client.getGuildSettings(message.guild);
   if (message.content.indexOf(settings.prefix) !== 0) return;
-  if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
-
+  if (message.guild) {
+    if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
+  }
 
   const args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
@@ -74,7 +83,9 @@ module.exports = (client, message) => {
   }
 
   client.logger.cmd(`[CMD] ${client.config.permLevels.find(l => l.level === level).name} ${message.author.username} (${message.author.id}) ran command ${cmd.help.name}`);
-  messageData[message.guild.id].commandsRan++
+  if (message.guild) {
+    messageData[message.guild.id].commandsRan++
+  }
   messageData["totalMessages"].commandsRan++
   fs.writeFile("./messageData.json", JSON.stringify(messageData), (err) => { //Save data file again incase any commands were run
     if (err) console.log(err);
