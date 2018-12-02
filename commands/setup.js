@@ -2,6 +2,8 @@ const {inspect} = require("util");
 const Discord = require("discord.js");
 
 pageEmojis = ["🏠", "❕", "🛠", "🔧", "📜", "👌"];
+selectionEmojis = ["✔️", "❌"];
+
 exports.run = async (client, message, [action, key, ...value]) => {
   const settings = message.settings;
   const overrides = client.settings.get(message.guild.id);
@@ -19,22 +21,26 @@ exports.run = async (client, message, [action, key, ...value]) => {
     {
       title: "Prefix",
       description: `
-    Prefix is currently \`${settings.prefix}\``
+    Prefix is currently \`${settings.prefix}\`
+    Would you like to modify?`
     },
     {
       title: "Moderation Role",
       description: `
-    Moderation Role is currently \`${settings.modRole}\``
+    Moderation Role is currently \`${settings.modRole}\`
+    Would you like to modify?`
     },
     {
       title: "Administration Role",
       description: `
-    Administration Role is currently \`${settings.adminRole}\``
+    Administration Role is currently \`${settings.adminRole}\`
+    Would you like to modify?`
     },
     {
       title: "Mod Logs",
       description: `
-    Mod Logs is currently \`${settings.modLogChannel}\``
+    Mod Logs is currently \`${settings.modLogChannel}\`
+    Would you like to modify?`
     }
   ]
 
@@ -69,6 +75,7 @@ exports.run = async (client, message, [action, key, ...value]) => {
           .setDescription(pages[rid].description)
 
         msg.edit(embed2)
+
       } else {
         msg.delete(500).catch(console.error);
       }
@@ -93,7 +100,7 @@ exports.run = async (client, message, [action, key, ...value]) => {
 
 exports.conf = {
   enabled: true,
-  guildOnly: true,
+  devGuildOnly: true,
   aliases: [],
   permLevel: "Administrator"
 };

@@ -20,6 +20,7 @@ exports.run = (client, message, args) => {
 };
 
 exports.conf = {
+  enabled: true,
   aliases: [],
   permLevel: "Moderator"
 };

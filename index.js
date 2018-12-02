@@ -12,7 +12,6 @@ require("./modules/functions.js")(client);
 client.commands = new Enmap();
 client.aliases = new Enmap();
 client.settings = new Enmap({provider: new EnmapLevel({name: "settings"})}); // Enmap for settings
-client.currency = new Enmap({provider: new EnmapLevel({name: "currency"})}); // Enmap for currency
 
 const init = async () => {
   const cmdFiles = await readdir("./commands/");

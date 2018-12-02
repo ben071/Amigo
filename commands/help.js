@@ -1,16 +1,19 @@
 const Discord = require("discord.js");
-let pageEmojis = ["🏠", "🛠", "🎉", "❔","💰", "🔡", "🔧", "🏅", "👌"];
+const pageEmojis = ["🏠", "🛠", "🎉", "❔","💰", "🔡", "🔧", "🏅", "👌"];
+
 exports.run = (client, message, args, level) => {
   const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true);
   const commandNames = myCommands.keyArray();
   const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
   const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 : p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1);
+  
   let ModerationCommands = "";
   let FunCommands = "";
   let MiscellaneousCommands = "";
   let AdministrationCommands = "";
   let SystemCommands = "";
   let CurrencyCommands="";
+  
   if (!args[0]) {
     sorted.forEach(c => {
       const cat = c.help.category.toProperCase();
@@ -153,7 +156,6 @@ exports.run = (client, message, args, level) => {
           console.log("Invalid Reaction.")
         }
       });
-      collector.on('end', () => msg.delete(500));
     });
   } else {
     let command = args[0];
@@ -174,7 +176,6 @@ exports.run = (client, message, args, level) => {
 
 exports.conf = {
   enabled: true,
-  guildOnly: false,
   aliases: ["h", "halp"],
   permLevel: "User"
 };

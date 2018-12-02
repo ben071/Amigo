@@ -1,19 +1,21 @@
 const Discord = require("discord.js"); //Required
 
 exports.run = async (client, message) => {
+  const startMessage = await message.channel.send("Pinging...");
+  const ping = Math.round(startMessage.createdTimestamp - message.createdTimestamp)
 
   const embed = new Discord.RichEmbed()
     .setColor("#F4A742")
     .setAuthor("Pong! 🏓")
     .setTimestamp()
-    .addField("Api Latency:", `${Math.round(client.ping)}ms`);
+    .addField("Api Latency:", `${Math.round(client.ping)}ms`)
+    .addField("Message Latency:", `${ping}ms`);
 
-  message.channel.send(embed);
+  startMessage.edit(embed);
 };
 
 exports.conf = {
   enabled: true,
-  guildOnly: false,
   aliases: [],
   permLevel: "User"
 };

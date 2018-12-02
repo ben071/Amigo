@@ -1,4 +1,4 @@
-const welcomeData = require("../welcome data.json");
+const welcomeData = require("../welcome_data.json");
 const Discord = require('discord.js');
 const fs = require("fs");
 exports.run = (client, message, args) => {
@@ -72,13 +72,12 @@ exports.run = (client, message, args) => {
         default:
             message.channel.send(args[0] + " isn't an option to change, please check the usage of this command using " + message.settings.prefix + "help welcomesettings")
     };
-    fs.writeFile("./welcome data.json", JSON.stringify(welcomeData), (err) => { //Save data file
+    fs.writeFile("./welcome_data.json", JSON.stringify(welcomeData), (err) => { //Save data file
         if (err) console.log(err);
     });
 };
 exports.conf = {
   enabled: true,
-  guildOnly: true,
   aliases: [],
   permLevel: "Administrator"
 };
