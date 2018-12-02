@@ -2,7 +2,6 @@ const {inspect} = require("util");
 const Discord = require("discord.js");
 
 pageEmojis = ["🏠", "❕", "🛠", "🔧", "📜", "👌"];
-selectionEmojis = ["✔️", "❌"];
 
 exports.run = async (client, message, [action, key, ...value]) => {
   const settings = message.settings;
@@ -20,27 +19,23 @@ exports.run = async (client, message, [action, key, ...value]) => {
     },
     {
       title: "Prefix",
-      description: `
-    Prefix is currently \`${settings.prefix}\`
-    Would you like to modify?`
+      key: "prefix",
+      current: `${settings.prefix}`
     },
     {
       title: "Moderation Role",
-      description: `
-    Moderation Role is currently \`${settings.modRole}\`
-    Would you like to modify?`
+      key: "modRole",
+      current: `${settings.modRole}`
     },
     {
       title: "Administration Role",
-      description: `
-    Administration Role is currently \`${settings.adminRole}\`
-    Would you like to modify?`
+      key: "adminRole",
+      current: `${settings.adminRole}`
     },
     {
       title: "Mod Logs",
-      description: `
-    Mod Logs is currently \`${settings.modLogChannel}\`
-    Would you like to modify?`
+      key: "modLogChannel",
+      current: `${settings.modLogChannel}`
     }
   ]
 
@@ -63,18 +58,36 @@ exports.run = async (client, message, [action, key, ...value]) => {
       }).catch(e => console.error(`Reaction Error: ${e}`));
     }
 
-    function handleReaction(reaction) {
+    async function handleReaction(reaction) {
       reaction.remove(reaction.users.last()).catch(e => {
         if (e.code === 50013) reaction.message.channel.send("I need the 'Manage Messages' permission in order to work properly!");
       });
       const rid = pageEmojis.indexOf(reaction.emoji.name);
       if (rid !== 5) {
+        collector.stop();
+        msg.clearReactions();
         let embed2 = new Discord.RichEmbed()
           .setColor("#92FEF9")
           .setTitle(pages[rid].title)
-          .setDescription(pages[rid].description)
+          .setDescription(`is currently \`${pages[rid].current}\``)
 
         msg.edit(embed2)
+
+        const key = pages[rid].key
+        const friendly = pages[rid].title
+        const response = await client.awaitReply(message, `What would you like to set \`${friendly}\` to?`);
+        // CHECK if channel for modLogChannel and if role for modRole and adminRole
+        if(response === settings[friendly]) return message.reply("This setting already has that value!");
+        if (!client.settings.has(message.guild.id)) client.settings.set(message.guild.id, {});
+        client.settings.setProp(message.guild.id, key, response);
+
+        let embed3 = new Discord.RichEmbed()
+          .setColor("#92FEF9")
+          .setTitle(pages[rid].title)
+          .setDescription(`\`${pages[rid].current}\` → \`${response}\``)
+        
+        msg.edit(embed3);
+        msg.delete(10000);
 
       } else {
         msg.delete(500).catch(console.error);
@@ -94,7 +107,6 @@ exports.run = async (client, message, [action, key, ...value]) => {
         console.log("Invalid Reaction.")
       }
     });
-    collector.on('end', () => msg.delete(500));
   });
 };
 
