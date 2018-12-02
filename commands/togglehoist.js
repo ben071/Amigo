@@ -16,7 +16,6 @@ exports.run = (client, message, args) => {
 };
 exports.conf = {
   enabled: true,
-  guildOnly: true,
   aliases: ["toggleHoist","hoist","unhoist"],
   permLevel: "Administrator"
 };

@@ -49,14 +49,15 @@ exports.run = async (client, message, [action, key, ...value]) => {
       .addField("Prefix (Prefix)", `${settings.prefix}`)
       .addField("Mod Role (modRole)", `${settings.modRole}`)
       .addField("Admin Role (adminRole)", `${settings.adminRole}`)
+      .addField("Trusted Role (trustedRole)", `${settings.trustedRole}`)
       .addField("Mod Logs (modLogChannel)", `${settings.modLogChannel}`)
+      .addField("System Notice (systemNotice)", `${settings.systemNotice}`)
     message.channel.send(embed);
   }
 };
 
 exports.conf = {
   enabled: true,
-  guildOnly: true,
   aliases: ["setting", "set", "conf"],
   permLevel: "Administrator"
 };
