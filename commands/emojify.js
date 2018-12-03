@@ -28,11 +28,11 @@ exports.run = async (client, message, args) => {
 
   message.channel.send(
     args.join(" ")
-      .split("")
-      .map(c => mapping[c] || c)
-      .join("")
+    .split("")
+    .map(c => mapping[c] || c)
+    .join("")
   );
-  };
+};
 
 exports.conf = {
   enabled: true,
