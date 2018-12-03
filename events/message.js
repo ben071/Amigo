@@ -17,18 +17,14 @@ module.exports = (client, message) => {
     return message.channel.send("This command can only be used in the Amigo Support guild. Please check back to see when it's available for general use.")
 
   if (level < client.levelCache[cmd.conf.permLevel]) {
-    if (settings.systemNotice === "true") {
-      const embed = new Discord.RichEmbed()
-        .setTitle("⚠ Missing Permissions!")
-        .setTimestamp()
-        .setColor("#FF0000")
-        .addField("Permission Level:", `${level} (${client.config.permLevels.find(l => l.level === level).name})`)
-        .addField("Required Level: ", `${client.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`)
-        .setFooter(message.author.tag, message.author.avatarURL);
-      return message.channel.send(embed);
-    } else {
-      return;
-    }
+    const embed = new Discord.RichEmbed()
+      .setTitle("⚠ Missing Permissions!")
+      .setTimestamp()
+      .setColor("#FF0000")
+      .addField("Permission Level:", `${level} (${client.config.permLevels.find(l => l.level === level).name})`)
+      .addField("Required Level: ", `${client.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`)
+      .setFooter(message.author.tag, message.author.avatarURL);
+    return message.channel.send(embed);
   }
 
   message.author.permLevel = level;

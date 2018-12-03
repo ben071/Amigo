@@ -1,19 +1,19 @@
 const Discord = require("discord.js");
-const pageEmojis = ["🏠", "🛠", "🎉", "❔","💰", "🔡", "🔧", "🏅", "👌"];
+const pageEmojis = ["🏠", "🛠", "🎉", "❔", "💰", "🔡", "🔧", "🏅", "👌"];
 
 exports.run = (client, message, args, level) => {
   const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true);
   const commandNames = myCommands.keyArray();
   const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
   const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 : p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1);
-  
+
   let ModerationCommands = "";
   let FunCommands = "";
   let MiscellaneousCommands = "";
   let AdministrationCommands = "";
   let SystemCommands = "";
-  let CurrencyCommands="";
-  
+  let CurrencyCommands = "";
+
   if (!args[0]) {
     sorted.forEach(c => {
       const cat = c.help.category.toProperCase();
@@ -33,22 +33,22 @@ exports.run = (client, message, args, level) => {
     });
 
     if (ModerationCommands == "") {
-      ModerationCommands="No moderation commands available for your permission level.";
+      ModerationCommands = "No moderation commands available for your permission level.";
     };
     if (FunCommands == "") {
-      FunCommands="No fun commands available for your permission level.";
+      FunCommands = "No fun commands available for your permission level.";
     };
     if (MiscellaneousCommands == "") {
-      MiscellaneousCommands="No information/miscellaneous commands available for your permission level.";
+      MiscellaneousCommands = "No information/miscellaneous commands available for your permission level.";
     };
-    if (AdministrationCommands=="") {
-      AdministrationCommands="No administration commands available for your permission level.";
+    if (AdministrationCommands == "") {
+      AdministrationCommands = "No administration commands available for your permission level.";
     };
-    if (SystemCommands =="") {
-      SystemCommands="No system commands available for your permission level.";
+    if (SystemCommands == "") {
+      SystemCommands = "No system commands available for your permission level.";
     };
-    if (CurrencyCommands =="") {
-      CurrencyCommands="No currency commands available for your permission level.";
+    if (CurrencyCommands == "") {
+      CurrencyCommands = "No currency commands available for your permission level.";
     };
 
     const pages = [{
@@ -80,10 +80,10 @@ exports.run = (client, message, args, level) => {
         title: "Miscellaneous Commands",
         description: MiscellaneousCommands,
       },
-      
+
       {
         title: "Currency Commands",
-        description:CurrencyCommands
+        description: CurrencyCommands
       },
 
       {
@@ -149,7 +149,7 @@ exports.run = (client, message, args, level) => {
         time: 180000
       }); // 180000 = 3 mins
       collector.on("collect", (reaction) => {
-        if(reaction.users.last().id === message.author.id) {
+        if (reaction.users.last().id === message.author.id) {
           handleReaction(reaction);
         } else {
           reaction.remove(reaction.users.last())
@@ -161,13 +161,18 @@ exports.run = (client, message, args, level) => {
     let command = args[0];
     if (client.commands.has(command)) {
       command = client.commands.get(command);
+      aliases = String(command.conf.aliases).replace(",", "\n");
+      permissions = `${client.levelCache[command.conf.permLevel]} (${command.conf.permLevel})`
+      if (aliases == "") aliases = "None found";
       if (level < client.levelCache[command.conf.permLevel]) return;
 
       const embed = new Discord.RichEmbed()
         .setAuthor("Command Help")
         .setColor("#23819C")
         .addField("Description:", `${command.help.description}`)
-        .addField("Usage:", `${command.help.usage}`);
+        .addField("Usage:", `${command.help.usage}`)
+        .addField("Permission Level:", `${permissions}`)
+        .addField("Aliases:", `${aliases}`);
 
       message.channel.send(embed);
     }
