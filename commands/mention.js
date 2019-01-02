@@ -11,7 +11,6 @@ module.exports.run = async (bot, message, args) => {
 
 exports.conf = {
   enabled: true,
-  guildOnly: true,
   aliases: ["menro","menrole"],
   permLevel: "Moderator"
 };

@@ -4,7 +4,6 @@ exports.run = async (client, message) => {
 };
 exports.conf = {
   enabled: true,
-  guildOnly: false,
   aliases: ["lydia"],
   permLevel: "User"
 };

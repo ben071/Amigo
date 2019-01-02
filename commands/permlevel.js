@@ -1,11 +1,18 @@
+const Discord = require("discord.js");
+
 exports.run = async (client, message, args, level) => {
   const friendly = client.config.permLevels.find(l => l.level === level).name;
-  message.reply(`Your permission level is: ${level} - ${friendly}`);
+
+  const embed = new Discord.RichEmbed()
+    .setTitle("Permission Level:")
+    .setColor("#23819C")
+    .setDescription(`${level} - ${friendly}`)
+    .setFooter(message.author.tag, message.author.avatarURL);
+  return message.channel.send(embed)
 };
 
 exports.conf = {
   enabled: true,
-  guildOnly: true,
   aliases: [],
   permLevel: "User"
 };

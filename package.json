@@ -31,6 +31,7 @@
     "moment-duration-format": "^2.2.2",
     "ms": "^2.1.1",
     "opusscript": "0.0.6",
+    "pm2": "^3.2.2",
     "snekfetch": "^4.0.4",
     "superagent": "^4.0.0-beta.5",
     "util": "^0.11.0",
