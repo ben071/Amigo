@@ -1,2 +1,2 @@
-node index.js
+pm2 monit
 pause

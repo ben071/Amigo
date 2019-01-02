@@ -5,10 +5,10 @@ exports.run = async (client, message, args) => {
     message.reply("You must give me text to embed.");
   } else {
     message.delete();
-    let Phrase=args[0];
+    let Phrase = args[0];
     var part;
-    for (part=1; part < args.length;part++) {
-      Phrase=Phrase+" "+args[part];
+    for (part = 1; part < args.length; part++) {
+      Phrase = Phrase + " " + args[part];
     }
     const embed = new Discord.RichEmbed()
       .setColor("#F4A742")
@@ -21,7 +21,6 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
   enabled: true,
-  guildOnly: false,
   aliases: [],
   permLevel: "User"
 };
