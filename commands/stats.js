@@ -1,7 +1,6 @@
 const { version } = require("discord.js");
 const moment = require("moment");
 require("moment-duration-format");
-const messageData = require("../messageData.json");
 const Discord = require("discord.js");
 
 exports.run = (client, message) => {
@@ -16,21 +15,14 @@ exports.run = (client, message) => {
     .addField("Users:", `${client.users.size.toLocaleString()}`)
     .addField("Servers:", `${client.guilds.size.toLocaleString()}`)
     .addField("Channels:", `${client.channels.size.toLocaleString()}`)
-    if (message.guild) {
-    embed.addField("Total commands ran today in this server: ", messageData[message.guild.id].commandsRan)
-  }
-    embed.addField("Total commands ran today: ", messageData["totalMessages"].commandsRan)
-    if (message.guild) {
-    embed.addField("Total messages read today in this server ", messageData[message.guild.id].messages)
-  }
-    embed.addField("Total messages read today: ", messageData["totalMessages"].messages)
-    embed.addField("Discord.js:", `v${version}`);
+    .addField("Discord.js:", `v${version}`);
 
   message.channel.send(embed);
 };
 
 exports.conf = {
   enabled: true,
+  guildOnly: false,
   aliases: [],
   permLevel: "User"
 };
