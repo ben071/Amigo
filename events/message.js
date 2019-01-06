@@ -5,6 +5,7 @@ const moment = require("moment");
 require("moment-duration-format");
 
 module.exports = (client, message) => {
+  if (message.author.bot) return;
   if (message.guild) {
 
     if (!messageData[message.guild.id]) {
@@ -50,7 +51,6 @@ module.exports = (client, message) => {
   fs.writeFile("./messageData.json", JSON.stringify(messageData), (err) => { //Save data file
     if (err) console.log(err);
   });
-  if (message.author.bot) return;
   if (message.guild === null) return message.reply("Commands aren't available in DM.");
   const settings = message.settings = client.getGuildSettings(message.guild);
   if (message.content.indexOf(settings.prefix) !== 0) return;
@@ -92,7 +92,7 @@ module.exports = (client, message) => {
   }
   messageData["totalMessages"].commandsRan++
   fs.writeFile("./messageData.json", JSON.stringify(messageData), (err) => { //Save data file again incase any commands were run
-    if (err) console.log(err);
+    if (err) client.logger.error(err);
   });
   cmd.run(client, message, args, level);
 };
