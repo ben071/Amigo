@@ -15,6 +15,7 @@ const config = {
     "modLogChannel": "mod-log",
     "modRole": "Moderator",
     "adminRole": "Administrator",
+    "dbltoken": ""; // If bot is listed on DBL only!
   },
 
   // PERMISSION LEVEL DEFINITIONS.

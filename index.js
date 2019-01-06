@@ -12,8 +12,18 @@ require("./modules/functions.js")(client);
 client.commands = new Enmap();
 client.aliases = new Enmap();
 client.settings = new Enmap({provider: new EnmapLevel({name: "settings"})}); // Enmap for settings
+const DBL = require("dblapi.js");
+const dbl = new DBL(config.dbltoken, client);
 
 const init = async () => {
+  dbl.on('posted', () => {
+    client.logger.log('Server count posted!');
+  })
+  
+  dbl.on('error', e => {
+    client.logger.err(`Oops! ${e}`);
+  })
+
   const cmdFiles = await readdir("./commands/");
   client.logger.log(`Loading a total of ${cmdFiles.length} commands.`);
   cmdFiles.forEach(f => {
