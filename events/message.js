@@ -94,7 +94,7 @@ module.exports = (client, message) => {
   messageData["unreset"].commandsRan++
   messageData["totalMessages"].commandsRan++
   fs.writeFile("./messageData.json", JSON.stringify(messageData), (err) => { //Save data file again incase any commands were run
-    if (err) console.log(err);
+    if (err) client.logger.error(err);
   });
   cmd.run(client, message, args, level);
 };

@@ -3,8 +3,6 @@ const Discord = require("discord.js");
 emojis = ["❕", "🛠", "🔧", "📜", "👌"]; // Set an emoji for each command category.
 
 exports.run = async (client, message) => {
-  if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) return message.channel.send("I need the 'Manage Messages' permission in order to work properly!")
-  // Bot will crash if it can't delete messages.
   const settings = message.settings;
   const overrides = client.settings.get(message.guild.id);
 
@@ -86,8 +84,6 @@ exports.run = async (client, message) => {
         embed.setFooter("");
 
         msg.channel.send(embed)
-      } else { // Quit menu selection (emojis.indexOf(reaction.emoji.name) = 5)
-        msg.delete(500).catch(console.error);
       }
     }
     reactArrows(0)
@@ -101,7 +97,6 @@ exports.run = async (client, message) => {
         handleReaction(reaction); // Handle reaction if it's from the message user.
       } else {
         reaction.remove(reaction.users.last()) // If reaction isn't from the message user, remove it.
-        console.log("Invalid Reaction.")
       }
     });
   });

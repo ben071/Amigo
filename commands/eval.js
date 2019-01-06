@@ -6,6 +6,7 @@ exports.run = async (client, message, args) => {
     message.channel.send(`\`\`\`js\n${clean}\n\`\`\``);
   } catch (err) {
     message.channel.send(`\`ERROR\` \`\`\`xl\n${await client.clean(client, err)}\n\`\`\``);
+    client.logger.error(err)
   }
 };
 

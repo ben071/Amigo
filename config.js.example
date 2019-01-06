@@ -8,12 +8,14 @@ const config = {
   "support": [],
 
   "token": "",
+  "webhook": "",
 
   "defaultSettings" : {
-    "prefix": "a!",
+    "prefix": "a!!",
     "modLogChannel": "mod-log",
     "modRole": "Moderator",
     "adminRole": "Administrator",
+    "dbltoken": ""; // If bot is listed on DBL only!
   },
 
   // PERMISSION LEVEL DEFINITIONS.
