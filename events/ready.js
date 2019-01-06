@@ -1,7 +1,9 @@
 const config = require("../config.js")
 const DBL = require("dblapi.js");
+const moment = require("moment");
 
 module.exports = async client => {
+  const timestamp = `${moment().format("YYYY-MM-DD HH:mm:ss")}`;
   const dbl = new DBL(config.dbltoken, client);
 
   setInterval(() => {
@@ -16,7 +18,7 @@ module.exports = async client => {
     console.log(`Oops! ${e}`);
   })
 
-  client.logger.log(`[READY] ${client.user.tag}, ready to serve ${client.users.size} users in ${client.guilds.size} servers.`, "ready");
+  client.logger.log(`\`\`\`Restart - ${timestamp}\`\`\`\n[READY] ${client.user.tag}, ready to serve ${client.users.size} users in ${client.guilds.size} servers.`, "ready");
   
   client.user.setActivity(`${client.config.defaultSettings.prefix}help`, {type: "PLAYING"});
 };
