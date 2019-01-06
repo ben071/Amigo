@@ -87,7 +87,7 @@ module.exports = (client, message) => {
     message.flags.push(args.shift().slice(1));
   }
 
-  client.logger.cmd(`[CMD] ${client.config.permLevels.find(l => l.level === level).name} ${message.author.username} (${message.author.id}) ran command ${cmd.help.name}`);
+  client.logger.cmd(`[CMD] ${client.config.permLevels.find(l => l.level === level).name} ${message.author.username} (${message.author.id}) ran command ${cmd.help.name} in ${message.guild.name}`);
   if (message.guild) {
     messageData[message.guild.id].commandsRan++
   }
