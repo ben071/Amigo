@@ -1,5 +1,6 @@
 const welcomeData = require("../welcome_data.json");
 module.exports = async (client, member) => {
+    client.logger.log(`<@${member.user.id}> has joined ${member.guild.name}. This guild now has ${member.guild.memberCount} members.`);
     if (!welcomeData[member.guild.id]) return;
     if (welcomeData[member.guild.id].enabled == "false") return;
     let welcomeMessage = welcomeData[member.guild.id].message;
