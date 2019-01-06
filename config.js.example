@@ -8,9 +8,10 @@ const config = {
   "support": [],
 
   "token": "",
+  "webhook": "",
 
   "defaultSettings" : {
-    "prefix": "a!",
+    "prefix": "a!!",
     "modLogChannel": "mod-log",
     "modRole": "Moderator",
     "adminRole": "Administrator",

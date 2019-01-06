@@ -1,26 +1,30 @@
-const chalk = require("chalk");
 const moment = require("moment");
+const config = require("../config.js");
+const Discord = require("discord.js");
 
-exports.log = (content, type = "log") => {
+exports.log = (content, type = "log") => {;
+  const checkWebhook = config.webhook.match(/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/);
+  if (!checkWebhook) return;
+  const webhook = new Discord.WebhookClient(checkWebhook[1], checkWebhook[2]);
   const timestamp = `[${moment().format("YYYY-MM-DD HH:mm:ss")}]:`;
   switch (type) {
     case "log": {
-      return console.log(`${timestamp} ${chalk.bgBlue(type.toUpperCase())} ${content} `);
+      return webhook.send(`**${timestamp}** ${type.toUpperCase()} ${content}`);
     }
     case "warn": {
-      return console.log(`${timestamp} ${chalk.black.bgYellow(type.toUpperCase())} ${content} `);
+      return webhook.send(`**${timestamp}** ${type.toUpperCase()} ${content}`);
     }
     case "error": {
-      return console.log(`${timestamp} ${chalk.bgRed(type.toUpperCase())} ${content} `);
+      return webhook.send(`<@${config.ownerID}> **${timestamp}** ${type.toUpperCase()} ${content}`);
     }
     case "debug": {
-      return console.log(`${timestamp} ${chalk.green(type.toUpperCase())} ${content} `);
+      return webhook.send(`**${timestamp}** ${type.toUpperCase()} ${content}`);
     }
     case "cmd": {
-      return console.log(`${timestamp} ${chalk.black.bgWhite(type.toUpperCase())} ${content}`);
+      return webhook.send(`**${timestamp}** ${type.toUpperCase()} ${content}`);
     }
     case "ready": {
-      return console.log(`${timestamp} ${chalk.black.bgGreen(type.toUpperCase())} ${content}`);
+      return webhook.send(`**${timestamp}** ${type.toUpperCase()} ${content}`);
     }
     default: throw new TypeError("Logger type must be either warn, debug, log, ready, cmd or error.");
   }
