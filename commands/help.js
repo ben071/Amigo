@@ -137,8 +137,6 @@ exports.run = (client, message, args, level) => {
             .setFooter(`Use ${message.settings.prefix}help [command name] for more info.`)
 
           msg.edit(embed2)
-        } else {
-          msg.delete(500).catch(console.error);
         }
       }
       reactArrows(0)
@@ -153,7 +151,6 @@ exports.run = (client, message, args, level) => {
           handleReaction(reaction);
         } else {
           reaction.remove(reaction.users.last())
-          console.log("Invalid Reaction.")
         }
       });
     });
