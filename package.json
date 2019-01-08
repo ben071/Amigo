@@ -23,7 +23,7 @@
     "enmap": "^3.1.4",
     "enmap-level": "^2.1.0",
     "figlet": "^1.2.1",
-    "fs-nextra": "^0.3.7",
+    "fs-nextra": "^0.3.8",
     "libsodium-wrappers": "^0.7.3",
     "moment": "^2.22.2",
     "moment-duration-format": "^2.2.2",
