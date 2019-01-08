@@ -9,8 +9,8 @@ exports.run = (client, message, args) => {
       return;
     }
 
-    var current = result[0].current;
-    var location = result[0].location;
+    const current = result[0].current;
+    const location = result[0].location;
     const embed = new Discord.RichEmbed()
       .setDescription(`**${current.skytext}**`)
       .setAuthor(`Weather for ${current.observationpoint}`)

@@ -11,7 +11,7 @@ exports.run = (client, message, args) => {
   if (messagecount > 100) {
     message.channel.send("Please enter a number less than or equal to 100.");
     return;
-  };
+  }
   message.channel.fetchMessages({
     limit: messagecount
   }).then(messages => message.channel.bulkDelete(messages)).catch(console.error);

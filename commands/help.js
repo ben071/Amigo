@@ -32,24 +32,24 @@ exports.run = (client, message, args, level) => {
       }
     });
 
-    if (ModerationCommands == "") {
+    if (ModerationCommands === "") {
       ModerationCommands = "No moderation commands available for your permission level.";
-    };
-    if (FunCommands == "") {
+    }
+    if (FunCommands === "") {
       FunCommands = "No fun commands available for your permission level.";
-    };
-    if (MiscellaneousCommands == "") {
+    }
+    if (MiscellaneousCommands === "") {
       MiscellaneousCommands = "No information/miscellaneous commands available for your permission level.";
-    };
-    if (AdministrationCommands == "") {
+    }
+    if (AdministrationCommands === "") {
       AdministrationCommands = "No administration commands available for your permission level.";
-    };
-    if (SystemCommands == "") {
+    }
+    if (SystemCommands === "") {
       SystemCommands = "No system commands available for your permission level.";
-    };
-    if (CurrencyCommands == "") {
+    }
+    if (CurrencyCommands === "") {
       CurrencyCommands = "No currency commands available for your permission level.";
-    };
+    }
 
     const pages = [{
         title: "Help Menu",
@@ -139,7 +139,7 @@ exports.run = (client, message, args, level) => {
           msg.edit(embed2)
         }
       }
-      reactArrows(0)
+      reactArrows(0);
       let collector = msg.createReactionCollector((reaction, user) => {
         return user.id !== msg.client.user.id && pageEmojis.includes(reaction.emoji.name);
 
@@ -160,7 +160,7 @@ exports.run = (client, message, args, level) => {
       command = client.commands.get(command);
       aliases = String(command.conf.aliases).replace(",", "\n");
       permissions = `${client.levelCache[command.conf.permLevel]} (${command.conf.permLevel})`
-      if (aliases == "") aliases = "None found";
+      if (aliases === "") aliases = "None found";
       if (level < client.levelCache[command.conf.permLevel]) return;
 
       const embed = new Discord.RichEmbed()
@@ -173,7 +173,7 @@ exports.run = (client, message, args, level) => {
 
       message.channel.send(embed);
     }
-  };
+  }
 };
 
 exports.conf = {

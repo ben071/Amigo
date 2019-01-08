@@ -35,12 +35,12 @@ exports.run = async (client, message) => {
       key: "modLogChannel",
       current: `${settings.modLogChannel}`
     }
-  ]
+  ];
 
 
   let embed = new Discord.RichEmbed()
     .setColor("#92FEF9")
-    .setTitle("Loading Setup...")
+    .setTitle("Loading Setup...");
 
   message.channel.send(embed).then(msg => {
     async function reactArrows(arrow) {
@@ -62,15 +62,15 @@ exports.run = async (client, message) => {
         await collector.stop();
         await msg.delete().catch(console.error);
 
-        const key = pages[rid].key
-        const friendly = pages[rid].title
+        const key = pages[rid].key;
+        const friendly = pages[rid].title;
         const response = await client.awaitReply(message, `The \`${friendly}\` is currently \`${pages[rid].current}\`\nWhat would you like to set \`${friendly}\` to?\n**Reply 'cancel' to cancel.**`);
-        if (response == 'cancel') return message.reply("Canceled.");
-        if (key == "modLogChannel") { // Channel based keys which are in config.js
+        if (response === 'cancel') return message.reply("Canceled.");
+        if (key === "modLogChannel") { // Channel based keys which are in config.js
           const modLogs = message.guild.channels.find("name", response); // Finds channel in message.guild
           if (!modLogs) return message.reply("That isn't a valid channel."); // If channel isn't found, return message.
         }
-        if (key == "modRole" || key == "adminRole") { // Role based keys which are in config.js
+        if (key === "modRole" || key === "adminRole") { // Role based keys which are in config.js
           const role = message.guild.roles.find("name", response); // Finds role in message.guild
           if (!role) return message.reply("That isn't a valid role."); // If role isn't found, return message.
         }
@@ -90,10 +90,10 @@ exports.run = async (client, message) => {
     let collector = msg.createReactionCollector((reaction, user) => {
       return user.id !== msg.client.user.id && emojis.includes(reaction.emoji.name);
     }, {
-      time: 180000 
+      time: 180000
     }); // 180000 = 3 mins
     collector.on("collect", (reaction) => {
-      if (reaction.users.last().id === message.author.id) { 
+      if (reaction.users.last().id === message.author.id) {
         handleReaction(reaction); // Handle reaction if it's from the message user.
       } else {
         reaction.remove(reaction.users.last()) // If reaction isn't from the message user, remove it.

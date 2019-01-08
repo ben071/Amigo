@@ -6,8 +6,8 @@ exports.run = async (client, message, args) => {
   } else {
     let Phrase=args[0];
     let titlePhrase=args[0];
-    var repeat;
-  for (repeat=1; repeat < args.length;repeat++) {
+
+    for (let repeat=1; repeat < args.length; repeat++) {
       Phrase=Phrase+"+"+args[repeat];
       titlePhrase=titlePhrase+" "+args[repeat];
     }

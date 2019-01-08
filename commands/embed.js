@@ -6,8 +6,7 @@ exports.run = async (client, message, args) => {
   } else {
     message.delete();
     let Phrase = args[0];
-    var part;
-    for (part = 1; part < args.length; part++) {
+    for (let part = 1; part < args.length; part++) {
       Phrase = Phrase + " " + args[part];
     }
     const embed = new Discord.RichEmbed()

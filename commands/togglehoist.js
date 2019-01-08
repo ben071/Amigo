@@ -6,13 +6,13 @@ exports.run = (client, message, args) => {
     if (role.hoist) {
       role.setHoist(false,"For <@"+message.author.id+"> - "+message.author.tag);
       message.channel.send(roleName + ", is no longer hoisted");
-    } else if (role.hoist == false) {
+    } else if (!role.hoist) {
       role.setHoist(true,"For <@"+message.author.id+"> - "+message.author.tag);
       message.channel.send(roleName+", is now hoisted");
-    };
+    }
   } catch (err) {
     message.reply("Either I don't have permissions to do that or that role is above my highest role");
-  };
+  }
 };
 exports.conf = {
   enabled: true,

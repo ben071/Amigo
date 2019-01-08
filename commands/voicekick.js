@@ -5,14 +5,14 @@ module.exports.run = async (client, message, args) => {
   if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("I need the manage channel permission to use this command");
   if (!message.guild.me.hasPermission("MOVE_MEMBERS")) return message.channel.send("I need the move members permission to do this");
   const member = message.mentions.members.first() || message.guild.members.get(args[0]);
-  args.shift()
-  const reason = args.join(" ")
+  args.shift();
+  const reason = args.join(" ");
   if (!member) return message.channel.send("I can't find that person");
   if (!member.voiceChannel) return message.channel.send("That person isn't in a voice channel");
-  if (!reason) return message.channel.send("You need to give a reason")
+  if (!reason) return message.channel.send("You need to give a reason");
   inspect((settings), {code: "json"});
   const modlog = client.channels.find('name', settings.modLogChannel);
-  if (!modlog) return messaeg.channel.send("I cannot find a modlog")
+  if (!modlog) return messaeg.channel.send("I cannot find a modlog");
   const newChannel = await message.guild.createChannel(member.id, "voice");
   await member.setVoiceChannel(newChannel);
   newChannel.delete();
@@ -23,7 +23,7 @@ module.exports.run = async (client, message, args) => {
   .setDescription("**Action:** Removed a user from their voice channel")
   .addField("**Target:**" , "<@"+member.id+">",true)
   .addField("**Moderator:**" , "<@"+message.author.id+">",true)
-  .addField("**Reason:**" , reason, true)
+  .addField("**Reason:**" , reason, true);
   modlog.send(embed)
 };
 

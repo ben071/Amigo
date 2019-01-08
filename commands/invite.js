@@ -5,7 +5,7 @@ exports.run = async (client, message) => {
         .setAuthor("Invites")
         .setColor("#9669FE")
         .addField("Add me:", "https://amigo.fun/")
-        .addField("Support Server:", "https://discord.gg/hBjEcC8/")
+        .addField("Support Server:", "https://discord.gg/hBjEcC8/");
 
     message.channel.send(embed);
 };
@@ -15,7 +15,7 @@ exports.conf = {
     aliases: ["inv", "addme", "support"],
     permLevel: "User"
   };
-  
+
   exports.help = {
     name: "invite",
     category: "Miscelaneous",

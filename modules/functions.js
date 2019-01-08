@@ -45,7 +45,7 @@ module.exports = (client) => {
   };
 
   client.clean = async (client, text) => {
-    if (text && text.constructor.name == "Promise")
+    if (text && text.constructor.name === "Promise")
       text = await text;
     if (typeof evaled !== "string")
       text = require("util").inspect(text, {depth: 1});

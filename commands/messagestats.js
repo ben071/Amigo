@@ -10,7 +10,7 @@ exports.run = (client, message, args) => {
     .addField("Total messages read today in this server ", messageData[message.guild.id].messages)
     .addField("Total messages read today: ", messageData["totalMessages"].messages)
     .addField("Total messages read:",messageData["unreset"].messages)
-    .addField("Total commands ran", messageData["unreset"].commandsRan)
+    .addField("Total commands ran", messageData["unreset"].commandsRan);
     message.channel.send(embed)
 };
 exports.conf = {
@@ -19,11 +19,11 @@ exports.conf = {
     aliases: ["msgstats"],
     permLevel: "User"
   };
-  
+
   exports.help = {
     name: "messagestats",
     category: "Miscelaneous",
     description: "Gives some message statistcs related to the bot",
     usage: "messagestats"
   };
-  
+

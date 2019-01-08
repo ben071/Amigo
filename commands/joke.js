@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 
 module.exports.run = async (client, message, args) => {
-  var JokeList = [
+  const JokeList = [
     "What do you call an elephant that doesn't matter? An irrelephant",
     "What is the tallest building in the world? The library – it’s got the most stories!",
     "Past, present, and future walked into a bar.... It was tense.",
@@ -35,7 +35,7 @@ module.exports.run = async (client, message, args) => {
   const JokeNumber = Math.floor((Math.random() * (JokeList.length)));
   const jokeEmbed = new Discord.RichEmbed()
     .setTitle(JokeList[JokeNumber])
-    .setColor("#f4a742")
+    .setColor("#f4a742");
   message.channel.send(jokeEmbed);
 };
 

@@ -9,7 +9,7 @@ exports.run = async (client, message) => {
     .addField("Mod Role:", `${settings.modRole}`)
     .addField("Admin Role:", `${settings.adminRole}`)
     .addField("Mod Logs:", `${settings.modLogChannel}`)
-    .setFooter(`Use ${settings.prefix}editconfig to edit this.`)
+    .setFooter(`Use ${settings.prefix}editconfig to edit this.`);
   message.channel.send(embed);
 };
 
