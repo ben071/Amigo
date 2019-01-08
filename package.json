@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/AmigoDevTeam/Amigo#readme",
   "dependencies": {
-    "bufferutil": "^4.0.0",
+    "bufferutil": "^4.0.1",
     "dblapi.js": "^2.3.0",
     "discord.js": "^11.4.2",
     "enmap": "^3.1.4",
