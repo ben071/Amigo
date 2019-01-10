@@ -65,7 +65,7 @@ module.exports = (client, message) => {
 
   if (!cmd) return;
   
-  if (cmd && message.guild.id != '508320098562605066' && cmd.conf.devGuildOnly) return message.channel.send("This command can only be used in the Amigo Support guild. Please check back to see when it's available for general use.")
+  if (cmd && message.guild.id != '532607946970890250' && cmd.conf.devGuildOnly) return message.channel.send("This command can only be used in the Amigo Support guild (Thy Amigos). Please check back to see when it's available for general use.")
 
   if (cmd && !message.guild && cmd.conf.guildOnly) return message.channel.send("This command is unavailable via private message. Please run this command in a guild.");
     if (level < client.levelCache[cmd.conf.permLevel]) {
