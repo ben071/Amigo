@@ -1,10 +1,9 @@
 const Discord = require("discord.js");
-const messageData = require("../messageData.json");
 const fs = require("fs");
 const moment = require("moment");
 require("moment-duration-format");
 module.exports = (client, message) => {
-  if (message.author.bot) return;
+  /*if (message.author.bot) return;
   if (!message.guild) return message.reply("Commands are not available in DM");
   if (message.guild) {
 
@@ -52,7 +51,7 @@ module.exports = (client, message) => {
   messageData["totalMessages"].messages++
   fs.writeFile("./messageData.json", JSON.stringify(messageData), (err) => { //Save data file
     if (err) console.log(err);
-  });
+  });*/
   const settings = message.settings = client.getGuildSettings(message.guild);
   if (message.content.indexOf(settings.prefix) !== 0) return;
   if (message.guild) {
