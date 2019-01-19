@@ -1,10 +1,18 @@
+const Discord = require("discord.js");
+
 exports.run = async (client, message) => {
-    message.reply("https://discordapp.com/oauth2/authorize?client_id=464551154114756609&permissions=8&scope=bot");
+    const embed = new Discord.RichEmbed()
+        .setAuthor("Invites")
+        .setColor("#9669FE")
+        .addField("Add me:", "https://amigo.fun/")
+        .addField("Support Server:", "https://discord.gg/hBjEcC8/")
+
+    message.channel.send(embed);
 };
 
 exports.conf = {
     enabled: true,
-    aliases: ["inv", "addme"],
+    aliases: ["inv", "addme", "support"],
     permLevel: "User"
   };
   

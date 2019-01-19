@@ -1,7 +1,6 @@
 const config = require("../config.js")
 const DBL = require("dblapi.js");
 const moment = require("moment");
-const reactionRoleSetup = require("../reaction roles.json")
 
 module.exports = async client => {
   const timestamp = `${moment().format("YYYY-MM-DD HH:mm:ss")}`;
