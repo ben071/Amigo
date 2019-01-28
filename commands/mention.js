@@ -2,11 +2,11 @@ module.exports.run = async (bot, message, args) => {
   const RoleName = args.join(" ");
   const Role = message.guild.roles.find("name", RoleName);
   if (!Role) return message.channel.send("I can't find the following role:```"+RoleName+"```");
-  if (Role.mentionable == true) return message.reply("That role is already mentionable");
-  Role.setMentionable(true);
-  message.channel.send("<@&"+Role.id+">");
-  Role.setMentionable(false);
-  message.delete();
+  if (Role.mentionable) return message.reply("That role is already mentionable");
+  await Role.setMentionable(true);
+  await message.channel.send("<@&"+Role.id+">");
+  await Role.setMentionable(false);
+  await message.delete();
 };
 
 exports.conf = {
