@@ -6,7 +6,7 @@ module.exports.run = async (bot, message, args) => {
   await Role.setMentionable(true);
   await message.channel.send("<@&"+Role.id+">");
   await Role.setMentionable(false);
-  message.delete();
+  await message.delete();
 };
 
 exports.conf = {
