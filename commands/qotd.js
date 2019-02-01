@@ -17,9 +17,9 @@ exports.run = async (client, message, args) => {
         await annountcementChannel.send(`<@&${role.id}>\nToday's QOTD is from <@${message.author.id}>\n\n${QOTDmessage}\n\n\n\nPlease put your answer in <#${channel.id}>`)
     } else {
         if (role.position >= message.guild.me.highestRole.position) return message.reply("I am not able to manage that role to mention it")
-        role.setMentionable(true,"To mention for QOTD");
+        await role.setMentionable(true,"To mention for QOTD");
         await annountcementChannel.send(`<@&${role.id}>\nToday's QOTD is from <@${message.author.id}>\n\n${QOTDmessage}\n\nPlease put your answer in <#${channel.id}>`)
-        role.setMentionable(false,"To mention for QOTD")
+        await role.setMentionable(false,"To mention for QOTD")
     }
     message.channel.send("I have successfully sent today's QOTD, thank you for providing it")
 } catch (err) {
