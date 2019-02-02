@@ -18,7 +18,7 @@ exports.run = async (client, message) => {
     .setTitle("yiff.wtf NSFW")
     .setDescription(tags)
     .setImage(body.url)
-    .setFooter(credits + " · " + date);
+    .setFooter(`${credits} · ${date}`);
 
   message.channel.send(embed);
 };
