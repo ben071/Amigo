@@ -17,7 +17,8 @@ exports.run = (client, message) => {
         .addField("Servers", `${client.guilds.size.toLocaleString()}`, true)
         .addField("Channels", `${client.channels.size.toLocaleString()}`, true)
         .addField("Discord.js", `v${version}`, true)
-        .addField("Website", "https://amigo.fun/", true);
+        .addField("Website", "https://amigo.fun/", true)
+        .addField("Credits", "<@265569046425108481> - Owner\n<@291607550825332736> - Owner\n<@503105733701926922> - Developer");
 
     message.channel.send(embed);
 };
