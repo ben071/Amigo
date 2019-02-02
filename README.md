@@ -1,5 +1,6 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/22ae619239754f9e95a9b43c3ab1124e)](https://www.codacy.com/app/Amigo-Dev/Amigo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AmigoDevTeam/Amigo&amp;utm_campaign=Badge_Grade)
 [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/AmigoDevTeam/Amigo/)
+[![Discord Bots](https://discordbots.org/api/widget/servers/464551154114756609.svg)](https://discordbots.org/bot/464551154114756609)
 
 ## Amigo Bot
 
