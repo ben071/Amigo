@@ -1,12 +1,26 @@
+const Discord = require("discord.js");
+
 exports.run = async (client, message, args) => {
+  if(!args[0]) return;
   const code = args.join(" ");
   try {
     const evaled = eval(code);
-    const clean = await client.clean(client, evaled);
-    message.channel.send(`\`\`\`js\n${clean}\n\`\`\``);
+    let output = `\`\`\`js\n${evaled}\n\`\`\``
+    if(output.length > 1028) output = "\`\`\`js\nundefined\`\`\`";
+    const embed = new Discord.RichEmbed()
+        .setColor("#48FF48")
+        .setTitle("Eval Successful")
+        .addField("Input", `\`\`\`${code}\`\`\``)
+        .addField("Output", output);
+    message.channel.send(embed);
   } catch (err) {
-    message.channel.send(`\`ERROR\` \`\`\`xl\n${await client.clean(client, err)}\n\`\`\``);
-    client.logger.error(err)
+    client.logger.log(err);
+    const embed = new Discord.RichEmbed()
+        .setColor("#FF4848")
+        .setTitle("Eval Failed")
+        .addField("Input", `\`\`\`${code}\`\`\``)
+        .addField("Output", err);
+    message.channel.send(embed);
   }
 };
 
