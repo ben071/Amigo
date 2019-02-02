@@ -149,7 +149,7 @@ exports.run = (client, message, args, level) => {
     let command = args[0];
     if (client.commands.has(command)) {
       command = client.commands.get(command);
-      aliases = String(command.conf.aliases).replace(",", "\n");
+      aliases = command.conf.aliases.join("\n");
       permissions = `${client.levelCache[command.conf.permLevel]} (${command.conf.permLevel})`
       if (aliases == "") aliases = "None found";
       if (level < client.levelCache[command.conf.permLevel]) return;
