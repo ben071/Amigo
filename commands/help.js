@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const pageEmojis = ["🏠", "🛠", "🎉", "❔", "💰", "🔡", "🔧", "🏅", "👌"];
+const pageEmojis = ["🏠", "🛠", "🎉", "❔", "💰", "🔡", "🔧"];
 
 exports.run = (client, message, args, level) => {
   const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true);
@@ -60,9 +60,7 @@ exports.run = (client, message, args, level) => {
       ${pageEmojis[3]} for **Miscellaneous Commands**.
       ${pageEmojis[4]} for **Currency Commands**.
       ${pageEmojis[5]} for **Administration Commands**.
-      ${pageEmojis[6]} for **System Commands**.
-      ${pageEmojis[7]} for **Credits**.
-      ${pageEmojis[8]} to **exit** the menu.`
+      ${pageEmojis[6]} for **System Commands**.`
       },
 
       {
@@ -94,12 +92,7 @@ exports.run = (client, message, args, level) => {
       {
         title: "System Commands",
         description: SystemCommands,
-      },
-
-      {
-        title: "Credits",
-        description: "<@265569046425108481> - **Bot Owner**\n<@291607550825332736> - **Bot Owner**\n<@503105733701926922> - **Bot Developer**",
-      },
+      }
     ]
 
     let page = 1;
@@ -111,7 +104,7 @@ exports.run = (client, message, args, level) => {
 
     message.channel.send(embed).then(msg => {
       function reactArrows(arrow) {
-        if (arrow === 9) {
+        if (arrow === 7) {
           embed.setColor("#23819C");
           embed.setTitle(pages[0].title);
           embed.setDescription(pages[0].description);
@@ -129,15 +122,13 @@ exports.run = (client, message, args, level) => {
           if (e.code === 50013) return;
         });
         const rid = pageEmojis.indexOf(reaction.emoji.name);
-        if (rid !== 8) {
-          let embed2 = new Discord.RichEmbed()
-            .setColor("#23819C")
-            .setTitle(pages[rid].title)
-            .setDescription(pages[rid].description)
-            .setFooter(`Use ${message.settings.prefix}help [command name] for more info.`)
+        let embed2 = new Discord.RichEmbed()
+          .setColor("#23819C")
+          .setTitle(pages[rid].title)
+          .setDescription(pages[rid].description)
+          .setFooter(`Use ${message.settings.prefix}help [command name] for more info.`)
 
-          msg.edit(embed2)
-        }
+        msg.edit(embed2)
       }
       reactArrows(0)
       let collector = msg.createReactionCollector((reaction, user) => {
