@@ -5,7 +5,8 @@ exports.run = async (client, message, args) => {
   const code = args.join(" ");
   try {
     const evaled = eval(code);
-    let output = `\`\`\`js\n${evaled}\n\`\`\``
+    const clean = await client.clean(client, evaled);
+    let output = `\`\`\`js\n${clean}\n\`\`\``
     if(output.length > 1028) output = "\`\`\`js\nundefined\`\`\`";
     const embed = new Discord.RichEmbed()
         .setColor("#48FF48")
@@ -14,12 +15,12 @@ exports.run = async (client, message, args) => {
         .addField("Output", output);
     message.channel.send(embed);
   } catch (err) {
-    client.logger.log(err);
+    client.logger.err(err);
     const embed = new Discord.RichEmbed()
         .setColor("#FF4848")
         .setTitle("Eval Failed")
         .addField("Input", `\`\`\`${code}\`\`\``)
-        .addField("Output", err);
+        .addField("Output", await client.clean(client, err));
     message.channel.send(embed);
   }
 };
