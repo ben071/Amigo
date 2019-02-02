@@ -21,7 +21,7 @@ module.exports = async client => {
 
   client.logger.log(`\`\`\`Restart - ${timestamp}\`\`\`\n[READY] ${client.user.tag}, ready to serve ${client.users.size} users in ${client.guilds.size} servers.`, "ready");
   
-  client.user.setActivity(`${client.config.defaultSettings.prefix}help`, {type: "PLAYING"});
+  client.user.setActivity(`for ${client.config.defaultSettings.prefix}help | amigo.fun`, {type: "WATCHING"});
 
   for (const key in reactionRoleSetup) { // fetch all messages in the reaction role config to allow us to recieve reactions on them
     const setup = reactionRoleSetup[key]
