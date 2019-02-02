@@ -25,7 +25,7 @@ module.exports = (client, message) => {
       const embed = new Discord.RichEmbed()
         .setTitle("⚠ Missing Permissions!")
         .setTimestamp()
-        .setColor("#FF0000")
+        .setColor("#FF4848")
         .addField("Permission Level:", `${level} (${client.config.permLevels.find(l => l.level === level).name})`)
         .addField("Required Level: ", `${client.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`)
         .setFooter(message.author.tag, message.author.avatarURL);
