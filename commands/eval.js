@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
         .addField("Output", output);
     message.channel.send(embed);
   } catch (err) {
-    client.logger.err(err);
+    client.logger.error(err);
     const embed = new Discord.RichEmbed()
         .setColor("#FF4848")
         .setTitle("Eval Failed")
