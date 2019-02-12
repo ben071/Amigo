@@ -5,7 +5,6 @@ exports.run = async (client, message) => {
   const {body} = await superagent
     .get("https://beta.yiff.wtf/v1/images?nsfw=nsfw&approved=approved");
   
-  if (!message.channel.nsfw) return message.channel.send("This command only works in NSFW channels!");
   let credits = "Credits: " + body.credits;
   if (body.credits == null || body.credits == "") {
     credits = "Credits: none"
@@ -25,6 +24,7 @@ exports.run = async (client, message) => {
 
 exports.conf = {
   enabled: true,
+  NSFWCommand: true,
   aliases: [],
   permLevel: "User"
 };

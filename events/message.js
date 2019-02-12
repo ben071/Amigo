@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const fs = require("fs");
 const moment = require("moment");
 require("moment-duration-format");
+
 module.exports = (client, message) => {
   if (message.author.bot) return;
   if (!message.guild) return message.reply("Commands are not available in DM");
@@ -18,20 +19,36 @@ module.exports = (client, message) => {
 
   if (!cmd) return;
   
-  if (cmd && message.guild.id != '532607946970890250' && cmd.conf.devGuildOnly) return message.channel.send("This command can only be used in the Amigo Support guild (Thy Amigos). Please check back to see when it's available for general use.")
+  if (cmd.conf.NSFWCommand && !message.channel.nsfw) {
+    const embed = new Discord.RichEmbed()
+      .setTitle("⚠ Not a NSFW Channel!")
+      .setDescription("This command can only be used in channels marked with the NSFW option.")
+      .setTimestamp()
+      .setColor("#FF4848");
+    return message.channel.send(embed)
+  }
+
+  if (cmd && message.guild.id != client.config.devGuildID && cmd.conf.devGuildOnly) { 
+    const embed = new Discord.RichEmbed()
+      .setTitle("⚠ Testing Only!")
+      .setDescription(`This command can only be used in the development guild which can be found at https://amigo.fun.`)
+      .setTimestamp()
+      .setColor("#FF4848");
+    return message.channel.send(embed)
+  }
 
   if (cmd && !message.guild && cmd.conf.guildOnly) return message.channel.send("This command is unavailable via private message. Please run this command in a guild.");
-    if (level < client.levelCache[cmd.conf.permLevel]) {
-      const embed = new Discord.RichEmbed()
-        .setTitle("⚠ Missing Permissions!")
-        .setTimestamp()
-        .setColor("#FF4848")
-        .addField("Permission Level:", `${level} (${client.config.permLevels.find(l => l.level === level).name})`)
-        .addField("Required Level: ", `${client.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`)
-        .setFooter(message.author.tag, message.author.avatarURL);
-      return message.channel.send(embed);
-    }
   
+  if (level < client.levelCache[cmd.conf.permLevel]) {
+    const embed = new Discord.RichEmbed()
+      .setTitle("⚠ Missing Permissions!")
+      .setTimestamp()
+      .setColor("#FF4848")
+      .addField("Permission Level:", `${level} (${client.config.permLevels.find(l => l.level === level).name})`)
+      .addField("Required Level: ", `${client.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`)
+      .setFooter(message.author.tag, message.author.avatarURL);
+    return message.channel.send(embed);
+  }
 
   message.author.permLevel = level;
 
