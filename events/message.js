@@ -3,20 +3,21 @@ const fs = require("fs");
 const moment = require("moment");
 require("moment-duration-format");
 
-module.exports = (client, message) => {
+module.exports = async (client, message) => {
   if (message.author.bot) return;
   if (!message.guild) return message.reply("Commands are not available in DM");
+  let prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run()
+  if(message.content.indexOf(prefix) !== 0) return;
 
-  const settings = message.settings = client.getGuildSettings(message.guild);
-  if (message.content.indexOf(settings.prefix) !== 0) return;
   if (message.guild) {
     if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
   }
-  const args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
+
+  const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
   const level = client.permlevel(message);
-  const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
 
+  const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
   if (!cmd) return;
   
   if (cmd.conf.NSFWCommand && !message.channel.nsfw) {
@@ -28,7 +29,7 @@ module.exports = (client, message) => {
     return message.channel.send(embed)
   }
 
-  if (cmd && message.guild.id != client.config.devGuildID && cmd.conf.devGuildOnly) { 
+  if (message.guild.id != client.config.devGuildID && cmd.conf.devGuildOnly) { 
     const embed = new Discord.RichEmbed()
       .setTitle("⚠ Testing Only!")
       .setDescription(`This command can only be used in the development guild which can be found at https://amigo.fun.`)
@@ -37,7 +38,7 @@ module.exports = (client, message) => {
     return message.channel.send(embed)
   }
 
-  if (cmd && !message.guild && cmd.conf.guildOnly) return message.channel.send("This command is unavailable via private message. Please run this command in a guild.");
+  if (!message.guild && cmd.conf.guildOnly) return message.channel.send("This command is unavailable via private message. Please run this command in a guild.");
   
   if (level < client.levelCache[cmd.conf.permLevel]) {
     const embed = new Discord.RichEmbed()
