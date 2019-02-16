@@ -1,3 +1,5 @@
+const Discord = require("discord.js");
+
 module.exports = (client) => {
   client.permlevel = message => {
     let permlvl = 0;
@@ -13,24 +15,6 @@ module.exports = (client) => {
       }
     }
     return permlvl;
-  };
-
-  client.getGuildSettings = (guild) => {
-    const def = client.config.defaultSettings;
-    if (!guild) return def;
-    const returns = {};
-    const overrides = client.settings.get(guild.id) || {};
-    for (const key in def) {
-      returns[key] = overrides[key] || def[key];
-    }
-    return returns;
-  };
-
-  client.findLogs = (message) => {
-    inspect((settings), {code: "json"});
-    const modLog = message.guild.channels.find(c => c.name === settings.modLogChannel);
-    if (!modLog) return message.reply("I cannot find a mod-log channel");
-    return findLogs;
   };
 
   client.awaitReply = async (msg, question, limit = 60000) => {
