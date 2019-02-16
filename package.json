@@ -1,7 +1,7 @@
 {
   "name": "amigo",
-  "version": "0.1.0",
-  "description": "A Discord.js bot!",
+  "version": "1.0.0",
+  "description": "A multifunctional Discord.js bot.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,31 +10,18 @@
     "type": "git",
     "url": "git+https://github.com/AmigoDevTeam/Amigo.git"
   },
-  "author": "Benjamin#0001",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/AmigoDevTeam/Amigo/issues"
   },
   "homepage": "https://github.com/AmigoDevTeam/Amigo#readme",
   "dependencies": {
-    "bufferutil": "^4.0.1",
-    "dblapi.js": "^2.3.0",
     "discord.js": "^11.4.2",
-    "enmap": "^4.0.6",
-    "enmap-level": "^2.1.0",
-    "figlet": "^1.2.1",
-    "fs-nextra": "^0.3.8",
-    "libsodium-wrappers": "^0.7.4",
-    "moment": "^2.23.0",
-    "moment-duration-format": "^2.2.2",
-    "ms": "^2.1.1",
-    "opusscript": "0.0.6",
-    "rethinkdb": "^2.3.3",
+    "fs": "0.0.1-security",
+    "moment": "^2.24.0",
+    "promisify": "0.0.3",
     "rethinkdbdash": "^2.3.31",
-    "snekfetch": "^4.0.4",
-    "superagent": "^4.1.0",
-    "util": "^0.11.1",
-    "uws": "^99.0.0",
-    "weather-js": "^2.0.0"
+    "util": "^0.11.1"
   }
 }

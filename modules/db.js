@@ -24,15 +24,7 @@ module.exports = class {
     return this.r.table('guilds').insert([{
         id: guild.id,
         guildname: guild.name,
-        prefix: "a!!",
-        modLogChannel: "mod-log",
-        welcomeChannel: "general",
-        modRole: "Moderator",
-        adminRole: "Administrator",
-        autoRoleEnabled: false,
-        autoRole: "Member",
-        welcomeEnabled: false,
-        welcomeMessage: "Welcome %user% to the %server% you are the %member count% member."
+        prefix: "a]",
     }]).run()
     .catch((e) => console.log(e))
   }
@@ -40,24 +32,6 @@ module.exports = class {
   updatePrefix(guildID, newPrefix) {
     return this.r.table('guilds').get(guildID).update({
         prefix: newPrefix
-    }).run();
-  }
-
-  updateLogs(guildID, newLog) {
-    return this.r.table('guilds').get(guildID).update({
-        modLogChannel: newLog
-    }).run();
-  }
-
-  updateAdminRole(guildID, newAdmin) {
-    return this.r.table('guilds').get(guildID).update({
-        adminRole: newAdmin
-    }).run();
-  }
-
-  updateModRole(guildID, newMod) {
-    return this.r.table('guilds').get(guildID).update({
-        modRole: newMod
     }).run();
   }
 }

@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const config = require("../config.json");
 
 exports.run = async (client, message, args) => {
   if(!args[0]) return;
@@ -9,7 +10,7 @@ exports.run = async (client, message, args) => {
     let output = `\`\`\`js\n${clean}\n\`\`\``
     if(output.length > 1028) output = "\`\`\`js\nundefined\`\`\`";
     const embed = new Discord.RichEmbed()
-        .setColor("#48FF48")
+        .setColor(config.green)
         .setTitle("Eval Successful")
         .addField("Input", `\`\`\`${code}\`\`\``)
         .addField("Output", output);
@@ -17,7 +18,7 @@ exports.run = async (client, message, args) => {
   } catch (err) {
     client.logger.error(err);
     const embed = new Discord.RichEmbed()
-        .setColor("#FF4848")
+        .setColor(config.red)
         .setTitle("Eval Failed")
         .addField("Input", `\`\`\`${code}\`\`\``)
         .addField("Output", await client.clean(client, err));
@@ -25,15 +26,6 @@ exports.run = async (client, message, args) => {
   }
 };
 
-exports.conf = {
-  enabled: true,
-  aliases: [],
-  permLevel: "Bot Owner"
-};
-
 exports.help = {
   name: "eval",
-  category: "System",
-  description: "Evaluates arbitrary javascript.",
-  usage: "eval [...code]"
 };
