@@ -1,5 +1,5 @@
-const Discord = require("discord.js"); //Required
-const config = require("../config.json")
+const Discord = require("discord.js");
+const config = require("../config.json");
 
 exports.run = async (client, message) => {
   const startMessage = await message.channel.send("Pinging...");
