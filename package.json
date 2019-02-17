@@ -4,14 +4,14 @@
   "description": "A multifunctional Discord.js bot.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "pm2 start index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AmigoDevTeam/Amigo.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "ben071",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/AmigoDevTeam/Amigo/issues"
   },
