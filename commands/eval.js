@@ -1,31 +1,42 @@
 const Discord = require("discord.js");
+const errors = require("../utils/errors.js");
 const config = require("../config.json");
 
 exports.run = async (client, message, args) => {
-  if(!args[0]) return;
+  if (await client.helpArgs(client, message, args, exports)) return;
+  if (message.author.id !== config.ownerID) return errors.ownerOnly(message);
+  if (!args[0]) return errors.noArgs(message, exports);
+
   const code = args.join(" ");
+
   try {
     const evaled = eval(code);
     const clean = await client.clean(client, evaled);
     let output = `\`\`\`js\n${clean}\n\`\`\``
-    if(output.length > 1028) output = "\`\`\`js\nundefined\`\`\`";
+    if (output.length > 1028) output = "\`\`\`js\nundefined\`\`\`";
     const embed = new Discord.RichEmbed()
-        .setColor(config.green)
-        .setTitle("Eval Successful")
-        .addField("Input", `\`\`\`${code}\`\`\``)
-        .addField("Output", output);
+      .setColor(config.green)
+      .setTitle("Eval Successful")
+      .addField("Input", `\`\`\`${code}\`\`\``)
+      .addField("Output", output);
     message.channel.send(embed);
   } catch (err) {
     client.logger.error(err);
     const embed = new Discord.RichEmbed()
-        .setColor(config.red)
-        .setTitle("Eval Failed")
-        .addField("Input", `\`\`\`${code}\`\`\``)
-        .addField("Output", await client.clean(client, err));
+      .setColor(config.red)
+      .setTitle("Eval Failed")
+      .addField("Input", `\`\`\`${code}\`\`\``)
+      .addField("Output", await client.clean(client, err));
     message.channel.send(embed);
-  }
+  };
 };
 
 exports.help = {
   name: "eval",
+  description: "Evaluates arbitrary JavaScript.",
+  usage: "eval [code]"
 };
+
+exports.conf = {
+  permission: "Bot Owner"
+}
