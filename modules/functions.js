@@ -39,7 +39,7 @@ module.exports = (client) => {
       const embed = new Discord.RichEmbed()
         .setTitle(`Command Information - \`${exports.help.name.toProperCase()}\``)
         .setDescription(`${exports.help.description}`)
-        .setColor(config.cyan)
+        .setColor(config.blue)
         .addField("Usage:", `${prefix}${exports.help.usage}`, true)
         .addField("Permission:", `${exports.conf.permission}`, true);
       return message.channel.send(embed);
