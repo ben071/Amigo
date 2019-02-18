@@ -61,4 +61,4 @@ typings/
 .env
 
 # Bot Data Files
-data/
+rethinkdb_data/
