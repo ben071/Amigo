@@ -4,8 +4,11 @@ const errors = require("../utils/errors.js");
 
 module.exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
+    if (!args[0]) return errors.noArgs(message, exports);
 
-    let user = message.guild.member(message.mentions.members.first() || message.author.id);
+    let user = message.guild.member(message.guild.members.find(m => m.id == args[0].replace(/[^0-9]/g,"")));
+    if (!user) return errors.invalidUser(message, args);
+    
     let kickable = user.kickable ? "✅" : "❎";
     let bannable = user.bannable ? "✅" : "❎";
     let icon = user.user.displayAvatarURL;
@@ -43,7 +46,7 @@ module.exports.run = async (client, message, args) => {
 exports.help = {
     name: "userinfo",
     description: "Displays information about the mentioned user.",
-    usage: "userinfo <@user>"
+    usage: "userinfo [@user/id]"
 }
 
 exports.conf = {
