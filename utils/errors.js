@@ -132,3 +132,25 @@ module.exports.settingNotRecognised = (message) => {
 
     message.channel.send(embed);
 };
+
+// Used if channel isn't NSFW and command is set as NSFW.
+module.exports.notNSFWChannel = (message) => {
+    let embed = new Discord.RichEmbed()
+        .setTitle('An error has occurred!')
+        .setDescription('The message channel isn\'t an NSFW channel!')
+        .setColor(config.red)
+        .setFooter(message.author.tag, message.author.avatarURL);
+
+    message.channel.send(embed);
+};
+
+// Used if tag isn't found on yiff command.
+module.exports.tagNotFound = (message, args) => {
+    let embed = new Discord.RichEmbed()
+        .setTitle('An error has occurred!')
+        .setDescription(`An image with the tags \`${args.slice(1, 4).join(",")}\` hasn't been found.`)
+        .setColor(config.red)
+        .setFooter(message.author.tag, message.author.avatarURL);
+
+    message.channel.send(embed);
+};
