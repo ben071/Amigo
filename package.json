@@ -20,6 +20,7 @@
     "discord.js": "^11.4.2",
     "fs": "0.0.1-security",
     "moment": "^2.24.0",
+    "moment-duration-format": "^2.2.2",
     "pm2": "^3.2.9",
     "promisify": "0.0.3",
     "rethinkdbdash": "^2.3.31",
