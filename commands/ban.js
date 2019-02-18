@@ -11,7 +11,7 @@ exports.run = async (client, message, args) => {
     if (!await client.findLogs(client, message, modLogs)) return;
 
     let user = message.guild.member(message.mentions.members.first());
-    if (!user) return errors.invalidUser(message);
+    if (!user) return errors.invalidUser(message, args);
 
     let reason = args.slice(1).join(" ");
     if (!reason) return errors.invalidReason(message);

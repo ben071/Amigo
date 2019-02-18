@@ -13,10 +13,10 @@ module.exports.noPermissions = (message, exports) => {
 };
 
 // Used if no user has been provided or if user is invalid.
-module.exports.invalidUser = (message) => {
+module.exports.invalidUser = (message, args) => {
     let embed = new Discord.RichEmbed()
         .setTitle('An error has occurred!')
-        .setDescription('This user could not be found or does not exist!')
+        .setDescription(`The user \`${args[0]}\` could not be found or does not exist!`)
         .setColor(config.red)
         .setFooter(message.author.tag, message.author.avatarURL);
 
