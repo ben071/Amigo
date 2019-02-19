@@ -27,7 +27,7 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "yiff",
     description: "Gets a random yiff image.",
-    usage: "yiff [website] <tags>"
+    usage: "yiff [website] <tags>\nWebsites: e621"
 };
 
 exports.conf = {
