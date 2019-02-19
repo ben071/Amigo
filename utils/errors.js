@@ -67,6 +67,17 @@ module.exports.cannotPunish = (message) => {
     message.channel.send(embed);
 };
 
+// Used if punishment ID is from another guild.
+module.exports.otherGuildPunishment = (message) => {
+    let embed = new Discord.RichEmbed()
+        .setTitle('An error has occurred!')
+        .setDescription('This punishment is from another guild.')
+        .setColor(config.red)
+        .setFooter(message.author.tag, message.author.avatarURL);
+
+    message.channel.send(embed);
+};
+
 // Used if a user does not specify a number of messages to purge.
 module.exports.provideNumber = (message) => {
     let embed = new Discord.RichEmbed()
