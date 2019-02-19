@@ -16,7 +16,7 @@ module.exports.noPermissions = (message, exports) => {
 module.exports.invalidUser = (message, args) => {
     let embed = new Discord.RichEmbed()
         .setTitle('An error has occurred!')
-        .setDescription(`The user \`${args[0]}\` could not be found or does not exist!`)
+        .setDescription(`The user \`${args[0]}\` could not be found or does not exist.`)
         .setColor(config.red)
         .setFooter(message.author.tag, message.author.avatarURL);
 
@@ -122,6 +122,17 @@ module.exports.couldNotDM = (message) => {
     message.channel.send(embed);
 };
 
+// Used if a bot could not log a punishment.
+module.exports.couldNotLog = (message, modLogs) => {
+    let embed = new Discord.RichEmbed()
+        .setTitle('An error has occurred!')
+        .setDescription(`Could not log the punishment to \`${modLogs}\`. Make sure the bot has the permission to read and send messages in this channel.`)
+        .setColor(config.red)
+        .setFooter(message.author.tag, message.author.avatarURL);
+
+    message.channel.send(embed);
+};
+
 // Used if args isn't recognised in the 'edit' command
 module.exports.settingNotRecognised = (message) => {
     let embed = new Discord.RichEmbed()
@@ -137,7 +148,7 @@ module.exports.settingNotRecognised = (message) => {
 module.exports.notNSFWChannel = (message) => {
     let embed = new Discord.RichEmbed()
         .setTitle('An error has occurred!')
-        .setDescription('The message channel isn\'t an NSFW channel!')
+        .setDescription('The message channel isn\'t an NSFW channel.')
         .setColor(config.red)
         .setFooter(message.author.tag, message.author.avatarURL);
 
