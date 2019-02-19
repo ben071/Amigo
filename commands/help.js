@@ -69,16 +69,16 @@ exports.run = async (client, message) => {
     ];
 
     let embed = new Discord.RichEmbed()
-        .setColor(config.purple)
+        .setColor(config.blue)
         .setTitle("Loading Help...")
-        .setFooter(`Use ${prefix}help [command name] for more info.`);
+        .setFooter(`Use ${prefix}[command] help for more info.`);
 
     message.channel.send(embed).then(msg => {
         function reactEmojis(emojis) {
             if (emojis === 6) {
                 embed.setTitle(pages[0].title);
                 embed.setDescription(pages[0].description);
-                embed.setFooter(`Use ${prefix}help [command name] for more info.`)
+                embed.setFooter(`Use ${prefix}[command] help for more info.`)
                 msg.edit(embed);
                 return;
             }
@@ -92,10 +92,10 @@ exports.run = async (client, message) => {
                 if (e.code === 50013) return;
             });
             const rid = pageEmojis.indexOf(reaction.emoji.name);
-                embed.setColor("#23819C")
+                embed.setColor(config.blue)
                 embed.setTitle(pages[rid].title)
                 embed.setDescription(pages[rid].description)
-                embed.setFooter(`Use ${prefix}help [command name] for more info.`)
+                embed.setFooter(`Use ${prefix}[command] help for more info.`)
 
             msg.edit(embed)
         };

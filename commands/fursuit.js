@@ -15,6 +15,7 @@ exports.run = async (client, message, args) => {
 
 exports.help = {
     name: "fursuit",
+    category: "Fun",
     description: "Displays a random fursuit.",
     usage: "fursuit"
 };

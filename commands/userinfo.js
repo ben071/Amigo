@@ -20,12 +20,14 @@ module.exports.run = async (client, message, args) => {
         nickname = "None"
     };
 
-    let playingStatus = user.presence.game;
-    if (playingStatus) {
+    if (user.presence.game !== null && user.presence.game.type === 2 && user.presence.game.name === "Spotify") {
+        const trackURL = `https://open.spotify.com/track/${user.presence.game.syncID}`;
+        playingStatus = `${trackURL}`
+    } else if (user.presence.game) {
         playingStatus = user.presence.game.name;
     } else {
-        playingStatus = "None"
-    }
+        playingStatus = "None";
+    };
 
     const embed = new Discord.RichEmbed()
         .setTitle(`Information about ${user.user.tag}`)
@@ -45,6 +47,7 @@ module.exports.run = async (client, message, args) => {
 
 exports.help = {
     name: "userinfo",
+    category: "Miscellaneous",
     description: "Displays information about the mentioned user.",
     usage: "userinfo [@user/id]"
 }

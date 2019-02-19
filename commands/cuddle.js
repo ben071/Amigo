@@ -19,8 +19,9 @@ exports.run = async (client, message, args) => {
 
 exports.help = {
     name: "cuddle",
+    category: "Fun",
     description: "Cuddles another user.",
-    usage: "cuddle [mention]"
+    usage: "cuddle [@user]"
 };
 
 exports.conf = {

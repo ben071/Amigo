@@ -23,6 +23,7 @@ exports.run = async (client, message, args) => {
 
 exports.help = {
     name: "ban",
+    category: "Moderation",
     description: "Bans a user.",
     usage: "ban [@user] <reason>"
 };

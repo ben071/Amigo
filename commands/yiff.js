@@ -26,6 +26,7 @@ exports.run = async (client, message, args) => {
 
 exports.help = {
     name: "yiff",
+    category: "Fun",
     description: "Gets a random yiff image.",
     usage: "yiff [website] <tags>\nWebsites: e621"
 };

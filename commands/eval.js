@@ -33,6 +33,7 @@ exports.run = async (client, message, args) => {
 
 exports.help = {
   name: "eval",
+  category: "System",
   description: "Evaluates arbitrary JavaScript.",
   usage: "eval [code]"
 };

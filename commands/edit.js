@@ -26,6 +26,7 @@ exports.run = async (client, message, args) => {
 
 exports.help = {
     name: "edit",
+    category: "Administration",
     description: "Edits the guild's configuration for the bot.",
     usage: "edit [value]"
 };

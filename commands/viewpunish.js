@@ -10,6 +10,7 @@ module.exports.run = async (client, message, args) => {
     if (!await client.findPunishment(message, punishment)) return;
 
     const guildid = await client.db.r.table("punishments").get(args[0]).getField("guildid").run();
+    if(message.guild.id !== guildid) return errors.otherGuildPunishment(message);
     const type = await client.db.r.table("punishments").get(args[0]).getField("type").run();
     let punisher = await client.db.r.table("punishments").get(args[0]).getField("punisher").run();
     let offender = await client.db.r.table("punishments").get(args[0]).getField("offender").run();
@@ -34,6 +35,7 @@ module.exports.run = async (client, message, args) => {
 
 exports.help = {
     name: "viewpunish",
+    category: "Moderation",
     description: "Displays information about a punishment based on it's ID.",
     usage: "viewpunish [id]"
 }
