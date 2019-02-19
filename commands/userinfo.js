@@ -6,12 +6,12 @@ module.exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
     if (!args[0]) return errors.noArgs(message, exports);
 
-    let user = message.guild.member(message.guild.members.find(m => m.id == args[0].replace(/[^0-9]/g,"")));
+    const user = message.guild.member(message.guild.members.find(m => m.id == args[0].replace(/[^0-9]/g,"")));
     if (!user) return errors.invalidUser(message, args);
     
-    let kickable = user.kickable ? "✅" : "❎";
-    let bannable = user.bannable ? "✅" : "❎";
-    let icon = user.user.displayAvatarURL;
+    const kickable = user.kickable ? "✅" : "❎";
+    const bannable = user.bannable ? "✅" : "❎";
+    const icon = user.user.displayAvatarURL;
 
     let nickname = user.nickname;
     if (nickname) {
@@ -27,9 +27,9 @@ module.exports.run = async (client, message, args) => {
         playingStatus = "None"
     }
 
-    let embed = new Discord.RichEmbed()
+    const embed = new Discord.RichEmbed()
         .setTitle(`Information about ${user.user.tag}`)
-        .setColor(config.cyan)
+        .setColor(config.blue)
         .setThumbnail(icon)
         .addField("Username:", user.user.tag, true)
         .addField("Nickname:", nickname, true)
