@@ -124,6 +124,6 @@ module.exports = (client) => {
   });
 
   process.on("unhandledRejection", err => {
-    console.log(`Unhandled rejection: ${err}`);
+    client.logger.error(`Unhandled rejection: ${err}`);
   });
 };
