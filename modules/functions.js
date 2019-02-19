@@ -79,7 +79,7 @@ module.exports = (client) => {
   client.sendPunishment = async(message, type, user, reason, modLogs, id) => {
     let embed = new Discord.RichEmbed()
         .setTitle("Amigo Logs")
-        .setDescription(`**Action: ${type}**`)
+        .setDescription(`**Action: ${type}**\nGuild name: ${message.guild.name}`)
         .setColor(config.orange)
         .setTimestamp()
         .addField("User:", `${user} (${user.id})`, true)
