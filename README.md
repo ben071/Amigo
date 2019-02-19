@@ -10,9 +10,9 @@
 2. Install RethinkDB server, instructions can be found [here](https://rethinkdb.com/docs/install/) and create a Database with the name Amigo.
 2. Make sure all dependencies are installed by running the command `npm install`
 3. Change `config.json.example` to `config.json` and insert the bot token, the Bot Owner's ID and the Discord webhook logging link.
-4. If you're on Windows, click `run.bat` and you should be good to go! Alternatively, you can use `pm2 start index.js` or `node index.js` to run.
+4. Use `npm start` to run the bot. ([pm2 Docs](https://pm2.io/doc/en/runtime/features/commands-cheatsheet/))
 
-##### Note: If the database init doesn't work, try making a table named 'guilds' under the Database in localhost:8080. If this doesn't work, join the support server found on the [website](https://amigo.fun/)
+##### Note: If the database init doesn't work, try making the tables named 'guilds' and 'punishments' under the Database in localhost:8080. If this doesn't work, join the support server found on the [website](https://amigo.fun/)
 
 ### Invite the bot!
 We have a hosted version of the bot which you can invite [here.](https://amigo.fun/)
