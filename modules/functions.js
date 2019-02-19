@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const config = require("../config.json");
+const errors = require("../utils/errors.js");
 
 module.exports = (client) => {
   client.awaitReply = async (msg, question, limit = 60000) => {
@@ -60,7 +61,41 @@ module.exports = (client) => {
     } else {
       return true;
     }
-  }
+  };
+
+  client.findPunishment = async (message, punishment) => {
+    if (!punishment) {
+      const embed = new Discord.RichEmbed()
+        .setTitle('An error has occurred!')
+        .setDescription(`A punishment with the specified ID hasn't been found.`)
+        .setColor(config.red)
+        .setFooter(message.author.tag, message.author.avatarURL);
+      return message.channel.send(embed), false;
+    } else {
+      return true;
+    }
+  };
+
+  client.sendPunishment = async(message, type, user, reason, modLogs, id) => {
+    let embed = new Discord.RichEmbed()
+        .setTitle("Amigo Logs")
+        .setDescription(`**Action: ${type}**`)
+        .setColor(config.orange)
+        .setTimestamp()
+        .addField("User:", `${user} (${user.id})`, true)
+        .addField("Action by:", `${message.author} (${message.author.id})`, true)
+        .addField("Reason:", reason, true)
+        .setFooter(`ID: ${id}`);
+    let modLogsChannel = message.guild.channels.find(c => c.name === modLogs);
+    await modLogsChannel.send(embed)
+      .catch(async () => {
+        await errors.couldNotLog(message, modLogs);
+      });
+    await user.send(embed)
+      .catch(async () => {
+        await errors.couldNotDM(message);
+      });
+  };
 
   client.canceled = (message) => {
     const embed = new Discord.RichEmbed()
@@ -89,6 +124,6 @@ module.exports = (client) => {
   });
 
   process.on("unhandledRejection", err => {
-    client.logger.error(`Unhandled rejection: ${err}`);
+    console.log(`Unhandled rejection: ${err}`);
   });
 };
