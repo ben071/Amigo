@@ -10,7 +10,8 @@ module.exports = async (client, message) => {
     }
 
     let prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run()
-
+    if(message.content.indexOf(prefix) !== 0) return;
+    
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
