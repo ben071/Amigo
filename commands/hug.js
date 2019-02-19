@@ -8,11 +8,11 @@ exports.run = async (client, message, args) => {
     const user = message.mentions.members.first();
     if (!user) return errors.invalidUser(message);
     
+    // I added this for my server as it was requested, the command still works without the male and female role.
     try {
         const male = await message.guild.roles.find(r => r.name.toLowerCase() === "male");
         const female = await message.guild.roles.find(r => r.name.toLowerCase() === "female");
-        if(!male && !female) prop = "hug+rating:s";
-        // Role check - Male/Female
+
         if (message.member.roles.has(male.id) && user.roles.has(male.id)) { 
             prop = "male/male+hug+rating:s";
         } else if (message.member.roles.has(female.id) && user.roles.has(male.id)) {
@@ -25,7 +25,7 @@ exports.run = async (client, message, args) => {
             prop = "hug+rating:s";
         };
     } catch (e) {
-        client.logger.error(e);
+        console.log(e);
     };
     
     await yiff.e621.noCubFilter(prop).then(r => {
