@@ -53,7 +53,7 @@ module.exports = (client) => {
     const prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run();
     if (!modLogs || !message.guild.channels.find(c => c.name === modLogs)) {
       const embed = new Discord.RichEmbed()
-        .setTitle("⚠ Missing Logs!")
+        .setTitle("An error has occurred!")
         .setDescription(`No log channel found with the name \`${modLogs}\`.`)
         .setColor(config.red)
         .setFooter(`Use ${prefix}edit modlogs to change this.`);
