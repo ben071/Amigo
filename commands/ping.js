@@ -18,3 +18,7 @@ exports.run = async (client, message) => {
 exports.help = {
   name: "ping",
 };
+
+exports.conf = {
+  permission: "SEND_MESSAGES"
+};
