@@ -106,7 +106,7 @@ module.exports = (client) => {
     return message.channel.send(embed);
   };
 
-  client.furryBotAction = async (message, prop, user) => {
+  client.furryAction = async (message, prop, user) => {
     if (prop === "boop") {
       await yiff.furrybot.sfw.boop().then(image => {
         const embed = new Discord.RichEmbed()
@@ -131,6 +131,32 @@ module.exports = (client) => {
           .setImage(image);
         message.channel.send(embed);
       });
+    } else if (prop === "hug") {
+        try {
+            const male = await message.guild.roles.find(r => r.name.toLowerCase() === "male");
+            const female = await message.guild.roles.find(r => r.name.toLowerCase() === "female");
+            
+            search = "hug+rating:s";
+            if (message.member.roles.has(male.id) && user.roles.has(male.id)) { 
+                search = "male/male+hug+rating:s";
+            } else if (message.member.roles.has(female.id) && user.roles.has(male.id)) {
+                search = "male/female+hug+rating:";
+            } else if (message.member.roles.has(male.id) && user.roles.has(female.id)) {
+                search = "male/female+hug+rating:s";
+            } else if (message.member.roles.has(female.id) && user.roles.has(female.id)) {
+                search = "female/female+hug+rating:s";
+            };
+        } catch (e) {
+            console.log(e);
+        };
+        
+        await yiff.e621.noCubFilter(prop).then(r => {
+            const embed = new Discord.RichEmbed()
+                .setAuthor(`${message.author.username} hugged ${user.username}!`)
+                .setColor(config.blue)
+                .setImage(r.image);
+            message.channel.send(embed);
+        });
     } else if (prop === "kiss") {
       await yiff.furrybot.sfw.kiss().then(image => {
         const embed = new Discord.RichEmbed()

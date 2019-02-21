@@ -10,36 +10,8 @@ exports.run = async (client, message, args) => {
     if (!user) return errors.invalidUser(message);
 
     const prop = args[0].toLowerCase();
-    if (prop === "boop" || prop === "cuddle" || prop === "hold" || prop === "kiss" || prop === "lick") {
-        return client.furryBotAction(message, prop, user); 
-    } else if (prop === "hug") {
-        try {
-            const male = await message.guild.roles.find(r => r.name.toLowerCase() === "male");
-            const female = await message.guild.roles.find(r => r.name.toLowerCase() === "female");
-            
-            if (message.member.roles.has(male.id) && user.roles.has(male.id)) { 
-                prop = "male/male+hug+rating:s";
-            } else if (message.member.roles.has(female.id) && user.roles.has(male.id)) {
-                prop = "male/female+hug+rating:";
-            } else if (message.member.roles.has(male.id) && user.roles.has(female.id)) {
-                prop = "male/female+hug+rating:s";
-            } else if (message.member.roles.has(female.id) && user.roles.has(female.id)) {
-                prop = "female/female+hug+rating:s";
-            } else {
-                prop = "hug+rating:s"
-            };
-
-        } catch (e) {
-            console.log(e);
-        };
-        
-        await yiff.e621.noCubFilter(prop).then(r => {
-            const embed = new Discord.RichEmbed()
-                .setAuthor(`${message.author.username} hugged ${user.username}!`)
-                .setColor(config.blue)
-                .setImage(r.image);
-            message.channel.send(embed);
-        });
+    if (prop === "boop" || prop === "cuddle" || prop === "hold" || prop === "kiss" || prop === "lick" || prop === "hug") {
+        return client.furryAction(message, prop, user); 
     } else {
         return errors.actionNotRecognised(message);
     };
