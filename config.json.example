@@ -2,7 +2,8 @@
     "token": "",
     "ownerID": "",
     "webhook": "",
-
+    "defaultPrefix": "",
+    
     "red": "0xffb3ba",
     "orange": "0xffdfba",
     "yellow": "0xfffba",

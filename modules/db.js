@@ -1,4 +1,5 @@
 const rethink = require("rethinkdbdash");
+const config = require("../config.json");
 
 module.exports = class {
   constructor() {
@@ -18,7 +19,7 @@ module.exports = class {
     return this.r.table("guilds").insert([{
         id: guild.id,
         guildname: guild.name,
-        prefix: "a!",
+        prefix: config.defaultPrefix,
         modLogChannel: "amigo-logs"
       }]).run()
       .catch((e) => console.log(e))
