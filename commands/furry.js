@@ -1,7 +1,4 @@
-const Discord = require("discord.js");
 const errors = require("../utils/errors.js");
-const config = require("../config.json");
-const yiff = require("yiff");
 
 exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
