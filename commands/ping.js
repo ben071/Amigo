@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const config = require("../config.json");
 
-exports.run = async (client, message) => {
+exports.run = async (client, message, args) => {
   if (await client.helpArgs(client, message, args, exports)) return;
   const startMessage = await message.channel.send("Pinging...");
   const ping = Math.round(startMessage.createdTimestamp - message.createdTimestamp)
