@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const config = require("../config.json");
 const errors = require("../utils/errors.js");
+const yiff = require("yiff");
 
 module.exports = (client) => {
   client.awaitReply = async (msg, question, limit = 60000) => {
@@ -103,6 +104,50 @@ module.exports = (client) => {
       .setColor(config.red)
       .setFooter(message.author.tag, message.author.avatarURL);
     return message.channel.send(embed);
+  };
+
+  client.furryBotAction = async (message, prop, user) => {
+    if (prop === "boop") {
+      await yiff.furrybot.sfw.boop().then(image => {
+        const embed = new Discord.RichEmbed()
+          .setTitle(`${message.author.username} booped ${user.username}!`)
+          .setColor(config.blue)
+          .setImage(image);
+        message.channel.send(embed);
+      });
+    } else if (prop === "cuddle") {
+      await yiff.furrybot.sfw.cuddle().then(image => {
+        const embed = new Discord.RichEmbed()
+          .setTitle(`${message.author.username} cuddled ${user.username}!`)
+          .setColor(config.blue)
+          .setImage(image);
+        message.channel.send(embed);
+      });
+    } else if (prop === "hold") {
+      await yiff.furrybot.sfw.hold().then(image => {
+        const embed = new Discord.RichEmbed()
+          .setTitle(`${message.author.username} held ${user.username}!`)
+          .setColor(config.blue)
+          .setImage(image);
+        message.channel.send(embed);
+      });
+    } else if (prop === "kiss") {
+      await yiff.furrybot.sfw.kiss().then(image => {
+        const embed = new Discord.RichEmbed()
+          .setTitle(`${message.author.username} kissed ${user.username}!`)
+          .setColor(config.blue)
+          .setImage(image);
+        message.channel.send(embed);
+      });
+    } else if (prop === "lick") {
+      await yiff.furrybot.sfw.lick().then(image => {
+        const embed = new Discord.RichEmbed()
+          .setTitle(`${message.author.username} licked ${user.username}!`)
+          .setColor(config.blue)
+          .setImage(image);
+        message.channel.send(embed);
+      });
+    };
   };
 
   String.prototype.toProperCase = function () {

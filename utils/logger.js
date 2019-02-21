@@ -8,11 +8,9 @@ exports.log = (content, type = "log") => {
     const webhook = new Discord.WebhookClient(checkWebhook[1], checkWebhook[2]);
     const timestamp = `[${moment().format("YYYY-MM-DD HH:mm:ss")}]:`;
     switch (type) {
-        case "log": case "warn": case "cmd": case "ready": 
+        case "log": case "warn": case "cmd": case "ready": case "error": 
+          console.log(content);
           return webhook.send(`**${timestamp}** ${type.toUpperCase()} ${content}`);
-    
-        case "error":
-          return webhook.send(`<@${config.ownerID}> **${timestamp}** ${type.toUpperCase()} ${content}`);
           
         default:
           throw new TypeError("Logger type must be either warn, debug, log, ready, cmd or error.");

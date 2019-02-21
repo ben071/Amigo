@@ -16,7 +16,7 @@ module.exports.noPermissions = (message, exports) => {
 module.exports.invalidUser = (message, args) => {
     let embed = new Discord.RichEmbed()
         .setTitle('An error has occurred!')
-        .setDescription(`The user \`${args[0]}\` could not be found or does not exist.`)
+        .setDescription(`The user could not be found or does not exist.`)
         .setColor(config.red)
         .setFooter(message.author.tag, message.author.avatarURL);
 
@@ -149,6 +149,17 @@ module.exports.settingNotRecognised = (message) => {
     let embed = new Discord.RichEmbed()
         .setTitle('An error has occurred!')
         .setDescription('This setting wasn\'t recognised.')
+        .setColor(config.red)
+        .setFooter(message.author.tag, message.author.avatarURL);
+
+    message.channel.send(embed);
+};
+
+// Used if args isn't recognised in the 'furry' command
+module.exports.actionNotRecognised = (message) => {
+    let embed = new Discord.RichEmbed()
+        .setTitle('An error has occurred!')
+        .setDescription('This action wasn\'t recognised.')
         .setColor(config.red)
         .setFooter(message.author.tag, message.author.avatarURL);
 
