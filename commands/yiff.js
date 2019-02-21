@@ -28,7 +28,7 @@ exports.help = {
     name: "yiff",
     category: "Fun",
     description: "Gets a random yiff image.",
-    usage: "yiff [website] <tags>\nWebsites: e621"
+    usage: "yiff <website> [tags]\nWebsites: e621"
 };
 
 exports.conf = {

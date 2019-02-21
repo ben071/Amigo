@@ -122,7 +122,7 @@ exports.help = {
     name: "help",
     category: "System",
     description: "Displays all the available commands.",
-    usage: "help [command]"
+    usage: "help"
 };
 
 exports.conf = {

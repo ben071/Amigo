@@ -28,7 +28,7 @@ exports.help = {
     name: "edit",
     category: "Administration",
     description: "Edits the guild's configuration for the bot.",
-    usage: "edit [value]"
+    usage: "edit <value>"
 };
 
 exports.conf = {

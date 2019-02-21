@@ -37,7 +37,7 @@ exports.help = {
     name: "viewpunish",
     category: "Moderation",
     description: "Displays information about a punishment based on it's ID.",
-    usage: "viewpunish [id]"
+    usage: "viewpunish <id>"
 }
 
 exports.conf = {

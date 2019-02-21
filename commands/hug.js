@@ -41,7 +41,7 @@ exports.help = {
     name: "hug",
     category: "Fun",
     description: "Give another user a furry hug.",
-    usage: "hug [@user]"
+    usage: "hug <@user>"
 };
 
 exports.conf = {

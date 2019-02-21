@@ -24,7 +24,7 @@ exports.help = {
     name: "strike",
     category: "Moderation",
     description: "Strikes a user.",
-    usage: "strike [@user] <reason>"
+    usage: "strike <@user> <reason>"
 };
 
 exports.conf = {

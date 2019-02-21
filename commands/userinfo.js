@@ -49,7 +49,7 @@ exports.help = {
     name: "userinfo",
     category: "Miscellaneous",
     description: "Displays information about the mentioned user.",
-    usage: "userinfo [@user/id]"
+    usage: "userinfo <@user/id>"
 }
 
 exports.conf = {

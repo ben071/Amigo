@@ -21,7 +21,7 @@ exports.help = {
     name: "hold",
     category: "Fun",
     description: "Holds another user.",
-    usage: "hold [@user]"
+    usage: "hold <@user>"
 };
 
 exports.conf = {

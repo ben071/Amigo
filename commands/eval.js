@@ -35,7 +35,7 @@ exports.help = {
   name: "eval",
   category: "System",
   description: "Evaluates arbitrary JavaScript.",
-  usage: "eval [code]"
+  usage: "eval <code>"
 };
 
 exports.conf = {
