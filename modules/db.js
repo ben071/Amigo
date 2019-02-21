@@ -18,7 +18,7 @@ module.exports = class {
     return this.r.table("guilds").insert([{
         id: guild.id,
         guildname: guild.name,
-        prefix: "a!!",
+        prefix: "a!",
         modLogChannel: "amigo-logs"
       }]).run()
       .catch((e) => console.log(e))
