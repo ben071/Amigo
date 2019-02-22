@@ -20,7 +20,12 @@ module.exports = class {
         id: guild.id,
         guildname: guild.name,
         prefix: config.defaultPrefix,
-        modLogChannel: "amigo-logs"
+        modLogChannel: "amigo-logs",
+        welcomeEnabled: false,
+        welcomeMessage: "Welcome %user% to the %server% you are the %member count% member",
+        welcomeChannel: "general",
+        autoRoleEnabled: false,
+        autoRoleName: "Member",
       }]).run()
       .catch((e) => console.log(e))
   }
@@ -38,21 +43,51 @@ module.exports = class {
     .catch((e) => console.log(e))
   }
 
-  updateGuildName(guildID, newGuildName) {
+  async updateGuildName(guildID, newGuildName) {
     return this.r.table("guilds").get(guildID).update({
         guildname: newGuildName
     }).run();
   }
 
-  updatePrefix(guildID, newPrefix) {
+  async updatePrefix(guildID, newPrefix) {
     return this.r.table("guilds").get(guildID).update({
       prefix: newPrefix
     }).run();
   }
 
-  updateLogs(guildID, newLogs) {
+  async updateLogs(guildID, newLogs) {
     return this.r.table("guilds").get(guildID).update({
       modLogChannel: newLogs
+    }).run();
+  }
+
+  async toggleWelcome(guildID, newWelcome) {
+    return this.r.table("guilds").get(guildID).update({
+      welcomeEnabled: newWelcome
+    }).run();
+  }
+
+  async updateWelcomeMessage(guildID, newWelcomeMessage) {
+    return this.r.table("guilds").get(guildID).update({
+      welcomeMessage: newWelcomeMessage
+    }).run();
+  }
+
+  async updateWelcomeChannel(guildID, newWelcomeChannel) {
+    return this.r.table("guilds").get(guildID).update({
+      welcomeChannel: newWelcomeChannel
+    }).run();
+  }
+
+  async toggleAutoRole(guildID, newAutoRole) {
+    return this.r.table("guilds").get(guildID).update({
+      autoRoleEnabled: newAutoRole
+    }).run();
+  }
+
+  async updateAutoRoleName(guildID, newAutoRoleName) {
+    return this.r.table("guilds").get(guildID).update({
+      autoRoleName: newAutoRoleName
     }).run();
   }
 }

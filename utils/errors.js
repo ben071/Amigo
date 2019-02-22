@@ -155,6 +155,28 @@ module.exports.settingNotRecognised = (message) => {
     message.channel.send(embed);
 };
 
+// Used if same setting is given in the 'edit' command
+module.exports.sameSetting = (message) => {
+    let embed = new Discord.RichEmbed()
+        .setTitle('An error has occurred!')
+        .setDescription('The response given is already the set value.')
+        .setColor(config.red)
+        .setFooter(message.author.tag, message.author.avatarURL);
+
+    message.channel.send(embed);
+};
+
+// Used if response isn't recognised in the 'edit' command
+module.exports.responseNotRecognised = (message, response) => {
+    let embed = new Discord.RichEmbed()
+        .setTitle('An error has occurred!')
+        .setDescription(`The value \`${response}\` could not be used.`)
+        .setColor(config.red)
+        .setFooter(message.author.tag, message.author.avatarURL);
+
+    message.channel.send(embed);
+};
+
 // Used if args isn't recognised in the 'furry' command
 module.exports.actionNotRecognised = (message) => {
     let embed = new Discord.RichEmbed()
