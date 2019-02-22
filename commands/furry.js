@@ -3,12 +3,12 @@ const errors = require("../utils/errors.js");
 exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
     if (!args[0]) return errors.noArgs(message, exports);
-    const user = message.mentions.users.first();
-    if (!user) return errors.invalidUser(message);
+    const mentioned = message.mentions.members.first();
+    if (!mentioned) return errors.invalidUser(message);
 
     const prop = args[0].toLowerCase();
     if (prop === "boop" || prop === "cuddle" || prop === "hold" || prop === "kiss" || prop === "lick" || prop === "hug") {
-        return client.furryAction(message, prop, user); 
+        return client.furryAction(message, prop, mentioned); 
     } else {
         return errors.actionNotRecognised(message);
     };
