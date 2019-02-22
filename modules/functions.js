@@ -106,11 +106,11 @@ module.exports = (client) => {
     return message.channel.send(embed);
   };
 
-  client.furryAction = async (message, prop, user) => {
+  client.furryAction = async (message, prop, mentioned) => {
     if (prop === "boop") {
       await yiff.furrybot.sfw.boop().then(image => {
         const embed = new Discord.RichEmbed()
-          .setTitle(`${message.author.username} booped ${user.username}!`)
+          .setTitle(`${message.author.username} booped ${mentioned.user.username}!`)
           .setColor(config.blue)
           .setImage(image);
         message.channel.send(embed);
@@ -118,7 +118,7 @@ module.exports = (client) => {
     } else if (prop === "cuddle") {
       await yiff.furrybot.sfw.cuddle().then(image => {
         const embed = new Discord.RichEmbed()
-          .setTitle(`${message.author.username} cuddled ${user.username}!`)
+          .setTitle(`${message.author.username} cuddled ${mentioned.user.username}!`)
           .setColor(config.blue)
           .setImage(image);
         message.channel.send(embed);
@@ -126,7 +126,7 @@ module.exports = (client) => {
     } else if (prop === "hold") {
       await yiff.furrybot.sfw.hold().then(image => {
         const embed = new Discord.RichEmbed()
-          .setTitle(`${message.author.username} held ${user.username}!`)
+          .setTitle(`${message.author.username} held ${mentioned.user.username}!`)
           .setColor(config.blue)
           .setImage(image);
         message.channel.send(embed);
@@ -137,22 +137,20 @@ module.exports = (client) => {
             const female = await message.guild.roles.find(r => r.name.toLowerCase() === "female");
             
             search = "hug+rating:s";
-            if (message.member.roles.has(male.id) && user.roles.has(male.id)) { 
+            if (message.member.roles.has(male.id) && mentioned.roles.has(male.id)) {
                 search = "male/male+hug+rating:s";
-            } else if (message.member.roles.has(female.id) && user.roles.has(male.id)) {
-                search = "male/female+hug+rating:";
-            } else if (message.member.roles.has(male.id) && user.roles.has(female.id)) {
+            } else if (message.member.roles.has(male.id) && mentioned.roles.has(female.id)) {
                 search = "male/female+hug+rating:s";
-            } else if (message.member.roles.has(female.id) && user.roles.has(female.id)) {
+            } else if (message.member.roles.has(female.id) && mentioned.roles.has(female.id)) {
                 search = "female/female+hug+rating:s";
             };
         } catch (e) {
             console.log(e);
         };
         
-        await yiff.e621.noCubFilter(prop).then(r => {
+        await yiff.e621.noCubFilter(search).then(r => {
             const embed = new Discord.RichEmbed()
-                .setAuthor(`${message.author.username} hugged ${user.username}!`)
+                .setAuthor(`${message.author.username} hugged ${mentioned.user.username}!`)
                 .setColor(config.blue)
                 .setImage(r.image);
             message.channel.send(embed);
@@ -160,7 +158,7 @@ module.exports = (client) => {
     } else if (prop === "kiss") {
       await yiff.furrybot.sfw.kiss().then(image => {
         const embed = new Discord.RichEmbed()
-          .setTitle(`${message.author.username} kissed ${user.username}!`)
+          .setTitle(`${message.author.username} kissed ${mentioned.user.username}!`)
           .setColor(config.blue)
           .setImage(image);
         message.channel.send(embed);
@@ -168,7 +166,7 @@ module.exports = (client) => {
     } else if (prop === "lick") {
       await yiff.furrybot.sfw.lick().then(image => {
         const embed = new Discord.RichEmbed()
-          .setTitle(`${message.author.username} licked ${user.username}!`)
+          .setTitle(`${message.author.username} licked ${mentioned.user.username}!`)
           .setColor(config.blue)
           .setImage(image);
         message.channel.send(embed);
@@ -190,11 +188,11 @@ module.exports = (client) => {
 
   process.on("uncaughtException", (err) => {
     const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
-    client.logger.error(`Uncaught Exception: ${errorMsg}`);
+    console.log(`Uncaught Exception: ${errorMsg}`);
     process.exit(1);
   });
 
   process.on("unhandledRejection", err => {
-    client.logger.error(`Unhandled rejection: ${err}`);
+    console.log(`Unhandled rejection: ${err}`);
   });
 };
