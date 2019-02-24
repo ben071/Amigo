@@ -10,6 +10,7 @@ client.db.init();
 require("./modules/functions.js")(client);
 client.logger = require("./utils/logger.js");
 client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
 const config = require("./config.json");
 
 const init = async () => {
@@ -19,6 +20,11 @@ const init = async () => {
     if (!file.endsWith(".js")) return;
     let cmdFunction = require(`./commands/${file}`);
     client.commands.set(cmdFunction.help.name, cmdFunction);
+    if (cmdFunction.help.aliases) {
+      cmdFunction.help.aliases.forEach(alias => {
+        client.aliases.set(alias,cmdFunction.help.name)
+      })
+    }
   });
 
   const evtFiles = await readdir("./events/");
@@ -38,7 +44,6 @@ const init = async () => {
   });
 
   client.login(config.token);
-
 };
 
 init();

@@ -14,7 +14,7 @@ module.exports = async (client, message) => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-    const cmd = client.commands.get(command);
+    const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
     if (!cmd) return;
 
     if (cmd.conf.NSFWCommand && !message.channel.nsfw) {
