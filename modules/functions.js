@@ -43,7 +43,8 @@ module.exports = (client) => {
         .setDescription(`${exports.help.description}`)
         .setColor(config.blue)
         .addField("Usage:", `${prefix}${exports.help.usage}`, true)
-        .addField("Permission:", `${exports.conf.permission}`, true);
+        .addField("Permission:", `${exports.conf.permission}`, true)
+        .addField("Aliases: ", exports.help.aliases ? exports.help.aliases.join(" , ") : "None", true);
       return message.channel.send(embed);
     } else {
       return false;
