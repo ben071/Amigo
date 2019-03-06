@@ -31,6 +31,7 @@
     "pm2": "^3.2.9",
     "promisify": "0.0.3",
     "rethinkdbdash": "^2.3.31",
+    "superagent": "^4.1.0",
     "turndown": "^5.0.3",
     "util": "^0.11.1",
     "yiff": "^1.1.3"
