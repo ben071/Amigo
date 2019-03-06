@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><%=client.username%></title>
+
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/one-page-wonder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/profile"><%=status%></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+  <header class="masthead text-center text-white">
+    <div class="masthead-content">
+      <div class="container">
+              <%if (guild.icon) {%>
+              <img src="https://cdn.discordapp.com/icons/<%=guild.id%>/<%=guild.icon%>.png?size=128" class="bot-avatar rounded-circle" width="150px" height="150px">
+              <%}else{%>
+              <canvas class="bot-avatar rounded-circle" id="<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '') %>" width="150px" height="150px"></canvas>
+
+              <script>
+              function createIcone() {
+                const nameAcronym = document.getElementById("<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '')  %>").getContext('2d');
+                  nameAcronym.font = '90px Arial';
+                  nameAcronym.textAlign = "center";
+                  nameAcronym.fillStyle = "white";
+                  nameAcronym.fillText("<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '')  %>", 75, 105);
+              }
+              createIcone();
+              </script>
+            <%}%>
+            <br/>
+        <h3 class="masthead-heading mb-0" style="font-size: 3em !important;"><%=guild.name%></h3>
+          <br/>
+          <center>
+              <p>
+                <strong>Owner:</strong> <%=guild.owner.user.tag%><br />
+                <strong>ID:</strong> <%=guild.id %><br />
+                <strong>Number of Members:</strong> <%=guild.memberCount%><br />
+                <strong>Voice Channels:</strong> <%=guild.channels.filter(c => c.type === 'voice').size%><br />
+                <strong>Text Channels:</strong> <%=guild.channels.filter(c => c.type === 'text').size%> <br />
+                <strong>Number of Roles:</strong> <%=guild.roles.size%><br />
+                <strong>Region:</strong> <%=guild.region%><br />
+                <strong>Date of Creation:</strong> <%=guild.createdAt.toUTCString()%><br />
+              </p>
+            </center>
+          </div>
+        </div>
+      </header>
+
+      <br/>
+
+     <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 order-lg-2"> 
+          <form action="/servers/<%=guild.id%>" method='post' id="form_MESSAGE">
+          <h2 class="display-5">Send a message</h2>
+            <b>Select a channel: </b>
+            <select id="select-channel" name="send_CHANNELID" aria-controls="config" class="form-control form-control-sm" style="margin-bottom: 5px;">
+              <option value="NOT_SET">None</option>
+              <% guild.channels.filter(c => c.type === 'text').filter(c => c.permissionsFor(client)
+.has("SEND_MESSAGES") && c.permissionsFor(client)
+.has("READ_MESSAGES")).forEach(c => { %>
+              <option value="<%= c.id %>" selected>#<%= c.name %></option>
+              <% }); %>
+            </select>
+            <b>Message: </b> <br/>
+            <input type='text' placeholder="Message" id="input_MESSAGE" name='send_MESSAGE'/>
+          </form> 
+            <br/>
+          <button type="submit" class="btn" id="form_BUTTON" style="color: #363636 !important;border-color: #ced4da !important;" onclick="send();">Send</button>
+        </div>
+      </div>
+    </div>
+    
+    <br/>
+      <div id="pop"></div>
+    <br/>
+    
+    <footer class="py-5 bg-black">
+      <div class="container">
+        <p class="m-0 text-center text-white small">Copyright &copy; <%=client.username%> 2018</p>
+      </div>
+    </footer>
+
+    <style type="text/css">
+      .btn:hover, .btn:active, .btn:focus {
+        color: grey !important;
+      }
+    </style>
+
+    <script type="text/javascript">
+          function send() {
+
+          const alert = document.getElementById('pop');
+            alert.innerHTML = `<h2>Sending message...</h2>`;
+            alert.setAttribute('class', 'alert success');
+
+      setTimeout(() => {
+
+          document.getElementById('form_MESSAGE').submit() 
+
+      }, 3000)
+    }
+    </script>
+
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+</html>

@@ -1,12 +1,14 @@
 {
-    "token": "",
-    "ownerID": "",
-    "webhook": "",
-    "defaultPrefix": "",
-    
-    "red": "0xffb3ba",
-    "orange": "0xffdfba",
-    "yellow": "0xfffba",
-    "green": "0xbaffc9",
-    "blue": "0xbae1ff"
+	"token": "",
+	"ownerID": "",
+	"webhook": "",
+	"defaultPrefix": "",
+	"clientSecret": "",
+	"websiteURL": "",
+
+	"red": "0xffb3ba",
+	"orange": "0xffdfba",
+	"yellow": "0xfffba",
+	"green": "0xbaffc9",
+	"blue": "0xbae1ff"
 }

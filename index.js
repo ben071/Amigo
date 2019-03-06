@@ -1,17 +1,24 @@
 const Discord = require("discord.js");
-const client = new Discord.Client();
+const client = new Discord.Client({
+  disableEveryone: true,
+  fetchAllMembers: true
+});
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 const databaseFile = require("./modules/db.js");
+
+client.logger = require("./utils/logger.js");
+const config = require("./config.json");
+client.config = config;
 
 client.db = new databaseFile();
 client.db.init();
 
 require("./modules/functions.js")(client);
-client.logger = require("./utils/logger.js");
+
+client.website = require("./website/dashboard.js");
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
-const config = require("./config.json");
 
 const init = async () => {
   const cmdFiles = await readdir("./commands/");
