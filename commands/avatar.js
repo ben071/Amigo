@@ -11,7 +11,7 @@ exports.run = async (client, message, args) => {
   const embed = new Discord.RichEmbed();
   embed.setTitle("Avatar for "+user.tag);
   embed.setColor(config.blue);
-  embed.setImage(user.avatarURL);
+  embed.setImage(user.avatarURL || user.defaultAvatarURL);
   message.channel.send(embed);
   
 };
