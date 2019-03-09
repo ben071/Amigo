@@ -13,7 +13,6 @@
 5. Use `npm start` to run the bot. ([pm2 Docs](https://pm2.io/doc/en/runtime/features/commands-cheatsheet/))
 
 ##### Note: If the database init doesn't work, try making the tables named 'guilds' and 'punishments' under the Database in localhost:8080. If this doesn't work, join the support server found on the [website](https://amigo.fun/)
-###### We also have a dashboard which is in beta therefore isn't hosted on the main bot yet, feel free to contribute to it.
 
 ### Invite the bot!
-We have a hosted version of the bot which you can invite [here.](https://amigo.fun/)
+We have a hosted version of the bot and dashboard which you can view [here.](https://amigo.fun/)
