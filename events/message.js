@@ -1,7 +1,6 @@
 const errors = require("../utils/errors.js");
 
 module.exports = async (client, message) => {
-    client.db.createGuild(message.guild);
     if (message.author.bot) return;
     if (!message.guild) return message.channel.send("Commands are not available in DM");
 
