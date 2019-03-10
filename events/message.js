@@ -7,7 +7,14 @@ module.exports = async (client, message) => {
     if (message.guild) {
         if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
     }
-    let prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run();
+    let prefix;
+    prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run().catch(async err => {
+        await client.db.createGuild(message.guild);
+    });
+
+    if (!prefix) {
+        prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run();
+    }
     if(message.content.indexOf(prefix) !== 0) return;
     
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
