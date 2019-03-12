@@ -1,5 +1,6 @@
 const rethink = require("rethinkdbdash");
 const config = require("../config.json");
+const tables = ["guilds", "punishments"];
 
 module.exports = class {
   constructor() {
@@ -9,10 +10,10 @@ module.exports = class {
   }
 
   init() {
-    if (this.r.table("guilds") && this.r.table("punishments")) return;
-    this.r.tableCreate("guilds").run();
-    this.r.tableCreate("punishments").run();
-    return;
+    this.r(tables)
+        .difference(this.r.tableList())
+        .forEach(table => this.r.tableCreate(table))
+        .run();
   };
 
   createGuild(guild) {
