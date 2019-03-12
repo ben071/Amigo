@@ -24,7 +24,7 @@ exports.run = async (client, message, args) => {
     if (invites.size == 0) {
         const noGuildInvites = new Discord.RichEmbed()
         .setTitle("No invites for this server")
-        .setDescription("This server has no active invites so the nunmber of invites you have is 0")
+        .setDescription("This server has no active invites so the number of invites you have is 0")
         .setColor(config.red)
         .setTimestamp();
         return message.channel.send(noGuildInvites);
@@ -34,9 +34,9 @@ exports.run = async (client, message, args) => {
     let uses = 0;    
     filtered.forEach(inv => {
 
-        uses += inv.uses
+        uses += inv.uses;
 
-    })
+    });
     const successEmbed = new Discord.RichEmbed()
     .setTitle(`Invites for ${user.tag}`)
     .setDescription(`<@${user.id}> has ${filtered.size} current active invites which in total have been used ${uses} times`)
