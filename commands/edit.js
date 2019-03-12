@@ -15,9 +15,9 @@ exports.run = async (client, message, args) => {
     } else if (args[0].toLowerCase() === "modlogs") {
         const currentLogs = await client.db.r.table("guilds").get(message.guild.id).getField("modLogChannel").run();
         let response = await client.awaitReply(message, `The \`${args[0].toLowerCase()}\` is currently \`${currentLogs}\`\nWhat would you like to set \`${args[0].toLowerCase()}\` to?\n**Reply 'cancel' to cancel.**`);
-        response = response.toLowerCase();
+        response = String(response).toLowerCase();
         if (response === "cancel") return client.canceled(message);
-        if (response === currentLogs) return errors.sameSetting(message);
+        if (response === String(currentLogs)) return errors.sameSetting(message);
 
         await client.db.updateLogs(message.guild.id, response);
         return message.channel.send(`**${args[0].toProperCase()} successfully changed!**\n\`${currentLogs}\` → \`${response}\``);
