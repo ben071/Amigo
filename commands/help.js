@@ -9,25 +9,20 @@ exports.run = async (client, message) => {
     const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
     const sorted = client.commands.array().sort((p, c) => p.help.category > c.help.category ? 1 : p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1);
 
-    let ModerationCommands = "";
-    let FunCommands = "";
-    let MiscellaneousCommands = "";
-    let AdministrationCommands = "";
-    let SystemCommands = "";
-
+    let sortedHelp  = {};
+   
     sorted.forEach(c => {
+   
+        if (!c.help) return;
+   
+        if (!c.help.category) return;
+   
         const category = c.help.category.toProperCase();
-        if (category === "Moderation") {
-            ModerationCommands += `${prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)}\n`;
-        } else if (category === "Fun") {
-            FunCommands += `${prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)}\n`;
-        } else if (category === "Miscellaneous") {
-            MiscellaneousCommands += `${prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)}\n`;
-        } else if (category === "Administration") {
-            AdministrationCommands += `${prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)}\n`;
-        } else if (category === "System") {
-            SystemCommands += `${prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)}\n`;
-        };
+   
+        const addition = `${prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)}\n`
+   
+        sortedHelp[category] = sortedHelp[category] ? sortedHelp[category] + addition : addition;
+   
     });
 
     const pages = [{
@@ -43,28 +38,28 @@ exports.run = async (client, message) => {
 
         {
             title: "Moderation Commands",
-            description: ModerationCommands,
+            description: sortedHelp.Moderation,
 
         },
 
         {
             title: "Fun Commands",
-            description: FunCommands,
+            description: sortedHelp.Fun,
         },
 
         {
             title: "Miscellaneous Commands",
-            description: MiscellaneousCommands,
+            description: sortedHelp.Miscellaneous,
         },
 
         {
             title: "Administration Commands",
-            description: AdministrationCommands,
+            description: sortedHelp.Administration,
         },
 
         {
             title: "System Commands",
-            description: SystemCommands,
+            description: sortedHelp.System,
         }
     ];
 
