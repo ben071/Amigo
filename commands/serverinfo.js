@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 
-exports.run = (client, message) => {
+exports.run = async (client, message) => {
+  if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send("I can't run this command if I can't create embeds").catch(err => {})
   const online = message.guild.members.filter(member => member.user.presence.status !== "offline"); // Finds number of "online" users by filtering out user's that are offline.
   const day = message.guild.createdAt.getDate(); // Gets day server was created
   const month = 1 + message.guild.createdAt.getMonth(); // Gets month server was created

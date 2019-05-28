@@ -3,7 +3,16 @@ const config = require("../config.json")
 module.exports.run = async (client, message, args) => {
   if (await client.helpArgs(client, message, args, exports)) return;
   if (!message.member.hasPermission(exports.conf.permission)) return errors.noPermissions(message, exports);
-  if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("I need the manage channel permission to use this command");
+  if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
+    return await message.channe.send("I can't run this command if I can't create embeds").catch(err => {}).then(async m => {
+      if (!m.deleted) await m.delete(60000).catch(err => {}) // one minute;
+  });
+  }
+  if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) { 
+    return await message.channel.send("I need the manage channel permission to use this command").catch(err => {}).then(async m => {
+      if (!m.deleted) await m.delete(60000).catch(err => {}) // one minute;
+  });
+  }
   if (!message.guild.me.hasPermission("MOVE_MEMBERS")) return message.channel.send("I need the move members permission to do this");
   if (!args[0]) return message.channel.send("How am I supposed to know who to remove from their voice channel? You didn't give me any arguments")
   const member = message.mentions.members.first() || message.guild.members.get(args[0].replace(/[^0-9]/g));

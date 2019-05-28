@@ -38,13 +38,24 @@ module.exports = (client) => {
     client.helpArgs = async (client, message, args, exports) => {
         if (args[0] === "help") {
             const prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run();
+            if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
+                return await message.channel.send([
+                    `**Command Information - \`${exports.help.name.toProperCase()}\`**`,
+                    exports.help.description,
+                    `Usage: ${prefix}${exports.help.usage}`,
+                    `Permission: ${exports.conf.permission}`,
+                    `Alias${exports.conf.aliases.length == 1 ? "es":""}:\n${exports.conf.aliases.join(", ") || "None"}`
+                ].join("\n")).catch(err => {});
+            };
+            
             const embed = new Discord.RichEmbed()
                 .setTitle(`Command Information - \`${exports.help.name.toProperCase()}\``)
                 .setDescription(`${exports.help.description}`)
                 .setColor(config.blue)
                 .addField("Usage:", `${prefix}${exports.help.usage}`, true)
-                .addField("Permission:", `${exports.conf.permission}`, true);
-            return message.channel.send(embed);
+                .addField("Permission:", `${exports.conf.permission}`, true)
+                .addField(`Alias${exports.conf.aliases.length === 1 ? "es" : ""}:`, exports.conf.aliases.join(", ") || "None");
+            return await message.channel.send(embed).catch(err => {});
         } else {
             return false;
         }
@@ -88,6 +99,19 @@ module.exports = (client) => {
             .addField("Reason:", reason, true)
             .setFooter(`ID: ${id}`);
         let modLogsChannel = message.guild.channels.find(c => c.name === modLogs);
+        if (!modLogsChannel) return await errors.couldNotLog(message, modLogs);
+        if (!modLogsChannel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
+            return await modLogsChannel.send([
+                "Amigo Logs",
+                `**Action: ${type}**\nGuild name: ${message.guild.name}`,
+                `**User:**\n${user} (${user.id})`,
+                `**Action by:**\n ${message.author} (${message.author.id})`,
+                `**Reason:**\n ${reason}`,
+                `ID:\n${id}`
+            ].join("\n")).catch(async err => {
+                await errors.couldNotLog(message, modLogs);
+            }) 
+        };
         await modLogsChannel.send(embed)
             .catch(async () => {
                 await errors.couldNotLog(message, modLogs);
@@ -98,12 +122,12 @@ module.exports = (client) => {
             });
     };
 
-    client.canceled = (message) => {
+    client.canceled = async (message) => {
         const embed = new Discord.RichEmbed()
             .setTitle("🚫 Canceled")
             .setColor(config.red)
             .setFooter(message.author.tag, message.author.avatarURL);
-        return message.channel.send(embed);
+        if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send(embed).catch(err => {});
     };
 
     client.furryAction = async (message, prop, mentioned) => {

@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
     let reason = args.slice(1).join(" ");
     if (!reason) return errors.invalidReason(message);
 
-    //if (user.hasPermission(exports.conf.permission)) return errors.cannotPunish(message);
+    if (user.hasPermission(exports.conf.permission)) return errors.cannotPunish(message);
     await client.db.createPunish(client, message, type, user, reason, modLogs);
     client.logger.log(`${message.author.username} has stricken ${user.user.username} from ${message.guild} for ${reason}.`);
 };

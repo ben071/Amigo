@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const {RichEmbed} = require("discord.js");
 const config = require("../config.json");
 const errors = require("../utils/errors.js");
 
@@ -21,7 +21,7 @@ module.exports.run = async (client, message, args) => {
     offender = offender.split("-").slice(1);
     time = time.toUTCString();
 
-    const embed = new Discord.RichEmbed()
+    const embed = new RichEmbed()
         .setTitle(`Punishment Information`)
         .setColor(config.blue)
         .addField("Type:", type)
@@ -30,7 +30,16 @@ module.exports.run = async (client, message, args) => {
         .addField("Reason:", reason)
         .addField("Given at:", time)
         .setFooter(`ID: ${args[0]} | Guild ID: ${guildid}`);
-    message.channel.send(embed);
+    
+    if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send(embed).catch(err => {});
+    const msg = [
+        `Type: ${type}`,
+        `Punisher: ${(await client.fetchUser(punisher)).tag} (${punisher})`,
+        `Offender: ${(await client.fetchUser(offender)).tag} (${offender})`,
+        `Reason: ${reason}`,
+        `Given at: ${time}`
+    ];
+    return await message.channel.send(msg.join("\n")).catch(err => {});
 };
 
 exports.help = {

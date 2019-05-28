@@ -10,6 +10,7 @@ function replaceCodes(string) {
 
 exports.run = async (client, message, args) => {
   if (await client.helpArgs(client, message, args, exports)) return;
+  if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send("I can't run this command if I can't create embeds").catch(err => {});
   try {
     let repeat = true;
     let score = 0

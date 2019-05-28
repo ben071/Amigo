@@ -1,6 +1,3 @@
-function pingFix(message) {
-    message.channel.send("Ping Fix")
-}
 module.exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
     if (!message.member.hasPermission(exports.conf.permission)) return errors.noPermissions(message, exports);
@@ -9,7 +6,7 @@ module.exports.run = async (client, message, args) => {
     if (!Role) return message.channel.send("I can't find the following role:```"+RoleName+"```");
     if (Role.mentionable) return message.reply("That role is already mentionable");
     await Role.setMentionable(true);
-    await message.channel.send("<@&"+Role.id+">");
+    await message.channel.send(`<@${message.author.id}> mentioned <@&${Role.id}>`);
     await Role.setMentionable(false);
     await message.delete();
     setTimeout(function() {

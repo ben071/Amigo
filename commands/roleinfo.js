@@ -12,7 +12,7 @@ exports.run = async (client, message, args) => {
     .addField("Role ID", role.id, true)
     .addField("Role Colour (Hex)", role.hexColor, true)
     .addField("Position", role.position, true)
-    .addField("Created at", new Date(role.createdAt).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " "), true)
+    .addField("Created at", new Date(role.createdAt).toISOString().slice(0, 19).replace(/-/g, "/").replace(/T/g, " "), true)
     .addField("Members", `There are ${haveRole} members with this role.`, true)
     .addField("Other", `Hoisted: ${role.hoist}\nManaged by an integration: ${role.managed}\nMentionable: ${role.mentionable}`, true);
     message.channel.send(embed)

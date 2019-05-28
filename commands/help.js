@@ -2,13 +2,24 @@ const Discord = require("discord.js");
 const config = require("../config.json");
 const pageEmojis = ["🏠", "🛠", "🎉", "❔", "🔡", "🔧"];
 
+function hasPermission(message, permission) {
+    try {
+        if (!permission) return true;
+        if (permission == "Bot Owner") return config.ownerID == message.author.id;
+        return message.member.hasPermission(permission)
+    } catch (error) {
+        return false;
+    };
+};
+
 exports.run = async (client, message) => {
+    if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return message.channel.send("I can't use this command because I don't have the `Embed Links` permission").catch(err => {})
+    if (!message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) return message.channel.send("I can't use this command because I don't have the `Manage Messages` permission").catch(err => {})
     const prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run();
-
-    const commandNames = client.commands.keyArray();
+    const commandNames = client.commands.filter(c => hasPermission(message, c.conf.permission)).array();
     const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
-    const sorted = client.commands.array().sort((p, c) => p.help.category > c.help.category ? 1 : p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1);
-
+    const sorted = commandNames.sort((p, c) => p.help.category > c.help.category ? 1 : p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1);
+    
     let sortedHelp  = {};
    
     sorted.forEach(c => {
@@ -38,31 +49,30 @@ exports.run = async (client, message) => {
 
         {
             title: "Moderation Commands",
-            description: sortedHelp.Moderation,
+            description: sortedHelp.Moderation || "No Commands Available",
 
         },
 
         {
             title: "Fun Commands",
-            description: sortedHelp.Fun,
+            description: sortedHelp.Fun || "No Commands Available",
         },
 
         {
             title: "Miscellaneous Commands",
-            description: sortedHelp.Miscellaneous,
+            description: sortedHelp.Miscellaneous || "No Commands Available",
         },
 
         {
             title: "Administration Commands",
-            description: sortedHelp.Administration,
+            description: sortedHelp.Administration || "No Commands Available",
         },
 
         {
             title: "System Commands",
-            description: sortedHelp.System,
+            description: sortedHelp.System || "No Commands Available"
         }
     ];
-
     let embed = new Discord.RichEmbed()
         .setColor(config.blue)
         .setTitle("Loading Help...")
@@ -110,7 +120,7 @@ exports.run = async (client, message) => {
                 reaction.remove(reaction.users.last())
             }
         });
-    });
+    }).catch(err => {})
 };
 
 exports.help = {

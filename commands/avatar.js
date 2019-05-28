@@ -8,11 +8,20 @@ exports.run = async (client, message, args) => {
         user = otherUser
     }
   }
-  const embed = new Discord.RichEmbed();
-  embed.setTitle("Avatar for "+user.tag);
-  embed.setColor(config.blue);
-  embed.setImage(user.avatarURL || user.defaultAvatarURL);
-  message.channel.send(embed);
+  if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
+    const embed = new Discord.RichEmbed();
+    embed.setTitle(`Avatar for ${user.tag}`);
+    embed.setColor(config.blue);
+    embed.setImage(user.avatarURL || user.defaultAvatarURL);
+    message.channel.send(embed).catch(err => {});
+  } else if (message.channel.permissionsFor(message.guild.me).has("ATTACH_FILES")) {
+    console.log(user.avatarURL)
+    message.channel.send(`Avatar for ${user.tag}`, {
+      files: [user.displayAvatarURL.split("?")[0]]
+    }).catch(err => {});
+  } else {
+    message.channel.send(`Avatar for ${user.tag}:\n${user.avatarURL || user.defaultAvatarURL}`).catch(err => {})
+  };
   
 };
 

@@ -1,7 +1,12 @@
 const Discord = require("discord.js");
 const client = new Discord.Client({
   disableEveryone: true,
-  fetchAllMembers: true
+  fetchAllMembers: false,
+  messageCacheLifetime: 1800,
+  messageSweepInterval: 3600,
+  disabledEvents: [
+    "TYPING_START"
+  ]
 });
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
@@ -22,11 +27,15 @@ client.aliases = new Discord.Collection();
 
 const init = async () => {
   const cmdFiles = await readdir("./commands/");
-  client.logger.log(`Loading a total of ${cmdFiles.length} commands.`);
+  client.logger.log(`Loading a total of ${cmdFiles.length} commands.`)
   cmdFiles.forEach(file => {
+
     if (!file.endsWith(".js")) return;
     let cmdFunction = require(`./commands/${file}`);
+    if (!cmdFunction.help) return;
+    if (!cmdFunction.help.name) return;
     client.commands.set(cmdFunction.help.name, cmdFunction);
+    console.log(`Loaded command ${cmdFunction.help.name} from ${file}`)
     if (cmdFunction.help.aliases) {
       cmdFunction.help.aliases.forEach(alias => {
         client.aliases.set(alias,cmdFunction.help.name)

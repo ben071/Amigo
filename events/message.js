@@ -3,6 +3,8 @@ const config = require("../config.json");
 const Discord = require("discord.js")
 module.exports = async (client, message) => {
     if (message.author.bot) return;
+    //message =  await client.channels.find(c => c.id == 518827321629736961).fetchMessage(`580812757734260746`)
+    if (message.author.bot) return;
     if (!message.guild) { //return message.channel.send("Commands are not available in DM");
         if (message.content.startsWith(config.defaultPrefix)) {
             return;
@@ -30,14 +32,22 @@ module.exports = async (client, message) => {
     };
     if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
     let prefix;
+
     prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run().catch(async err => {
         await client.db.createGuild(message.guild);
     });
 
     if (!prefix) {
         prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run();
-    }
-    if(message.content.indexOf(prefix) !== 0) return;
+    };
+
+    const prefixes = [prefix, `<@!${client.user.id}>`, `<@${client.user.id}>`];
+    
+    prefix = prefixes.find(p => message.content.startsWith(p));
+    
+    if (!prefix) return;
+
+    if (message.content.indexOf(prefix) !== 0) return;
     
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
@@ -48,5 +58,11 @@ module.exports = async (client, message) => {
     if (cmd.conf.NSFWCommand && !message.channel.nsfw) {
         return errors.notNSFWChannel(message);
     }
+
+    try {
+    client.logger.log(`[CMD] ${message.author.tag} (${message.author.id}) ran command ${cmd.help.name} in ${message.guild.name} (${message.guild.id})`)
     cmd.run(client, message, args);
+    } catch (e) {
+        client.logger.error(`From ${cmd.help.name}: ${e}`)
+    }
 };

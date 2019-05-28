@@ -1,14 +1,14 @@
 const { version } = require("discord.js");
 const moment = require("moment");
 require("moment-duration-format");
-const Discord = require("discord.js");
+const {RichEmbed} = require("discord.js");
 
 exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
-
+    if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send("I can't run this command if I can't create embeds").catch(err => {});
     const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
 
-    const embed = new Discord.RichEmbed()
+    const embed = new RichEmbed()
         .setAuthor("Bot Information")
         .setColor("#9669FE")
         .setThumbnail(client.user.avatarURL)

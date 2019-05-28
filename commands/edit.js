@@ -3,6 +3,7 @@ const errors = require("../utils/errors.js");
 exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
     if (!message.member.hasPermission(exports.conf.permission)) return errors.noPermissions(message, exports);
+    if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send("I can't use this command if I can't create embeds").catch(err => {});
     if (!args[0]) return errors.noArgs(message, exports);
 
     if (args[0].toLowerCase() === "prefix") {

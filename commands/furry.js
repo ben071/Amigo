@@ -2,6 +2,11 @@ const errors = require("../utils/errors.js");
 
 exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
+    if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
+        return await message.channel.send("I can't use this command if I can't create embeds").catch(err => {}).then(async m => {
+            if (!m.deleted) await m.delete(60000) // 1 minute
+        });
+    }
     if (!args[0]) return errors.noArgs(message, exports);
     const mentioned = message.mentions.members.first();
     if (!mentioned) return errors.invalidUser(message);

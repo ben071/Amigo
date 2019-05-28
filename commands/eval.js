@@ -14,6 +14,7 @@ exports.run = async (client, message, args) => {
     const clean = await client.clean(client, evaled);
     let output = `\`\`\`js\n${clean}\n\`\`\``
     if (output.length > 1028) output = "\`\`\`js\nundefined\`\`\`";
+    if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send(output).catch(err => {})
     const embed = new Discord.RichEmbed()
       .setColor(config.green)
       .setTitle("Eval Successful")
@@ -22,6 +23,7 @@ exports.run = async (client, message, args) => {
     message.channel.send(embed);
   } catch (err) {
     client.logger.error(err);
+    if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send(await client.clean(client, err)).catch(err => {})
     const embed = new Discord.RichEmbed()
       .setColor(config.red)
       .setTitle("Eval Failed")

@@ -9,7 +9,7 @@ exports.log = (content, type = "log") => {
     const timestamp = `[${moment().format("YYYY-MM-DD HH:mm:ss")}]:`;
     switch (type) {
         case "log": case "warn": case "cmd": case "ready": case "error": 
-          console.log(content);
+          console.log(`${timestamp} ${type.toUpperCase()}: ${content}`);
           return webhook.send(`**${timestamp}** ${type.toUpperCase()} ${content}`);
           
         default:
