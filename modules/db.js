@@ -1,6 +1,6 @@
 const rethink = require("rethinkdbdash");
 const config = require("../config.json");
-const tables = ["guilds", "punishments"];
+const tables = ["guilds", "punishments", "filters"];
 
 module.exports = class {
   constructor() {
@@ -91,4 +91,13 @@ module.exports = class {
       autoRoleName: newAutoRoleName
     }).run();
   }
-}
+
+  async addChannelFilter(channel, regex, action) {
+    return this.r.table("filters").insert({
+      guild: channel.guild.id,
+      channel: channel.id,
+      regex: regex,
+      action: action
+    }).run();
+  };
+};

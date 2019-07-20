@@ -9,4 +9,5 @@ module.exports = async client => {
     client.user.setActivity(`for ${config.defaultPrefix}help | amigo.fun`, {
         type: "WATCHING"
     });
+
 };

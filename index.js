@@ -2,8 +2,8 @@ const Discord = require("discord.js");
 const client = new Discord.Client({
   disableEveryone: true,
   fetchAllMembers: false,
-  messageCacheLifetime: 1800,
-  messageSweepInterval: 3600,
+  messageCacheLifetime: 1200,
+  messageSweepInterval: 1200,
   disabledEvents: [
     "TYPING_START"
   ]
