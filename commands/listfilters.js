@@ -8,8 +8,8 @@ function embedPage(pages, message) {
     .setTitle(`Page ${page} of filters`)
     .setColor(config.blue);
     let currentPage, channel;
-    for (let i = 1; i <= 15; i++) {
-        currentPage = pages[(15 * (page - 1)) + i];
+    for (let i = 1; i <= 5; i++) {
+        currentPage = pages[(5 * (page - 1)) + i];
         if (!currentPage) break;
         channel = message.guild.channels.find(c => c.id === currentPage.channel);
         embed.addField(currentPage.id,
@@ -91,11 +91,17 @@ exports.run = async (client, message, args) => {
     const collector = await new ReactionCollector(msg, filter);
     await msg.edit(embedPage(embedPages, message))
     collector.on("collect", async reaction => {
+        if (message.author.id !== reaction.users.last().id) {
+            await reaction.remove(reaction.users.last());
+            return;
+        };
         await reaction.remove(reaction.users.last());
-        if (reaction.emoji.name == "❌") return collector.stop();
+        if (reaction.emoji.name === "❌") return collector.stop();
+        
         if (emojis.includes(reaction.emoji.name)) {
             message.page = reaction.emoji.name == "➡" ? message.page + 1 : message.page - 1;
-            if (message.page < 1) message.page = 1;
+            message.page = message.page < 1 ? 1 : message.page;
+            message.page = embedPages.length < 5 * (message.page - 1) + 1 ? message.page - 1 : message.page 
             await msg.edit(embedPage(embedPages, message));
         };
     });
