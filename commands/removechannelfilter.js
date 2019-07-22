@@ -1,5 +1,6 @@
 const {RichEmbed} = require("discord.js");
 const errors = require("../utils/errors.js");
+const config = require("../config.json");
 
 exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
@@ -8,10 +9,10 @@ exports.run = async (client, message, args) => {
     if (!args[0]) {
         if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
             const embed = new RichEmbed()
-            .setTitle("Missing Arguments")
+            .setTitle("Missing Argument(s)")
             .setDescription(`You did not provide any arguments to this command, please check the usage of this command using ${message.prefix}${exports.help.name} help`)
             .setTimestamp()
-            .setColor(client.red)
+            .setColor(config.red)
 
             return await message.channel.send(embed)
             .catch(err => {})
@@ -35,7 +36,7 @@ exports.run = async (client, message, args) => {
             .addField("Filter", `${exists.regex.replace(/`/g, "\`")}`)
             .setTimestamp()
             .setFooter(message.author.tag)
-            .setColor(client.config.blue);
+            .setColor(config.blue);
 
             return await message.channel.send(embed)
             .catch(err => {});
@@ -49,11 +50,11 @@ exports.run = async (client, message, args) => {
         console.log([exists, message.guild.id])
         if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
             const embed = new RichEmbed()
-            .setTitle("Invalid filter ID")
+            .setTitle("Invalid Filter ID")
             .setDescription("The filter ID you gave was not for a filter in this server")
             .setTimestamp()
             .setFooter(message.author.tag)
-            .setColor(client.config.red);
+            .setColor(config.red);
 
             return await message.channel.send(embed)
             .catch(err => {})
@@ -66,11 +67,11 @@ exports.run = async (client, message, args) => {
     } else if (!exists) {
         if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
             const embed = new RichEmbed()
-            .setTitle("Invalid filter id")
+            .setTitle("Invalid Filter ID")
             .setDescription("The id you provided was not a valid filter id, this could mean you have already deleted it")
             .setTimestamp()
             .setFooter(message.author.tag)
-            .setColor(client.config.red);
+            .setColor(config.red);
           
             return await message.channel.send(embed)
             .catch(err => {})

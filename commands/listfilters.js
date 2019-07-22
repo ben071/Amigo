@@ -1,11 +1,12 @@
 const {RichEmbed, ReactionCollector} = require("discord.js");
 const errors = require("../utils/errors.js");
+const config = require("../config.json");
 
-function embedPage(client, pages, message) {
+function embedPage(pages, message) {
     let page = message.page;
     const embed = new RichEmbed()
     .setTitle(`Page ${page} of filters`)
-    .setColor(client.config.blue);
+    .setColor(config.blue);
     let currentPage, channel;
     for (let i = 1; i <= 15; i++) {
         currentPage = pages[(15 * (page - 1)) + i];
@@ -31,7 +32,7 @@ exports.run = async (client, message, args) => {
                 const embed = new RichEmbed()
                 .setTitle("No Filters")
                 .setDescription(`<#${channel.id}> has no filters set`)
-                .setColor(client.config.blue)
+                .setColor(config.blue)
                 .setTimestamp()
 
                 return await message.channel.send(embed)
@@ -48,7 +49,7 @@ exports.run = async (client, message, args) => {
                     const embed = new RichEmbed()
                     .setTitle("No Filters")
                     .setDescription(`${guild.name} has no filters set`)
-                    .setColor(client.config.blue)
+                    .setColor(config.blue)
                     .setTimestamp()
 
                     return await message.channel.send(embed)

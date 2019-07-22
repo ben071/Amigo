@@ -1,5 +1,6 @@
 const {RichEmbed} = require("discord.js");
 const errors = require("../utils/errors.js");
+const config = require("../config.json");
 
 const parseRegex = /("[^"]+"|[^ ]+) +("[^"]+"|[^ ]+) +("[^"]+"|[^ ]+) */im
 
@@ -18,12 +19,12 @@ exports.run = async (client, message, args) => {
     if (args.length < 3) {
         if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
             const embed = new RichEmbed()
-            .setTitle("Missing arugments")
+            .setTitle("Missing Argument(s)")
             .setDescription([
                 "You did not provide enough arguments to run this command",
             `The usage of this command can be checked with ${message.prefix}addchannelfilter help`]
             .join("\n"))
-            .setColor(client.config.red)
+            .setColor(config.red)
             .setTimestamp()
 
             return await message.channel.send(embed)
@@ -44,9 +45,9 @@ exports.run = async (client, message, args) => {
     if (!channel) {
         if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
             const embed = new RichEmbed()
-            .setTitle("Missing arugment(s)")
+            .setTitle("Missing Argument(s)")
             .setDescription("You did not provide a channel argument")
-            .setColor(client.config.red)
+            .setColor(config.red)
             .setTimestamp()
 
             return await message.channel.send(embed)
@@ -68,7 +69,7 @@ exports.run = async (client, message, args) => {
         const embed = new RichEmbed()
         .setTitle("Invalid Channel!")
         .setDescription(`I can't find the channel ${options[1]} please make sure this is either the name of the channel, the channel mention or the channel ID`)
-        .setColor(client.config.red)
+        .setColor(config.red)
         .setTimestamp()
 
         return await message.channel.send(embed)
@@ -95,7 +96,7 @@ exports.run = async (client, message, args) => {
                 const embed = new RichEmbed()
                 .setTitle("Invalid Regex")
                 .setDescription(err)
-                .setColor(client.config.red)
+                .setColor(config.red)
                 .setTimestamp()
         
                 return await message.channel.send(embed)
@@ -118,7 +119,7 @@ exports.run = async (client, message, args) => {
             const embed = new RichEmbed()
             .setTitle("Invalid Action")
             .setDescription(`${action} is not a valid action, available actions:\n${punishments.map(c => `\`${c}\``).join("\n")}`)
-            .setColor(client.config.red)
+            .setColor(config.red)
             .setTimestamp()
     
             return await message.channel.send(embed)
@@ -138,7 +139,7 @@ exports.run = async (client, message, args) => {
         .addField("Regex", regex)
         .addField("Action", action)
         .setTimestamp()
-        .setColor(client.config.blue)
+        .setColor(config.blue)
         return await message.channel.send(embed)
         .catch(err => {})
     } else {
