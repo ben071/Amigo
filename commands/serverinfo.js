@@ -7,7 +7,6 @@ exports.run = async (client, message) => {
   const month = 1 + message.guild.createdAt.getMonth(); // Gets month server was created
   const year = message.guild.createdAt.getFullYear(); // Gets year server was created
   const sicon = message.guild.iconURL;
-  const emojis = message.guild.emojis.map((e, x) => (e)).join('-') || "None";
   const serverembed = new Discord.RichEmbed()
     .setAuthor(message.guild.name, sicon)
     .setFooter(`Server Created • ${day}.${month}.${year}`)
@@ -23,7 +22,6 @@ exports.run = async (client, message) => {
     .addField("Bots", message.guild.members.filter(m => m.user.bot).size, true)
     .addField("Online", online.size, true)
     .addField("Roles", message.guild.roles.size, true)
-    .setDescription("**Emojis:**\n" + emojis)
   message.channel.send(serverembed);
 
 };
