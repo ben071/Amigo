@@ -62,3 +62,6 @@ typings/
 
 # Bot Data Files
 rethinkdb_data/
+
+# WebStorm project settings
+.idea/
