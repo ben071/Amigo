@@ -1,11 +1,11 @@
 const {RichEmbed, ReactionCollector} = require("discord.js");
 const errors = require("../utils/errors.js");
 
-function embedPage(pages, message) {
+function embedPage(client, pages, message) {
     let page = message.page;
     const embed = new RichEmbed()
     .setTitle(`Page ${page} of filters`)
-    .setColor("RANDOM");
+    .setColor(client.config.blue);
     let currentPage, channel;
     for (let i = 1; i <= 15; i++) {
         currentPage = pages[(15 * (page - 1)) + i];
