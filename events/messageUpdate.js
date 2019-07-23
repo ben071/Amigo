@@ -7,6 +7,7 @@ const trim = (str, toReplace) => {
 };
 
 module.exports = async (client, oldMessage, message) => {
+    if ((!message.guild) || message.author.bot) return;
     let filters = await client.db.r.table("filters").run()
     filters = filters.filter(filter => filter.channel == message.channel.id && message.guild.id == filter.guild)
     for (let filter in filters) {
@@ -15,7 +16,7 @@ module.exports = async (client, oldMessage, message) => {
         let regex = await flags ? trim(filters[filter].regex, flags)  : trim(filters[filter].regex, " /");
         if (flags) regex = new RegExp(regex, flags);
         if (!flags) regex = new RegExp(regex);
-        const match = message.content.match(regex)
+        const match = message.content.match(regex);
         if (match) {
             if (message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) {
                 await message.delete()

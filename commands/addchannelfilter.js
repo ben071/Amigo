@@ -40,7 +40,11 @@ exports.run = async (client, message, args) => {
         };
     };
     const options = args.join(" ").match(parseRegex)
-    let [channel, regex, action] = [options[1], options[2], options[3]]
+    let [channel, regex, action] = [
+                                    options[1].replace(/^"|"$/g, ""),
+                                    options[2].replace(/^"|"$/g, ""),
+                                    options[3].replace(/^"|"$/g, "")
+                                    ]
     // Start of channel argument validation
     if (!channel) {
         if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {

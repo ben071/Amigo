@@ -5,7 +5,7 @@ const errors = require("../utils/errors.js");
 module.exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
     if (!args[0]) return errors.noArgs(message, exports);
-    let user = await client.fetchUser(args[0].replace(/[^0-9]/g,"")).catch(err => {});
+    let user = await client.fetchUser(args[0].replace(/[^0-9]/g,""), false).catch(err => {});
     const member = message.guild.member(user);
 
     if (user && !member) {

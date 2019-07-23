@@ -3,7 +3,7 @@ const config = require("../config.json")
 exports.run = async (client, message, args) => {
   let user = message.author;
   if (args[0]) {
-    const otherUser = await client.fetchUser(args[0].replace(/[^0-9]/g,"")).catch(e => {})
+    const otherUser = await client.fetchUser(args[0].replace(/[^0-9]/g,"", false)).catch(e => {})
     if (otherUser) {
         user = otherUser
     }

@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
     if (!await client.findLogs(client, message, modLogs)) return;
     const type = exports.help.name.toProperCase();
 
-    let user = await client.fetchUser(args[0].replace(/[^0-9]/g,"")).catch(err => {})
+    let user = await client.fetchUser(args[0].replace(/[^0-9]/g,""), false).catch(err => {})
     if (!user) return errors.invalidUser(message, args);
 
     let reason = args.slice(1).join(" ");
