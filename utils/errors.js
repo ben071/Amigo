@@ -19,6 +19,23 @@ module.exports.noPermissions = async (message, exports) => {
     });
 };
 
+module.exports.missingPermission = async (message, permission) => {
+    if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
+        return await message.channel.send(`I am missing the permission \`${permission}\``).catch(err => {}).then(async m => {
+            if (!m.deleted) return await m.delete(60000).catch(err => {});
+        });
+    };
+    let embed = new Discord.RichEmbed()
+        .setTitle("An error has occurred!")
+        .setDescription(`I am missing the  - \`${permission}\` permission`)
+        .setColor(config.red)
+        .setFooter(message.author.tag, message.author.avatarURL);
+
+    return await message.channel.send(embed).catch(err => {}).then(async m => {
+        if (!m.deleted) return await m.delete(60000).catch(err => {});
+    });
+};
+
 // Used if no user has been provided or if user is invalid.
 module.exports.invalidUser = async (message, args) => {
     if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {

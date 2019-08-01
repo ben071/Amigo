@@ -1,19 +1,19 @@
 const {RichEmbed, ReactionCollector} = require("discord.js");
 const errors = require("../utils/errors.js");
-const config = require("../config.json");
+const { blue } = require("../config.json");
 
 function embedPage(pages, message) {
     let page = message.page;
     const embed = new RichEmbed()
     .setTitle(`Page ${page} of filters`)
-    .setColor(config.blue);
+    .setColor(blue);
     let currentPage, channel;
-    for (let i = 1; i <= 5; i++) {
-        currentPage = pages[(5 * (page - 1)) + i];
+    for (let i = 1; i <= 3; i++) {
+        currentPage = pages[(3 * (page - 1)) + i];
         if (!currentPage) break;
         channel = message.guild.channels.find(c => c.id === currentPage.channel);
         embed.addField(currentPage.id,
-         `Regex: \`${currentPage.regex.replace(/`/g, "\`")}\`\nChannel: ${channel ? `<#${channel.id}>` : "Deleted Channel"}\nPunishment: ${currentPage.action.toProperCase()}`)
+         `Regex: \`\`\`${currentPage.regex.replace(/``(`)/g, "\`")}\`\`\`\nChannel: ${channel ? `<#${channel.id}>` : "Deleted Channel"}\nPunishment: ${currentPage.action.toProperCase()}`)
     };
     if (embed.fields.length === 0) embed.setDescription("No Regexes on this page")
     return embed;
@@ -32,7 +32,7 @@ exports.run = async (client, message, args) => {
                 const embed = new RichEmbed()
                 .setTitle("No Filters")
                 .setDescription(`<#${channel.id}> has no filters set`)
-                .setColor(config.blue)
+                .setColor(blue)
                 .setTimestamp()
 
                 return await message.channel.send(embed)
@@ -49,7 +49,7 @@ exports.run = async (client, message, args) => {
                     const embed = new RichEmbed()
                     .setTitle("No Filters")
                     .setDescription(`${guild.name} has no filters set`)
-                    .setColor(config.blue)
+                    .setColor(blue)
                     .setTimestamp()
 
                     return await message.channel.send(embed)
@@ -101,7 +101,7 @@ exports.run = async (client, message, args) => {
         if (emojis.includes(reaction.emoji.name)) {
             message.page = reaction.emoji.name == "➡" ? message.page + 1 : message.page - 1;
             message.page = message.page < 1 ? 1 : message.page;
-            message.page = embedPages.length < 5 * (message.page - 1) + 1 ? message.page - 1 : message.page 
+            message.page = embedPages.length < 3 * (message.page - 1) + 1 ? message.page - 1 : message.page 
             await msg.edit(embedPage(embedPages, message));
         };
     });

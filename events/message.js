@@ -9,7 +9,6 @@ const trim = (str, toReplace) => {
 };
 module.exports = async (client, message) => {
     if (message.author.bot) return;
-    if (message.author.bot) return;
     if (!message.guild) { 
         if (message.content.startsWith(config.defaultPrefix)) {
             return;
@@ -62,7 +61,7 @@ module.exports = async (client, message) => {
             };
             const action = filters[filter].action;
                 if (action === "ban") {
-                    if (!message.member.bannanble) {
+                    if (!message.member.bannable) {
                         return;
                     };
                     const logs = await client.db.r.table("guilds").get(message.guild.id).getField("modLogChannel").run()
@@ -130,9 +129,7 @@ module.exports = async (client, message) => {
                     }); 
                 };
                 if (action === "softban") {
-                    console.log(action)
                     const logs = await client.db.r.table("guilds").get(message.guild.id).getField("modLogChannel").run()
-                    console.log(message.member.bannable)
                     if (!message.member.bannable) return;
                     
                     await message.member.ban({days: 1, reason: "[AUTOMOD FILTER] SOFTBAN"})

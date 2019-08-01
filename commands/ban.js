@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
     let reason = args.slice(1).join(" ");
     if (!reason) return errors.invalidReason(message);
 
-    if (message.guild.member(user) && !user.bannable) return errors.cannotPunish(message);
+    if (message.guild.member(user) && !message.guild.member(user).bannable || (user.id === message.guild.ownerID || user.id === message.author.id)) return errors.cannotPunish(message);
     await client.db.createPunish(client, message, type, user, reason, modLogs);
     message.guild.ban(user.id, {reason: reason});
     client.logger.log(`${message.author.username} has banned ${user.username} from ${message.guild} for ${reason}.`);
