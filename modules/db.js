@@ -1,6 +1,6 @@
 const rethink = require("rethinkdbdash");
 const config = require("../config.json");
-const tables = ["guilds", "punishments", "filters"];
+const tables = ["guilds", "punishments", "filters", "qotd"];
 
 module.exports = class {
   constructor() {

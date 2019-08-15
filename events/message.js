@@ -239,8 +239,8 @@ module.exports = async (client, message) => {
     }
 
     try {
-    client.logger.log(`[CMD] ${message.author.tag} (${message.author.id}) ran command ${cmd.help.name} in ${message.guild.name} (${message.guild.id})`)
-    cmd.run(client, message, args);
+        client.logger.log(`[CMD] ${message.author.tag} (${message.author.id}) ran command ${cmd.help.name} in ${message.guild.name} (${message.guild.id})`)
+        cmd.run(client, message, args);
     } catch (e) {
         client.logger.error(`From ${cmd.help.name}: ${e}`)
     }

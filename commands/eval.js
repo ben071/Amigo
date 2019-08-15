@@ -23,12 +23,13 @@ exports.run = async (client, message, args) => {
     message.channel.send(embed);
   } catch (err) {
     client.logger.error(err);
+    err = await client.clean(client, err);
     if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send(await client.clean(client, err)).catch(err => {})
     const embed = new Discord.RichEmbed()
       .setColor(config.red)
       .setTitle("Eval Failed")
       .addField("Input", `\`\`\`${code}\`\`\``)
-      .addField("Output", await client.clean(client, err));
+      .addField("Output", err.length > 1015 ? "```undefined```" : err);
     message.channel.send(embed);
   };
 };
