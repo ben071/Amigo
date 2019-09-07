@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { RichEmbed } = require("discord.js");
 const errors = require("../utils/errors.js");
 const config = require("../config.json");
 
@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
     let output = `\`\`\`js\n${clean}\n\`\`\``
     if (output.length > 1028) output = "\`\`\`js\nundefined\`\`\`";
     if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send(output).catch(err => {})
-    const embed = new Discord.RichEmbed()
+    const embed = new RichEmbed()
       .setColor(config.green)
       .setTitle("Eval Successful")
       .addField("Input", `\`\`\`${code}\`\`\``)
@@ -25,7 +25,7 @@ exports.run = async (client, message, args) => {
     client.logger.error(err);
     err = await client.clean(client, err);
     if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return await message.channel.send(await client.clean(client, err)).catch(err => {})
-    const embed = new Discord.RichEmbed()
+    const embed = new RichEmbed()
       .setColor(config.red)
       .setTitle("Eval Failed")
       .addField("Input", `\`\`\`${code}\`\`\``)

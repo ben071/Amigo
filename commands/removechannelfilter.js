@@ -27,6 +27,24 @@ exports.run = async (client, message, args) => {
     const exists = await client.db.r.table("filters").get(args[0]).run();
 
     if (exists && exists.guild === message.guild.id) {
+        if (!exists.channel) {
+            if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
+                const noPerm = new RichEmbed()
+                .setTitle("Missing permissions!")
+                .setDescription("This is a server wide filter, you need to run the `removefilter` command to be able to remove it!")
+                .setTimestamp()
+                .setColor(config.red)
+                .setFooter(message.author.tag)
+            return await message.channel.send(noPerm)
+            .catch(err => {})
+            .then(async msg => await msg.delete(10000).catch(err => {}));
+            } else {
+                return await message.channel.send("This is a server wide filter, you need to run the `removefilter` command to be able to remove it!")
+                .catch(err => {})
+                .then(async msg => await msg.delete(10000).catch(err => {}));
+                
+            }
+        }
         const channel = message.guild.channels.find(c => c.id === exists.channel);
         await client.db.r.table("filters").get(args[0]).delete().run();
         if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
@@ -47,7 +65,6 @@ exports.run = async (client, message, args) => {
         };
     
     } else if (exists && exists.guild !== message.guild.id) {
-        console.log([exists, message.guild.id])
         if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
             const embed = new RichEmbed()
             .setTitle("Invalid Filter ID")
@@ -90,7 +107,7 @@ exports.conf = {
 exports.help = {
     name: "removechannelfilter",
     category: "Administration",
-    description: "Removes a regex filter",
+    description: "Removes a channel specific regex filter",
     usage: "removechannelfilter <filter id>",
-    aliases: ["removefilter","rmfilter"]
+    aliases: ["rmcf", "rmchannelfilter"]
 };

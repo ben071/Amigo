@@ -4,10 +4,11 @@ const errors = require("../utils/errors.js");
 
 module.exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
-    if (!args[0]) return errors.noArgs(message, exports);
-    let user = await client.fetchUser(args[0].replace(/[^0-9]/g,""), false).catch(err => {});
+    let user = args[0] ? await client.fetchUser(args[0].replace(/[^0-9]/g,""), false).catch(err => {}) : message.author;
     const member = message.guild.member(user);
-
+    const punishments = await client.db.r.table("punishments").run()
+    .filter(punishment => punishment.offender === `${message.guild.id}-${user.id}`);
+    
     if (user && !member) {
         if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
             return await message.channel.send(`Username: ${user.tag}\nUser ID: ${user.id}\nCreated: ${user.createdAt.toUTCString()}`)
@@ -18,12 +19,13 @@ module.exports.run = async (client, message, args) => {
         .addField("Username", user.tag, true)
         .addField("User ID", user.id, true)
         .addField("Created", user.createdAt.toUTCString(), true)
+        .addField("Strikes", punishments.length, true) 
         .setTimestamp()
         .setColor(config.blue);
         return await message.channel.send(userInfo).catch(err => {})
     };
     if (!user) return errors.invalidUser(message, args);
-    user = member ? member : undefined
+    user = member ? member : null;
     if (!user) return errors.invalidUser(message, args);
     
     const kickable = user.kickable ? "✅" : "❎";
@@ -58,8 +60,9 @@ module.exports.run = async (client, message, args) => {
             .addField("Account Created:", user.user.createdAt.toUTCString(), true)
             .addField("Joined:", user.joinedAt.toUTCString(), true)
             .addField("Bannable:", bannable, true)
-            .addField("Kickable:", kickable, true);
-        return await message.channel.send(embed).catch(err => {});
+            .addField("Kickable:", kickable, true)
+            .addField("Strikes", punishments.length, true) 
+            return await message.channel.send(embed).catch(err => {});
     };
     return await message.channel.send(`About ${user.user.tag}\nUsername: ${user.user.tag}\nNickname: ${nickname}\nUser ID: ${user.id}\nStatus: ${user.presence.status}\nPlaying Status: ${playingStatus}\nAccount Created: ${user.user.createdAt.toUTCString()}\nJoined: ${user.joinedAt.toUTCString()}\nBannable: ${bannable}\nKickable: ${kickable}`).catch(err => {});
 };
@@ -68,7 +71,8 @@ exports.help = {
     name: "userinfo",
     category: "Miscellaneous",
     description: "Displays information about the mentioned user.",
-    usage: "userinfo <@user/id>"
+    usage: "userinfo <@user/id>",
+    aliases: ["profile"]
 }
 
 exports.conf = {

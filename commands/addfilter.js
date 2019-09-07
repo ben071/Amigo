@@ -2,7 +2,7 @@ const {RichEmbed} = require("discord.js");
 const errors = require("../utils/errors.js");
 const config = require("../config.json");
 
-const parseRegex = /("[^"]+"|[^ ]+) +("[^"]+"|[^ ]+) +("[^"]+"|[^ ]+) */im
+const parseRegex = /("[^"]+"|[^ ]+) +("[^"]+"|[^ ]+) */im;
 
 const punishments = [
     "ban",
@@ -15,8 +15,7 @@ const punishments = [
 exports.run = async (client, message, args) => {
     if (await client.helpArgs(client, message, args, exports)) return;
     if (!message.member.hasPermission(exports.conf.permission)) return errors.noPermissions(message, exports);
-    
-    if (args.length < 3) {
+    if (args.length < 2) {
         if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
             const embed = new RichEmbed()
             .setTitle("Missing Argument(s)")
@@ -40,55 +39,14 @@ exports.run = async (client, message, args) => {
         };
     };
     const options = args.join(" ").match(parseRegex)
-    let [channel, regex, action] = [
-                                    options[1].replace(/^"|"$/g, ""),
-                                    options[2].replace(/^"|"$/g, ""),
-                                    options[3].replace(/^"|"$/g, "")
-                                    ]
-    // Start of channel argument validation
-    if (!channel) {
-        if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
-            const embed = new RichEmbed()
-            .setTitle("Missing Argument(s)")
-            .setDescription("You did not provide a channel argument")
-            .setColor(config.red)
-            .setTimestamp()
+    let [regex, action] = [
+                            options[1].replace(/^"|"$/g, ""),
+                            options[2].replace(/^"|"$/g, "")
+                        ];
 
-            return await message.channel.send(embed)
-            .catch(err => {})
-            .then(async msg => await msg.delete(10000).catch(err => {}));
-        } else {
-            return await message.channel.send("Missing channel argument")
-            .catch(err => {})
-            .then(async msg => await msg.delete(10000).catch(err => {}));
-        };
-    };
-    channel = channel ? channel.trim(/[" ]+/g, "") : channel;
-    channel = message.guild.channels.find(c => 
-        c.id == channel.replace(/[^0-9]/g,"") || c.name.toLowerCase() == channel.replace(/^#/g,"")
-    );
-
-    if (!channel) {
-        if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
-        const embed = new RichEmbed()
-        .setTitle("Invalid Channel!")
-        .setDescription(`I can't find the channel ${options[1]} please make sure this is either the name of the channel, the channel mention or the channel ID`)
-        .setColor(config.red)
-        .setTimestamp()
-
-        return await message.channel.send(embed)
-        .catch(err => {})
-        .then(async msg => await msg.delete(10000).catch(err => {}));
-        } else {
-            return await message.channel.send("Invalid channel provided!")
-            .catch(err => {})
-            .then(async msg => await msg.delete(10000).catch(err => {}));
-        };
-    };
-    // End of channel validation
     // Start of regex validation
     let err;
-    regex = regex ? regex.trim(/[" ]+/g, "") : regex;
+    regex = regex ? regex.replace(/(^"|"$)/gi, "") : regex;
     try {
         new RegExp(regex);
     } catch (error) {
@@ -116,9 +74,9 @@ exports.run = async (client, message, args) => {
     //End of regex validation
 
     //Start of punishment validation
+    action = action ? action.replace(/(^"|"$)/gi, "").toLowerCase() : action;
 
-    action = action ? action.trim(/[" ]+/g, "").toLowerCase() : action;
-    if (!punishments.find(a => a == action)) {
+    if (!punishments.find(a => a === action)) {
         if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
             const embed = new RichEmbed()
             .setTitle("Invalid Action")
@@ -135,11 +93,10 @@ exports.run = async (client, message, args) => {
             .then(async msg => await msg.delete(10000).catch(err => {}));
         };
     };
-    await client.db.addChannelFilter(channel, regex, action);
+    await client.db.addGuildFilter(message.guild.id, regex, action);
     if (message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
         const embed = new RichEmbed()
         .setTitle("Added Filter!")
-        .addField("Channel", `<#${channel.id}>`)
         .addField("Regex", regex)
         .addField("Action", action)
         .setTimestamp()
@@ -147,20 +104,20 @@ exports.run = async (client, message, args) => {
         return await message.channel.send(embed)
         .catch(err => {})
     } else {
-        return await message.channel.send("```\nAdded Filter!\nChannel: #" + channel.name + "\nRegex: " + regex + "\nAction: " + action)
+        return await message.channel.send("```\nAdded Filter!\nRegex: " + regex + "\nAction: " + action)
         .catch(err => {})
     };
 };
 
 
 exports.help = {
-    name: "addchannelfilter",
+    name: "addfilter",
     category: "Administration",
     description: `Add's a regex filter that will trigger a specified action\nActions:\n${punishments.map(c => `\`${c}\``).join("\n")}`,
-    usage: "addchannelfilter \"<channel>\" \"<regex>\" \"<action>\"",
-    aliases: ["acf"]
+    usage: "addfilter \"<regex>\" \"<action>\"",
+    aliases: []
 };
 
 exports.conf = {
-    permission: "MANAGE_CHANNELS"
+    permission: "MANAGE_GUILD"
 }

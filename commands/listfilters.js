@@ -11,9 +11,16 @@ function embedPage(pages, message) {
     for (let i = 1; i <= 3; i++) {
         currentPage = pages[(3 * (page - 1)) + i];
         if (!currentPage) break;
-        channel = message.guild.channels.find(c => c.id === currentPage.channel);
-        embed.addField(currentPage.id,
-         `Regex: \`\`\`${currentPage.regex.replace(/``(`)/g, "\`")}\`\`\`\nChannel: ${channel ? `<#${channel.id}>` : "Deleted Channel"}\nPunishment: ${currentPage.action.toProperCase()}`)
+        if (!currentPage.channel) { // Its a guild wide filter not channel specific
+            embed.addField(currentPage.id,
+            `Regex: \`\`\`${currentPage.regex.replace(/``(`)/g, "\`")}\`\`\`\nPunishment: ${currentPage.action.toProperCase()}\n**Server Wide Filter**`
+            )
+        } else {
+            channel = message.guild.channels.find(c => c.id === currentPage.channel);
+            embed.addField(currentPage.id,
+            `Regex: \`\`\`${currentPage.regex.replace(/``(`)/g, "\`")}\`\`\`\nChannel: ${channel ? `<#${channel.id}>` : "Deleted Channel"}\nPunishment: ${currentPage.action.toProperCase()}`
+            )
+        }
     };
     if (embed.fields.length === 0) embed.setDescription("No Regexes on this page")
     return embed;

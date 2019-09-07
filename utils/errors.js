@@ -363,3 +363,20 @@ module.exports.tagNotFound = async (message, args) => {
         if (!m.deleted) return await m.delete(60000).catch(err => {});
     });
 };
+
+module.exports.invalidRole = async (channel, roleName) => {
+    const embed = new Discord.RichEmbed()
+    .setTitle("Invalid Role")
+    .setDescription(`Role ${roleName} not found`)
+    .setColor(config.red)
+    .setFooter(message.author.tag, message.author.avatarURL)
+    .setTimestamp();
+
+    return await channel.send(
+        channel.permissionsFor(channel.guild.me).has("EMBED_LINKS") ? 
+            embed : 
+            `Role "${roleName}" not found`
+        ).catch(err => {}).then(async m => {
+            if (!m.deleted) return await m.delete(60000).catch(err => {});
+        });
+}

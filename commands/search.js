@@ -34,7 +34,7 @@ exports.run = async (client, message, args) => {
             .then(msg => msg.delete(10000).catch(err => {}));
         };
     };
-    let user = message.mentions.users ? message.mentions.users.first() : null|| await client.fetchUser(args[0].replace(/\D/g, ""), false);
+    let user = args[0] ? await client.fetchUser(args[0].replace(/\D/g, ""), false) : message.author;
     user = user ? user : message.author;
 
     const punishments = await client.db.r.table("punishments").run()

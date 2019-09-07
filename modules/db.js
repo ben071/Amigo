@@ -27,6 +27,7 @@ module.exports = class {
         welcomeChannel: "general",
         autoRoleEnabled: false,
         autoRoleName: "Member",
+        bypassRole: null
       }]).run()
       .catch((e) => console.log(e))
   }
@@ -96,6 +97,14 @@ module.exports = class {
     return this.r.table("filters").insert({
       guild: channel.guild.id,
       channel: channel.id,
+      regex: regex,
+      action: action
+    }).run();
+  };
+  
+  async addGuildFilter(guildID, regex, action) {
+    return this.r.table("filters").insert({
+      guild: guildID,
       regex: regex,
       action: action
     }).run();
