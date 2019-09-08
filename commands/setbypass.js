@@ -1,4 +1,4 @@
-const { noArgs, invalidRole } = require("../Utils/errors.js");
+const { noArgs, invalidRole } = require("../utils/errors.js");
 const { RichEmbed } = require("discord.js");
 const { blue } = require("../config.json");
 
