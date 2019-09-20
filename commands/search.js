@@ -34,8 +34,9 @@ exports.run = async (client, message, args) => {
             .then(msg => msg.delete(10000).catch(err => {}));
         };
     };
-    let user = args[0] ? await client.fetchUser(args[0].replace(/\D/g, ""), false) : message.author;
-    user = user ? user : message.author;
+    if (await client.helpArgs(client, message, args, exports)) return;
+    let user = args[0] ? await client.fetchUser(args[0].replace(/\D/g, ""), false).catch(e => {}) : message.author;
+    user = user ? user : message.author; // If the args[0] user is null or undefined, default to the message author
 
     const punishments = await client.db.r.table("punishments").run()
     .filter(punishment => punishment.offender === `${message.guild.id}-${user.id}`);
@@ -49,7 +50,7 @@ exports.run = async (client, message, args) => {
     await msg.edit(page(punishments, message, user));
     collector.on("collect", async reaction => {
         if (message.author.id !== reaction.users.last().id) return;
-        
+        if (msg.deleted) return collector.stop();
         await reaction.remove(reaction.users.last());
         
         if (reaction.emoji.name ==="❌") return collector.stop();
@@ -62,7 +63,7 @@ exports.run = async (client, message, args) => {
         };
     });
     collector.on("end", async (collected, reason) => {
-        await msg.delete();
+        if (!msg.deleted) await msg.delete();
     })
 
 };
