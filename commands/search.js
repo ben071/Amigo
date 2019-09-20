@@ -21,6 +21,8 @@ const page = (punishments, message, user) => {
 };
 
 exports.run = async (client, message, args) => {
+    if (await client.helpArgs(client, message, args, exports)) return;
+
     const requiredPermissions = [
         "ADD_REACTIONS",
         "MANAGE_MESSAGES",
