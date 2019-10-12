@@ -9,7 +9,7 @@ const subcommands = [
     "dumpconf"
 ];
 
-const awaitReply = async (msg, question, limit = 60000, filter = m => m.author.id === msg.author.id) => { 
+const awaitReply = async (msg, question, limit = 300000, filter = m => m.author.id === msg.author.id) => { 
     // similar to client.awaitReply but returns the message as well as the response
     const prompt = await msg.channel.send(question);
     try {
