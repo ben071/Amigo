@@ -20,7 +20,7 @@ const awaitReply = async (msg, question, limit = 60000, filter = m => m.author.i
         });
         return [collected.first().content, prompt, collected.first()];
     } catch (e) {
-        return false;
+        return [null, null, null];
     };
 };
 
@@ -70,7 +70,7 @@ exports.run = async (client, message, args) => {
             "You need the **Manage Messages** permission or a role set by your administrator to use this command!"
         ).catch(e => console.log(e)).then(async m => await m.delete(60000).catch(e => console.log(e)));
     };
-
+    args[0] = !args[0] ? "list" : args[0]; // Default to list if no sub-command is provided 
     if (subcommands.indexOf(args[0] ? args[0].toLowerCase() : undefined) === -1) {
         const noSubCommand = new RichEmbed()
         .setTitle(
@@ -91,11 +91,12 @@ exports.run = async (client, message, args) => {
 
     if (args[0].toLowerCase() === "add") {
         let [question, qPrompt, qMsg] = await awaitReply(message, "Please enter a question\nYou may enter `cancel` to cancel this command", 60000)
-        messages.set(qPrompt.id, qPrompt);
+        if (qPrompt) messages.set(qPrompt.id, qPrompt);
         if (qMsg) messages.set(qMsg.id, qMsg);
-        if (!question || question.trim().toLowerCase() === "cancel") {
+            
+        if (!qMsg || question.trim().toLowerCase() === "cancel") {
             await message.channel.send("Cancelled!").then(m => {
-                messages.set(m.id, m);
+                m.delete(20000)
             })
             if (message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) {
                 return await message.channel.bulkDelete(messages);
@@ -114,11 +115,11 @@ exports.run = async (client, message, args) => {
             };
         }
         let [thought, tPrompt, tMsg] = await awaitReply(message, "Please enter a thought\nYou may enter `cancel` to cancel this command", 60000)
-        messages.set(tPrompt.id, tPrompt);
+        if (tPrompt) messages.set(tPrompt.id, tPrompt);
         if (tMsg) messages.set(tMsg.id, tMsg);
-        if (!thought || thought.trim().toLowerCase() === "cancel") {
-            await message.channel.send("Cancelled!").then(m => {
-                messages.set(m.id, m);
+        if (!tMsg || thought.trim().toLowerCase() === "cancel") {
+            await message.channel.send("Cancelled!").then(async m => {
+                await m.delete(20000)
             })
             if (message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) {
                 return await message.channel.bulkDelete(messages);
@@ -137,11 +138,11 @@ exports.run = async (client, message, args) => {
             };
         }
         let [fact, fPrompt, fMsg] = await awaitReply(message, "Please enter a fact\nYou may enter `cancel` to cancel this command", 60000)
-        messages.set(fPrompt.id, fMsg);
+        if (fPrompt) messages.set(fPrompt.id, fPrompt);
         if (fMsg) messages.set(fMsg.id, fMsg); 
-        if (!fact || fact.trim().toLowerCase() === "cancel") {
+        if (!fMsg || fact.trim().toLowerCase() === "cancel") {
             await message.channel.send("Cancelled!").then(m => {
-                messages.set(m.id, m);
+                m.delete(20000)
             })
             if (message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) {
                 return await message.channel.bulkDelete(messages);
@@ -177,35 +178,40 @@ exports.run = async (client, message, args) => {
             await message.delete();
             return await message.channel.send("I can't run this command because I can't embed links").catch(err => {});
         };
-        let msg = new RichEmbed()
-        .setColor(client.config.blue)
-        .setDescription("Loading...")
-        .setTimestamp();
-        msg = await message.channel.send(msg);
-        msg.page = 1;
-        await msg.react("⬅");
-        await msg.react("➡");
-        await msg.react("❌");
         const all = await client.db.r.table("qotd").run().filter(r => r.guild === message.guild.id && r.type === "qotd");
-        const collector = new ReactionCollector(msg, () => true);
-        await msg.edit(await pages(msg.page, all, client));
-
-        collector.on("collect", async reaction => {
-            const user = reaction.users.last()
-            if (user.id !== message.author.id) return await reaction.remove(user);
-            if (!reaction.me) return await reaction.remove(user);
-            if (reaction.emoji.name === "❌") return await collector.stop();
-            msg.page = reaction.emoji.name == "➡" ? msg.page + 1 : msg.page - 1;
-            msg.page = msg.page < 1 ? 1 : msg.page;
-            msg.page = all.length < 2 * (msg.page - 1) + 1 ? msg.page - 1 : msg.page 
+        if (all.length > 0) {
+            let msg = new RichEmbed()
+            .setColor(client.config.blue)
+            .setDescription("Loading...")
+            .setTimestamp();
+            msg = await message.channel.send(msg);
+            msg.page = 1;
+            await msg.react("⬅");
+            await msg.react("➡");
+            await msg.react("❌");
+            const collector = new ReactionCollector(msg, () => true);
             await msg.edit(await pages(msg.page, all, client));
-            await reaction.remove(user);
-        });
-        collector.on("end", async () => {
-            await msg.delete();
-            await message.delete();
-        });
 
+            collector.on("collect", async reaction => {
+                const user = reaction.users.last();
+                if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return collector.stop();
+                if (!message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) return collector.stop();
+                if (user.id !== message.author.id) return await reaction.remove(user);
+                if (!reaction.me) return await reaction.remove(user);
+                if (reaction.emoji.name === "❌") return await collector.stop();
+                msg.page = reaction.emoji.name == "➡" ? msg.page + 1 : msg.page - 1;
+                msg.page = msg.page < 1 ? 1 : msg.page;
+                msg.page = all.length < 2 * (msg.page - 1) + 1 ? msg.page - 1 : msg.page 
+                await msg.edit(await pages(msg.page, all, client));
+                await reaction.remove(user);
+            });
+            collector.on("end", async () => {
+                await msg.delete();
+                await message.delete();
+            });
+        } else {
+            await message.channel.send(await pages(1, all, client));
+        }
     } else if (args[0].toLowerCase() === "remove") {
         const [id, prompt, msg] = await awaitReply(message, "Please send the id of the qotd you would like to remove\nSend `cancel` to cancel instead");  
         
@@ -338,11 +344,14 @@ exports.run = async (client, message, args) => {
                     if (role && role.editable) {
                         const mentionable = role.mentionable; 
                         await role.setMentionable(true);
-                        await channel.send(`<@&${role.id}>`,embed)
-                        await role.setMentionable(mentionable)
+                        await channel.send(`<@&${role.id}>`, embed);
+                        await role.setMentionable(mentionable);
                     } else if (role && role.mentionable) {
-                        await channel.send(`<@&${role.id}>`,embed)
-                    } 
+                        await channel.send(`<@&${role.id}>`, embed);
+                    } else {
+                        await channel.send(embed);
+                        return await message.channel.send("Sent QOTD, Unable to mention QOTD role");
+                    }
                 } else {
                     await channel.send(embed);
                 };
@@ -366,7 +375,7 @@ exports.run = async (client, message, args) => {
                 "•`response` - The channel where users will be told to answer the question"
             ].join("\n")
         )
-        messages.set(prompt.id, prompt);
+        if (prompt) messages.set(prompt.id, prompt);
         if (reply) messages.set(reply.id)
         const possible = ["channel", "permission", "role", "response"];
         if (!key || key.trim().toLowerCase() === "cancel" || possible.indexOf(key.trim().toLowerCase()) === -1) {
@@ -515,7 +524,7 @@ exports.help = {
     name: "qotd",
     category: "Fun",
     description: "Allows you to setup and run QOTD in your server\n__Sub-Commands__\n" + subcommands.join("\n"),
-    usage: "qotd <sub-command>"
+    usage: "qotd [sub-command]"
 };
   
   exports.conf = {

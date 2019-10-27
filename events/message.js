@@ -35,7 +35,6 @@ module.exports = async (client, message) => {
             return owner.send(dmEmbed).catch(err => {});
         }
     };
-    if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
     let prefix;
 
     prefix = await client.db.r.table("guilds").get(message.guild.id).getField("prefix").run().catch(async err => {
@@ -61,7 +60,6 @@ module.exports = async (client, message) => {
             if (flags) regex = new RegExp(regex, flags);
             if (!flags) regex = new RegExp(regex);
             const match = message.content.match(regex);
-            console.log(regex)
             if (match) {
                 stop = true;
                 if (message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) {
@@ -406,6 +404,9 @@ module.exports = async (client, message) => {
             };
         };
     if (stop) return;
+    
+    if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
+
     const prefixes = [prefix, `<@!${client.user.id}>`, `<@${client.user.id}>`];
     
     prefix = prefixes.find(p => message.content.startsWith(p));
