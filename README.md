@@ -1,5 +1,4 @@
 [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/AmigoDevTeam/Amigo/)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9ae3bb75f11848ddb759899b612f79dc)](https://www.codacy.com/app/ben071/Amigo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TheDeveloperNetwork/Amigo&amp;utm_campaign=Badge_Grade)
 [![Language Badge](https://img.shields.io/github/languages/top/TheDeveloperNetwork/Amigo.svg)](https://github.com/AmigoDevTeam/Amigo/)
 
 # Amigo
